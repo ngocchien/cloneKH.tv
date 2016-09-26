@@ -1,0 +1,32 @@
+<div id="tabwidget" class="widget tab-container">
+
+    <div id="tab-content" style="margin-bottom: 15px">
+
+        <div id="tab1" style="display: block; ">
+            <img style="width: 370px; 500px;"src="<?php echo STATIC_URL ?>/f/v1/images/85fc98fe18ddead77a9bbba4a497c7ac.png">
+
+    </div><!-- /#tab-content -->
+
+</div><!-- /#tab-widget -->
+
+<div class="widget widget_latestpost">
+    <h3 class="title"><span><b>Tiêu điểm</b></span></h3>
+    <div class="latest-posts widget">
+        <?php
+        $arrContentList = unserialize(ARR_TOP_4_YEAR);
+        foreach ($arrContentList as $key => $content):
+            if ($key < 4) {
+                continue;
+            }
+            ?>
+            <div class="latest-post clearfix">
+                <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>">
+                    <img style="width: 91px; height: 55px" src="<?php echo $content['cont_main_image']; ?>" class="thumb fl" alt="<?php echo $content['cont_title']; ?>" title="<?php echo $content['cont_title']; ?>"/>
+                </a>
+                <h4><a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" rel="bookmark" title="<?php echo $content['cont_title']; ?>"><?php echo $content['cont_title']; ?></a></h4>
+                <div class="post-time"><?php echo date('d/m/Y',$content['created_date']); ?></div>
+            </div>
+        <?php endforeach;
+        ?>
+    </div>
+</div>

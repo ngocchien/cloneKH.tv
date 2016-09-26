@@ -1,0 +1,90 @@
+<?php
+$authTemp = $this->completeSession;
+$name = $authTemp->name;
+$ref = $authTemp->ref;
+$email = $authTemp->email;
+?>
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h1>ĐĂNG NHẬP VỚI MẠNG XÃ HỘI <?php echo $ref == 'google.com' ? 'GOOGLE' : 'FACEBOOK'; ?></h1>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<section id="detail">
+    <div class="container">
+        <section class="wrapper site-min-height">
+            <?php if ($this->errors): ?>
+                <div class="alert alert-block alert-danger fade in">
+                    <button class="close close-sm" type="button" data-dismiss="alert">
+                        <i class="fa fa-times-circle"></i>
+                    </button>
+                    <h4><i class="fa fa-exclamation-triangle"></i> Lỗi!</h4>
+                    <?php foreach ($this->errors as $error): ?>
+                        <p> - <?php echo $error; ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="ads-detail">
+                            <div class="account-overview">
+                                <div class="row">
+                                    <div class="col-md-12 border-detail">
+                                        <div class="col-md-12">
+                                            <h3 class="text-center">Thông tin đăng nhập</h3>
+                                            <div class="row form-group ">
+                                                <h4 class="title"><span>Chào bạn : <span class="name"><?php echo $name; ?></span></h4>
+                                                <p class="text">Chúc mừng bạn đã sử dụng <?php echo ($ref == 'google.com') ? 'Google Account' : 'Facebook Account' ?> đăng ký thành viên thành công tại <?php echo My\General::SITE_AUTH;?>, hãy bổ sung thêm thông tin để hoàn tất đăng ký!</p>
+                                            </div>
+                                        </div>
+                                        <div id="form">
+                                            <form method="post">
+                                                <div class="col-md-12 form-group">
+                                                    <label for="fullname">
+                                                        <b>Họ và tên</b>
+                                                    </label>
+                                                    <input type="text" class="form-group" name="fullname" value="<?php echo !empty($params['fullname']) ? $params['fullname'] : $name; ?>">
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="name">
+                                                        <b>Email</b>
+                                                    </label>
+                                                    <input type="text" class="form-group" name="email" value="<?php echo $email; ?>" readonly>
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="phone">
+                                                        <b>Số điện thoại</b>
+                                                    </label>
+                                                    <input type="text" class="form-group" name="phone" placeholder="nhập số điện thoại" value="<?php echo !empty($params['fullname']) ? $params['fullname'] : ''?>">
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="password">
+                                                        <b>Mật khẩu đăng nhập (6 ký tự trở lên)</b>
+                                                    </label>
+                                                    <input type="password" class="form-group" name="password" placeholder="Nhập mật khẩu đăng nhập">
+                                                </div>
+                                                <div class="col-md-2 col-xs-offset-6 col-md-offset-8">
+                                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <?php echo $this->render('frontend/nav-ads-right'); ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+<script>
+</script>

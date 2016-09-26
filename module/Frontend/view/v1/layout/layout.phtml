@@ -1,0 +1,96 @@
+<?php
+$strTemplate = current($this->layout()->getChildren())->getTemplate();
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <?php echo $this->headTitle(); ?>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="REFRESH" content="1200" />
+        <link rel="shortcut icon" href="<?php echo STATIC_URL; ?>/f/v1/images/icon.png" type="image/x-icon" />
+        <link rel='stylesheet' id='Roboto-css'  href='http://fonts.googleapis.com/css?family=Roboto' type='text/css' media='all' />
+        <?php
+        echo $this->headMeta();
+        ?>
+        <meta name="google-site-verification" content="BkUSNwKfepTa9vPvpivbyyRBC4MsN3LHGl_qae7RBpI" />
+        <meta name="dc.publisher" content="<?php echo My\General::SITE_AUTH; ?>" />
+        <meta name="dc.rights.copyright" content="<?php echo My\General::SITE_AUTH; ?>" />
+        <meta name="dc.creator.name" content="<?php echo My\General::SITE_AUTH; ?>" />
+        <meta name="dc.creator.email" content="<?php echo My\General::EMAIL_SYS ?>" />
+        <meta name="dc.identifier" content="<?php echo \My\General::SITE_DOMAIN_FULL?>" />
+        <meta name="copyright" content="<?php echo My\General::SITE_AUTH; ?>" />
+        <meta name="author" content="<?php echo My\General::SITE_AUTH; ?>" />
+        <meta name="dc.language" content="vi-VN" />
+        <meta name="robots" content="INDEX, FOLLOW" />
+        <meta http-equiv="content-language" content="vi" />
+        <!--<meta name="DC.title" content="" />-->
+        <meta name="geo.region" content="VN-31" />
+        <meta name="geo.placename" content="Quy Nhơn" />
+        <meta name="geo.position" content="13.770044;109.234571" />
+        <meta name="ICBM" content="13.770044, 109.234571" />
+        <meta http-equiv="Expires" content="0" />
+        <meta name='revisit-after' content='1 days' />
+        <link rel="alternate" href="<?php echo \My\General::SITE_DOMAIN_FULL?>" hreflang="vi-vn" />
+        <meta content="<?php echo \My\General::SITE_AUTH ?>" property="og:site_name" />
+
+        <meta name="fb:pages" content="272925143041233" />
+
+        <script type="text/javascript">
+            var baseurl = '<?php echo $this->serverUrl(); ?>';
+            var staticurl = '<?php echo STATIC_URL; ?>';
+        </script>
+
+        <script>
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '267543780301950',
+                    xfbml: true,
+                    version: 'v2.6'
+                });
+            };
+
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({
+                        google_ad_client: "ca-pub-4608570842050780",
+                        enable_page_level_ads: true
+                    });
+        </script>
+
+        <?php
+        echo $this->headLink();
+        echo $this->headScript();
+        ?>
+
+        <script type="application/ld+json">
+            {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "url": "<?php echo $this->serverUrl(); ?>"
+            }
+        </script>
+    </head>
+    <body>
+
+        <!--Start Header section-->
+        <?php echo $this->render('frontend/header'); ?>
+
+        <!--End Header section-->
+        <?php echo $this->layout()->content; ?>
+        <!--Footer-->
+        <?php echo $this->render('frontend/footer'); ?>
+        <!--End Footer-->
+    </body>
+</html>

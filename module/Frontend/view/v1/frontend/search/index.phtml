@@ -1,0 +1,41 @@
+<div id="content" class="container">
+
+    <div id="main" class="row-fluid">
+        <div id="main-left" class="span8">
+            <div class="row-fluid">
+                <?php
+                    if(!empty($this->arrContentList)):
+                        foreach ($this->arrContentList as $value):
+                ?>
+                    <div class="kontengal4 span3">
+                        <article class="galleries">
+                            <a href="<?php echo $this->serverUrl() . $this->Url('view-content', array('contentSlug' => $value['cont_slug'], 'contentId' => $value['cont_id']))?>" title="<?php echo $value['cont_title'];?>" rel="prettyPhoto"><img style="width: 178px; height: 112px" src="<?php echo $value['cont_main_image'] ?>" alt="<?php echo $value['cont_title'];?>" /></a>
+                            <h3 class="gal-title"><a href="<?php echo $this->serverUrl() . $this->Url('view-content', array('contentSlug' => $value['cont_slug'], 'contentId' => $value['cont_id']))?>" title="<?php echo $value['cont_title'];?>" rel="bookmark"><?php echo $value['cont_title'];?></a></h3>
+                        </article>
+                    </div>
+                <?php
+                    endforeach;
+                    endif;?>
+            </div>
+            <div class="clearfix"></div>
+            <?php echo $this->paging; ?>
+            <?php if (!empty($this->arr_keyword_list)): ?>
+                <div class="entry-content">
+                    <h3>Từ khóa</h3>
+                    <?php foreach ($this->arr_keyword_list as $arr_key): ?>
+                        <a href="<?php echo $this->serverUrl() . $this->Url('search', array('keySlug' => $arr_key['key_slug'])) ?>"><?php echo $arr_key['key_name']; ?></a> ,
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <div class="clearfix"></div>
+        </div><!-- #main-left -->
+
+        <div id="sidebar" class="span4">
+            <?php echo $this->render('frontend/nav-right'); ?>
+        </div><!-- sidebar -->
+
+        <div class="clearfix"></div>
+
+    </div><!-- #main -->
+
+</div><!-- #content -->

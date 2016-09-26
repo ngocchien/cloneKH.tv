@@ -1,0 +1,418 @@
+<?php
+
+use My\General;
+
+$arrLocation = unserialize(ARR_LOCATION);
+
+$general = new General();
+$arrProductDetail = $this->arrProductDetail;
+?>
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id))
+            return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h3><?php echo html_entity_decode($arrProductDetail['prod_name']); ?></h3>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+
+<!--Detail -->
+<section id="detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="ads-detail">
+                    <div class="author-detail">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="author-avatar">
+                                    <img src="<?php echo (empty($this->arrUserDetail['user_avatar'])) ? STATIC_URL . '/f/v1/images/images/noavatar.jpg' : json_decode($this->arrUserDetail['user_avatar'], true)[0]['thumbImage']['120x120']; ?>" alt="author avatar">
+                                </div>
+                                <div class="author-name">
+                                    <p><?php echo $this->arrUserDetail['user_fullname'] ?></p>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="author-detail-right">
+                                    <div class="author-info">
+                                        <i class="fa fa-map-marker"></i>
+                                        <p>Khu vực : <b><?php echo (empty($arrLocation['prod_location'])) ? 'Toàn tỉnh' : $arrLocation[$arrProductDetail['prod_location']]['dist_name']; ?></b> </p>
+                                    </div>
+
+                                    <div class="author-info">
+                                        <i class="fa fa-clock-o"></i>
+                                        <p>Gửi lúc : <b><?php echo $general->formatDateString($arrProductDetail['prod_created']) ?></b> </p>
+                                    </div>
+
+                                    <div class="author-info">
+                                        <i class="fa fa-envelope-o"></i>
+                                        <p>Email : <a class="col" href="#"> <b><?php echo $this->arrUserDetail['user_email']; ?></b> </a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="author-detail-right">
+                                    <div class="author-info">
+                                        <i class="fa fa-barcode"></i>
+                                        <p>Mã tin : <b><?php echo sprintf("%03d", $arrProductDetail['prod_id']); ?></b> </p>
+                                    </div>
+                                    <div class="author-info">
+                                        <i class="fa fa-eye"></i>
+                                        <p>Lượt xem : <b><?php echo $arrProductDetail['prod_viewer']; ?></b> </p>
+                                    </div>
+                                    <div class="author-info">
+                                        <i class="fa fa-phone"></i>
+                                        <p>SĐT : <b><?php echo $this->arrUserDetail['user_phone']; ?></b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ad-detail">
+                        <div class="ad-detail-head">
+                            <i class="fa <?php echo!empty($this->arrCategoryParent) ? $this->arrCategoryParent['cate_icon'] : $this->arrCategoryDetail['cate_icon']; ?> fa-4x"></i>
+                            <h4 class="ad-cat"><h4><?php echo html_entity_decode($arrProductDetail['prod_name']); ?></h4>
+                        </div>
+                        <div class="ad-detail-info clearfix">
+                            <p>Nội dung:</p>
+                            <p class="light line"><?php echo html_entity_decode($arrProductDetail['prod_detail']); ?></p>
+                        </div>
+
+                        <div class="tags">
+                            <i class="fa fa-tags"></i>
+                            <span>Tags:</span>
+                            <span> Expensive Cars, Red, Black, WordPress, Classified, Ads</span>
+                        </div>
+
+                        <div class="tags">
+                            <i class="fa fa-flag"></i>
+                            <span>Bạn đang xem : </span>
+                            <span> <a href="<?php echo $this->serverUrl(); ?>">Trang chủ </a> &#160;
+                                <?php if (!empty($this->arrCategoryParent)): ?> <i class="fa fa-angle-double-right"></i><a href="<?php echo $this->serverUrl() . $this->Url('category', array('controller' => 'category', 'action' => 'index', 'categorySlug' => $this->arrCategoryParent["cate_slug"], 'categoryID' => $this->arrCategoryParent["cate_id"])) ?>"><?php echo $this->arrCategoryParent['cate_name']; ?></a><?php endif; ?></span>
+                            <i class="fa fa-angle-double-right"></i><a href="<?php echo $this->serverUrl() . $this->Url('category', array('controller' => 'category', 'action' => 'index', 'categorySlug' => $this->arrCategoryDetail["cate_slug"], 'categoryID' => $this->arrCategoryDetail["cate_id"])) ?>"><?php echo $this->arrCategoryDetail['cate_name']; ?></a>
+                        </div>
+                    </div><!--end ad-detail-->
+                </div>
+                <!--advertisement-->
+                <div class="advert">
+                    <a href="javascript:;"><img src="<?php echo STATIC_URL; ?>/f/v1/images/images/detail-page-ad_03.png" alt="ad"> </a>
+                </div>
+
+                <!--form submission-->
+                <div id="form" class="form-comment">
+                    <h4 class="inner-heading">BÌNH LUẬN (<?php echo $this->intTotalComment; ?>)</h4>
+                    <form id="form-comment" method="">
+                        <section class="comment-list">
+                            <article class="row">
+                                <div class="col-md-2 col-sm-2 hidden-xs">
+                                    <figure class="thumbnail">
+                                        <img class="img-responsive" src="<?php echo empty(AVATAR) ? STATIC_URL . '/f/v1/images/noavatar.jpg' : AVATAR; ?>">
+                                    </figure>
+                                </div>
+                                <div class="col-md-10 col-sm-10">
+                                    <div class="panel panel-default arrow left">
+                                        <div class="panel-body">
+                                            <div class="comment-post">
+                                                <textarea class="form-control comment-content" placeholder="Nhập bình luận"></textarea>
+                                            </div>
+                                            <div class="col-sm-6 input-pad" <?php if (UID > 0): ?> style=" display: none"<?php endif; ?>>
+                                                <span class="fa fa-user form-control-feedback"></span>
+                                                <input class="form-control full-name" type="text" name="name" placeholder="Họ và tên" value="<?php
+                                                if (UID > 0) {
+                                                    echo FULLNAME;
+                                                }
+                                                ?>">
+                                            </div>
+                                            <div class="col-sm-6 input-pad" <?php if (UID > 0): ?> style=" display: none"<?php endif; ?>>
+                                                <span class="fa fa-envelope form-control-feedback"></span>
+                                                <input class="form-control email" type="email" name="email" placeholder="Email" value="<?php
+                                                if (UID > 0) {
+                                                    echo EMAIL;
+                                                }
+                                                ?>">
+                                            </div>
+                                            <div class="text-right">
+                                                <button class="btn btn-primary btncomment" type="button" parent="0">Đăng bình luận</button></a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </section>
+                    </form>
+                </div>
+
+                <section class="comment-list comment-list-post">
+                    <?php
+                    if (!empty($this->arrParentCommentList)):
+                        foreach ($this->arrParentCommentList as $value):
+                            ?>
+                            <article class="row item-<?php echo $value['comm_id']; ?>">
+                                <div class="col-md-2 col-sm-2 hidden-xs">
+                                    <figure class="thumbnail">
+                                        <img class="img-responsive" src="<?php echo json_decode($this->arrListUserComment[$value['user_id']]['user_avatar'], true)[0]['thumbImage']['120x120']; ?>">
+                                        <figcaption class="text-center"></figcaption>
+                                    </figure>
+                                </div>
+                                <div class="col-md-10 col-sm-10">
+                                    <div class="panel panel-default arrow left item">
+                                        <div class="panel-body">
+                                            <header class="text-left">
+                                                <div class="comment-user"><i class="fa fa-user"></i> <?php echo $value['user_fullname'] ?></div>
+                                                <time class="comment-date"><i class="fa fa-clock-o"></i> <?php echo My\General::formatDateString($value['comm_created']); ?></time>
+                                            </header>
+                                            <div class="comment-post">
+                                                <p>
+                                                    <?php echo $value['comm_content']; ?>
+                                                </p>
+                                            </div>
+                                            <p class="text-right"><a href="javascript:;" class="btn btn-default btn-sm btn-reply"><i class="fa fa-reply"></i> Trả lời</a></p>
+                                        </div>
+                                        <form method="" id="form-comment" style="display:none;">
+                                            <section class="comment-list">
+                                                <article class="row">
+                                                    <div class="col-md-2 col-sm-2 hidden-xs">
+                                                        <figure class="thumbnail">
+                                                            <img class="img-responsive" src="<?php echo empty(AVATAR) ? STATIC_URL . '/f/v1/images/noavatar.jpg' : AVATAR; ?>">
+                                                        </figure>
+                                                    </div>
+                                                    <div class="col-md-10 col-sm-10">
+                                                        <div class="panel panel-default arrow left">
+                                                            <div class="panel-body">
+                                                                <div class="comment-post">
+                                                                    <textarea class="form-control comment-content" placeholder="Nhập bình luận"></textarea>
+                                                                </div>
+                                                                <div class="col-sm-6 input-pad" <?php if (UID > 0): ?> style=" display: none"<?php endif; ?>>
+                                                                    <input class="form-control full-name" type="text" name="name" placeholder="Họ và tên" value="<?php
+                                                                    if (UID > 0) {
+                                                                        echo FULLNAME;
+                                                                    }
+                                                                    ?>">
+                                                                </div>
+                                                                <div class="col-sm-6 input-pad" <?php if (UID > 0): ?> style=" display: none"<?php endif; ?>>
+                                                                    <input class="form-control email" type="email" name="email" placeholder="Email" value="<?php
+                                                                    if (UID > 0) {
+                                                                        echo EMAIL;
+                                                                    }
+                                                                    ?>">
+                                                                </div>
+                                                                <div class="text-right">
+                                                                    <button class="btn btn-primary btncomment" type="button" parent="<?php echo $value['comm_id']; ?>">Đăng</button></a></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </section>
+                                        </form>
+                                    </div>
+                                </div>
+                                <?php
+                                if (!empty($this->arrListCommentChildren[$value['comm_id']])):
+                                    foreach ($this->arrListCommentChildren[$value['comm_id']] as $val):
+                                        ?>
+                                        <article class="row">
+                                            <div class="col-md-2 col-sm-2 col-md-offset-1 col-sm-offset-0 hidden-xs">
+                                                <figure class="thumbnail">
+                                                    <img class="img-responsive" src="<?php echo json_decode($this->arrListUserComment[$val['user_id']]['user_avatar'], true)[0]['thumbImage']['120x120']; ?>">
+                                                    <figcaption class="text-center"></figcaption>
+                                                </figure>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <div class="panel panel-default arrow left">
+                                                    <div class="panel-heading right">Phản hồi</div>
+                                                    <div class="panel-body">
+                                                        <header class="text-left">
+                                                            <div class="comment-user"><i class="fa fa-user"></i> <?php echo $val['user_fullname'] ?></div>
+                                                            <time class="comment-date"><i class="fa fa-clock-o"></i> <?php echo My\General::formatDateString($val['comm_created']); ?></time>
+                                                        </header>
+                                                        <div class="comment-post">
+                                                            <p>
+                                                                <?php echo $val['comm_content']; ?>
+                                                            </p>
+                                                        </div>
+                                                        <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Trả lời</a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        <?php
+                                    endforeach;
+                                endif;
+                                ?>
+                            </article>
+                            <?php
+                        endforeach;
+                    endif;
+                    ?>
+                </section>
+
+                <div class="fb-comments" data-href="<?php echo $this->serverUrl() . $this->Url('product', array('productslug' => $this->arrProductDetail["prod_slug"], 'productId' => $this->arrProductDetail["prod_id"])) ?>" data-width="100%" data-numposts="5"></div>
+                <!--end form submission-->
+
+                <!--Related Ads-->
+                <?php if (!empty($this->arrProductInCate)): ?>
+                    <div id="relatedAds">
+                        <h4 class="inner-heading">RAO VẶT CÙNG DANH MỤC</h4>
+                        <div class="row">
+                            <table class="table table-striped table-advance table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style=" color: #005fcc" class=" col-lg-7"><i class="fa fa-list-alt"></i> Tiêu đề</th>
+                                        <th class="text-center"  class="hidden-phone" class=" col-lg-2 text-center" style=" color: #005fcc">Khu vực</th>
+                                        <th class="text-center"  style=" color: #005fcc" class=" col-lg-1"> Xem</th>
+                                        <th class="text-center"  style=" color: #005fcc" class=" col-lg-1">Nhu cầu</th>
+                                        <th class="text-center" style=" color: #005fcc">Cập nhật</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($this->arrProductInCate as $value): ?>
+                                        <tr>
+                                            <td>
+                                                <a href="<?php echo $this->serverUrl() . $this->Url('product', array('controller' => 'product', 'action' => 'detail', 'productslug' => $value["prod_slug"], 'productId' => $value["prod_id"])) ?>" style=" text-decoration: none"><i class="fa fa-hand-o-right"></i> <?php echo html_entity_decode($value['prod_name']); ?> </a>
+                                            </td>
+                                            <td class="text-center"><?php echo empty($value['prod_location']) ? 'Toàn tỉnh' : $arrLocation[$value['prod_location']]['dist_name']; ?></td>
+                                            <td class="text-center"><?php echo $value['prod_viewer'] ?></td>
+                                            <td class="text-center"><span><?php echo $this->arrProperties[$value['prop_id']]['prop_name']; ?></span></td>
+                                            <td class="text-center">
+                                                <span><?php echo My\General::formatDateString($value['prod_created']) ?></span>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div><!--end related ads-->
+                    </div>
+                <?php endif; ?>
+                <!--end related ads-->
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <div class="side-widget clearfix">
+                        <h4 class="inner-heading">RAO VẶT VÍP</h4>
+                        <div class="col-md-12 col-sm-4">
+                            <div class="premium-widget">
+                                <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/sideimg1_03.png">
+                                <a href="#" class="item-hover"><span>$199</span></a>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-4">
+                            <div class="premium-widget">
+                                <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/sideimg2_03.png">
+                                <a href="#" class="item-hover"><span>$199</span></a>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-4">
+                            <div class="premium-widget">
+                                <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/sideimg3_03.png">
+                                <a href="#" class="item-hover"><span>$199</span></a>
+                            </div>
+                        </div>
+                    </div><!--end premium widget-->
+
+                    <div class="side-widget">
+                        <h4 class="inner-heading">Rao vặt mới</h4>
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img1_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img2_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img3_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img4_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end latest ad widget-->
+
+                    <!--advertisement-->
+                    <div class="side-widget">
+                        <h4 class="inner-heading">ADVERTISEMENT</h4>
+                        <div class="side-widget-adv">
+                            <a href="#"><img src="<?php echo STATIC_URL; ?>/f/v1/images/images/advertiseimg_03.png" alt="google ads"></a>
+                        </div>
+                    </div><!--end advertisement widget-->
+
+                    <!--Tags-->
+                    <div class="side-widget">
+                        <h4 class="inner-heading">Tags</h4>
+                        <div class="tags">
+                            <a href="#">Ads</a>
+                            <a href="#">Design</a>
+                            <a href="#">Classified</a>
+                            <a href="#">PSD’s</a>
+                            <a href="#">Advertisement</a>
+                            <a href="#">Jobs</a>
+                            <a href="#">Community</a>
+                            <a href="#">Business</a>
+                            <a href="#">Interior</a>
+                            <a href="#">Condo</a>
+                            <a href="#">Pet</a>
+                            <a href="#">Shopping</a>
+                            <a href="#">Clothing</a>
+                            <a href="#">Vehicles</a>
+                        </div>
+                    </div><!--end tags widget-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    ProdID = '<?php echo $this->arrProductDetail['prod_id'] ?>';
+    commentURL = '<?php echo $this->serverUrl() . $this->Url('add_comment', array()) ?>';
+    Comment.index();
+</script>
+<!--end details-->

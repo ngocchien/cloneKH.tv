@@ -1,0 +1,184 @@
+<script type="text/javascript">
+var checkoutURL = '<?php echo $this->serverUrl() . $this->Url('frontend-order', array('controller' => 'order', 'action' => 'update_cart_in_checkout')); ?>';
+</script>
+<?php
+//p($params);die;
+$arrProductListCookie = $this->arrProductListCookie;
+$listProductCart = $this->listProductCart;
+$totalPriceOrder = 0;
+$arrDistrict=$this->arrDistrict;
+$arrCity=$this->arrCity;
+?>
+
+<div class="bar">
+    <div class="bar-ps step-3">
+        <div class="itm ps_1">
+            <div class="pl">
+                <div class="pr">
+                    <div class="pc">THÔNG TIN<br>ĐƠN HÀNG</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_2 ">  <div class="pl">
+                <div class="pr">
+                    <div class="pc">THÌNH THỨC <br>THANH TOÁN</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_3">  <div class="pl">
+                <div class="pr">
+                    <div class="pc">ĐỊA CHỈ<br> GIAO HÀNG</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_4 ps_en">  <div class="pl">
+                <div class="pr">
+                    <div class="pc">HOÀN TẤT<br> ĐƠN HÀNG</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_5">&nbsp;</div>
+
+        <div style="clear: both"></div>
+    </div>
+</div>
+<div id="cont-checkout">
+    <div class="main">
+        <form method="POST">
+            <div class="info-take">
+                <p class="title">Thông tin liên hệ</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="label">  Họ tên<span class="color-red">*</span></td>
+                            <td>  
+                                <input type="text" class="form-control  valid fullname" name="strFullname" value="<?php echo ($params['strFullname'])?$params['strFullname'] :((UID) ? FULLNAME : NULL)?>">
+                                <label style="color: red; display: <?php echo ($this->errors['fullname']) ? : none ?>;" class="error errorCheckoutFullName"><?php if($this->errors['fullname']){echo $this->errors['fullname']; }?></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">  Điện thoại<span class="color-red">*</span></td>
+                            <td>  <input type="text" class="phone phoneNumber" name="strPhone" value="<?php echo ($params['strPhone'])? $params['strPhone'] :((UID) ? PHONE : NULL)?>"><span style="color: activecaption;">Dùng để liên hệ khi giao hàng</span><br/>
+                                <label style="color: red; display: <?php echo ($this->errors['phoneNumber']) ? : none ?>;" class="errornumber errorCheckoutPhone"><?php if($this->errors['phoneNumber']){echo $this->errors['phoneNumber']; }?></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">  Email<span class="color-red">*</span></td>
+                            <td>  <input name="strEmail" type="text" class="form-control email valid" value="<?php echo ($params['strEmail'])? $params['strEmail'] :((UID) ? EMAIL : NULL)?>">
+                                <label style="color: red; display: <?php echo ($this->errors['Email']) ? : none ?>;" class="error errorCheckoutEmail"><?php if($this->errors['Email']){echo $this->errors['Email']; }?></label>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                <p class="title">Địa chỉ nhận hàng</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="label">
+                            </td>
+                            <td> 
+                                <input name="strAddress" type="text" placeholder="Địa chỉ" id="inputEmail3" class="form-control address" value="<?php echo ($params['strAddress'])? $params['strAddress'] :((UID) ? ADDRESS.',' : NULL)?><?php echo ($params['strAddress'])? $params['strAddress'] :((DISTRICT_ID) ? $arrDistrict['dist_name'].',' : NULL)?><?php echo ($params['strAddress'])? $params['strAddress'] :((CITY_ID) ? $arrCity['city_name'] : NULL)?>"> <br/><span style="color: activecaption; margin-left:0px">(Lưu ý: Nhập đầy đủ số nhà, tên đường, quận/huyện, phường xã)</span><br/>
+                                <label style="color: red; display: <?php echo ($this->errors['address']) ? : none ?>;" class="error errorCheckoutAddress"><?php if($this->errors['address']){echo $this->errors['address']; }?></label>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                <p class="title">Ghi chú</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td  class="label">
+
+                            </td>
+                            <td> 
+                                <textarea name="strNote" class="form-control note" rows="3"> <?php echo ($params['strNote']) ? $params['strNote'] : NULL;?></textarea><br><span style="color: activecaption; margin-left:0px">(Nếu quý khách muốn giao hàng hẹn giờ, hoặc có các vấn đề khác vui lòng ghi chú)</span> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="page-1">
+                <div class="button">
+                    <a href="<?php echo $this->serverUrl() . $this->Url('frontend', array('controller' => 'checkout', 'action' => 'index')); ?>"> <button class=" btn-next" type="button">&lt;&lt; QUAY LẠI</button></a>
+                    <button class=" btn-pre finishOrder" type="submit">HOÀN TẤT ĐƠN HÀNG &gt;&gt;</button>
+                </div>
+                <div class="card">
+                    <div class="pay-logo">
+                        <div class="proship">
+                            <p><strong>Dịch vụ vận chuyển nội thành nhanh nhất</strong></p>
+                            <p class="img"><a target="_bank" title="Proship" href="http://proship.vn"><img alt="proship" src="<?php echo STATIC_URL . '/f/' . FRONTEND_TEMPLATE ?>/images/prohip.jpg"></a></p>
+                        </div>
+                        <div class="baokim">
+                            <p><strong>Thanh toán đảm bảo</strong></p>
+                            <p><a target="_bank" title="baokim" href="http://baokim.vn"><img alt="baokim" src="<?php echo STATIC_URL . '/f/' . FRONTEND_TEMPLATE ?>/images/baokim.jpg"></a></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="right">
+        <div class="info">
+            <div class="head"><h2>Bạn có <?php echo count($arrProductListCookie); ?> sản phẩm trong giỏ hàng</h2></div>
+            <div>
+                <table>
+                    <tbody><tr class="hd">
+                            <td class="sp">Sản phẩm</th>
+                            <td class="name">&nbsp;</th>
+                            <td class="number">Số lượng</th>
+                            <td class="price">Giá</th>
+                            <td class="price">Thành tiền</th>
+                        </tr>
+                        <?php
+                        foreach ($listProductCart as $keyListProduct => $valueListProduct) {
+                            if ($valueListProduct['prod_is_promotion'] == 1) {
+                                $totalPriceOrder = $totalPriceOrder + ($valueListProduct['prod_promotion_price'] * $arrProductListCookie[$valueListProduct['prod_id']]['quantity']);
+                            } else {
+                                $totalPriceOrder = $totalPriceOrder + ($valueListProduct['prod_price'] * $arrProductListCookie[$valueListProduct['prod_id']]['quantity']);
+                            }
+                            ?>
+                            <tr class="detaiProduct">
+                                <td><a href="<?php echo $this->serverUrl() . $this->Url('product', array('controller' => 'product', 'action' => 'detail', 'productslug' => $valueListProduct["prod_slug"], 'productId' => $valueListProduct['prod_id'])); ?>"><img alt="" width="60" src="<?php echo json_decode($valueListProduct['prod_image'], true)['thumbImage']['224x224']; ?>"></a></td>
+                                <td><strong><?php echo $valueListProduct['prod_name'] ?></strong></td>
+                                <td>
+                                    <select class="form-control quantity" id="29" rel="<?php echo $valueListProduct['prod_id']?>">
+                                        <?php for ($i = 1; $i <= 20; $i++) { ?>
+                                            <option value="<?php echo $i ?>" <?php
+                                            if ($arrProductListCookie[$valueListProduct['prod_id']]['quantity'] == $i) {
+                                                echo 'selected';
+                                            }
+                                            ?>><?php echo $i; ?></option>
+                                                <?php } ?>
+                                    </select>
+                                </td>
+                                <td class="price">
+                                    <?php echo ($valueListProduct['prod_is_promotion'] == 1) ? number_format($valueListProduct['prod_promotion_price'], 0, ",", ".") : number_format($valueListProduct['prod_price'], 0, ",", "."); ?>VNĐ<br>
+                                    <?php if ($valueListProduct['prod_is_promotion'] == 1) { ?><p style="text-decoration:line-through;"><?php echo number_format($valueListProduct['prod_price'], 0, ",", ".") ?> VNĐ</p><?php } ?>
+                                </td>
+                                <td class ='total'>
+                                    <?php echo ($valueListProduct['prod_is_promotion'] == 1) ? number_format($valueListProduct['prod_promotion_price']*$arrProductListCookie[$valueListProduct['prod_id']]['quantity']) : number_format($valueListProduct['prod_price']*$arrProductListCookie[$valueListProduct['prod_id']]['quantity']); ?> VNĐ<br>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        <tr class="sum">
+                            <td colspan="4">Tổng cộng</td>
+                            <td class = "totalPriceOrder"> <?php echo number_format($totalPriceOrder, 0, ",", ".") ?> VNĐ </td>
+                        </tr>
+                        <tr class="sum">
+                            <td colspan="4">Phí thực hiện đơn hàng</td>
+                            <td> Miễn phí </td>
+                        </tr>
+                        <tr class="sum">
+                            <td colspan="4">Thành tiền (Đã bao gồm VAT)</td>
+                            <td class = "totalPriceOrder"><?php echo number_format($totalPriceOrder, 0, ",", ".") ?> VNĐ </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+</div>
+<script>
+Checkout.index();
+</script>

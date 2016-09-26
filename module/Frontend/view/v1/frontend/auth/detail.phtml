@@ -1,0 +1,266 @@
+<?php
+
+//p(json_decode($this->arrDetailUser['user_avatar'],true)[0]['thumbImage']['120x120']);die;
+use My\General;
+
+$general = new General();
+$gender = General::getGender();
+?>
+<!--main sub page heading-->
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h2><?php echo $this->arrDetailUser['user_fullname']; ?></h2>
+                <h4>Thông tin tài khoản</h4>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<!--Detail -->
+<section id="detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="ads-detail">
+                    <div class="account-overview">
+                        <h4 class="inner-heading">TỔNG QUAN TÀI KHOẢN</h4>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="author-account">
+                                    <div class="account-info">
+                                        <span>Tổng số Rao vặt :</span>
+                                        <p class="text-right"><b><?php echo $this->intTotalProduct; ?></b></p>
+                                    </div>
+                                    <div class="account-info">
+                                        <span>Số rao vặt víp :</span>
+                                        <p class="text-right"><b>02</b></p>
+                                    </div>
+                                    <div class="account-info">
+                                        <span>Featured ads left :</span>
+                                        <p class="text-right">unlimited</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="author-avatar">
+                                    <img src="<?php echo (empty($this->arrDetailUser['user_avatar'])) ? STATIC_URL . '/f/v1/images/noavatar.jpg' : json_decode($this->arrDetailUser['user_avatar'], true)[0]['thumbImage']['120x120']; ?>" alt="author avatar" class="image-avatar">
+                                    <div class="fileUpload btn btn-primary">
+                                        <span class="fa fa-upload"></span>
+                                        <input id="uploadBtn" type="file" class="upload" />
+                                    </div>
+                                </div>
+                                <div class="author-name">
+                                    <p><?php echo $this->arrDetailUser['user_name']; ?></p>
+                                </div>
+                                <div class="author-setting">
+                                    <p><a href="<?php echo $this->serverUrl() . $this->Url('auth', array('controller' => 'auth', 'action' => 'edit')) ?>">Thông tin</a></p>
+                                </div>
+                                <div class="author-setting">
+                                    <p><a href="<?php echo $this->serverUrl() . $this->Url('auth', array('controller' => 'auth', 'action' => 'change-password')) ?>">Đổi mật khẩu</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="author-profile-details">
+                                    <h4 class="inner-heading">THÔNG TIN TÀI KHOẢN</h4>
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-user"></i>
+                                                Tài khoản : <b><?php echo $this->arrDetailUser['user_name']; ?></b>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-calendar"></i>
+                                                Ngày đăng ký: <b> <?php echo date('d/m/Y', $this->arrDetailUser['user_created']); ?> </b>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-envelope"></i>
+                                                Email: <a href="#" class="col"> <b><?php echo $this->arrDetailUser['user_email']; ?></b></a>
+                                            </li>
+
+                                            <li>
+                                                <i class="fa fa-calendar"></i>
+                                                Ngày sinh : <b><?php echo date('d/m/Y', $this->arrDetailUser['user_birthdate']); ?></b>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li>
+                                                <i class="fa fa-credit-card"></i>
+                                                Họ và tên : <b><?php echo $this->arrDetailUser['user_fullname']; ?></b>
+                                            </li>
+
+                                            <li>
+                                                <i class="fa fa-phone"></i>
+                                                Số điện thoại : <b><?php echo $this->arrDetailUser['user_phone']; ?></b>
+                                            </li>
+
+                                            <li>
+                                                <i class="fa fa-venus-mars"></i>
+                                                Giới tính : <b><?php echo $gender[$this->arrDetailUser['user_gender']]; ?></b>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div style=" clear: both"></div>
+                                    <?php if (!empty($this->arrDetailUser['user_description'])): ?>
+                                        <h4 class="inner-heading">GIỚI THIỆU BẢN THÂN</h4>
+                                        <p>
+                                            <?php echo $this->arrDetailUser['user_description']; ?>
+                                        </p>
+                                    <?php endif; ?>
+                                    <div class="author-price-plan">
+                                        <h4 class="inner-heading">DANH SÁCH RAO VẶT ĐÃ ĐĂNG</h4>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table class="table table-bordered table-striped table-condensed cf">
+                                                    <thead class="cf">
+                                                        <tr>
+                                                            <th class="text-center"><i class="fa fa-list"></i> Mã tin</th>
+                                                            <th class="text-center"><i class="fa fa-list-alt"></i> Tiêu đề</th>
+                                                            <th class="text-center"><i class="fa fa-eye"></i> Xem</th>
+                                                            <th class="text-center"><i class="fa fa-edit"></i> Chức năng</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        if (!empty($this->arrProductList)):
+                                                            foreach ($this->arrProductList as $value):
+                                                                ?>
+                                                                <tr>
+                                                                    <td  class="text-center" width="80">
+                                                                        RV<?php echo $value['prod_id'] ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a class="tooltips" data-placement="top" href="<?php echo $this->serverUrl() . $this->Url('product', array('productslug' => $value['prod_slug'], 'productId' => $value['prod_id']))?>" >
+                                                                            <?php echo $value['prod_name'] ?>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td  class="text-center" width="70"><?php echo $value['prod_viewer'] ?></td>
+                                                                    <td class="text-center" width="170" style="font-size: 11px">
+                                                                        <div class="row"><a href="javascript:;">Up tin</a> | <a href="javascript:;">Úp <image src="<?php echo STATIC_URL?>/f/v1/images/s-vip.gif"/> tin</a> | <a href="javascript:;">Úp <image src="<?php echo STATIC_URL?>/f/v1/images/vip.png"/> tin</a></div>
+                                                                        <div class="row"><a href="<?php echo $this->serverUrl() . $this->Url('edit_product', array('productslug' => $value['prod_slug'], 'productId' => $value['prod_id']))?>">Sửa</a> | <a href="javascript:;"><b>Xóa</b></a></div>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
+                                                            endforeach;
+                                                        else:
+                                                            ?>
+                                                            <tr><td colspan="6" class="text-center">Hiện tại chưa có danh mục nào.</td></tr>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="pagi">
+                                                <?php echo $this->paging; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+
+                    <!--advertisement-->
+                    <div class="side-widget">
+                        <h4 class="inner-heading">BANNER</h4>
+                        <div class="side-widget-adv">
+                            <a href="#"><img src="<?php echo STATIC_URL; ?>/f/v1/images/images/advertiseimg_03.png" alt="google ads"></a>
+                        </div>
+                    </div><!--end advertisement widget-->
+
+                    <div class="side-widget">
+                        <h4 class="inner-heading">RAO VẶT VÍP</h4>
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img1_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img2_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img3_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-latest-ad">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <img src="<?php echo STATIC_URL; ?>/f/v1/images/images/side-latest-ad-img4_03.png" alt="side ads">
+                                </div>
+                                <div class="col-sm-8">
+                                    <p><a href="#" class="col"> M26r Car 2014</a></p>
+                                    <p>$40,000</p>
+                                    <p>Condition 10/10 & fully original all parts...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end latest ad widget-->
+
+                    <!--Tags-->
+                    <div class="side-widget">
+                        <h4 class="inner-heading">Tags</h4>
+                        <div class="tags">
+                            <a href="#">Ads</a>
+                            <a href="#">Design</a>
+                            <a href="#">Classified</a>
+                            <a href="#">PSD’s</a>
+                            <a href="#">Advertisement</a>
+                            <a href="#">Jobs</a>
+                            <a href="#">Community</a>
+                            <a href="#">Business</a>
+                            <a href="#">Interior</a>
+                            <a href="#">Condo</a>
+                            <a href="#">Pet</a>
+                            <a href="#">Shopping</a>
+                            <a href="#">Clothing</a>
+                            <a href="#">Vehicles</a>
+
+
+                        </div>
+                    </div><!--end tags widget-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--end details-->
+<script>
+    changeAvatarUrl = '<?php echo $this->serverUrl() . $this->Url('auth', array('controller' => 'auth', 'action' => 'change-avatar')) ?>';
+    Auth.index();
+</script>

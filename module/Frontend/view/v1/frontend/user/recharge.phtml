@@ -1,0 +1,96 @@
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h1>TÀI KHOẢN </h1>
+                <h4>Nạp thẻ</h4>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<section id="detail">
+    <div class="container">
+        <section class="wrapper site-min-height">
+            <?php if ($this->errors): ?>
+                <div class="alert alert-block alert-danger fade in">
+                    <button class="close close-sm" type="button" data-dismiss="alert">
+                        <i class="fa fa-times-circle"></i>
+                    </button>
+                    <h4><i class="fa fa-exclamation-triangle"></i> Lỗi!</h4>
+                    <?php foreach ($this->errors as $error): ?>
+                        <p> - <?php echo $error; ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php
+            if ($this->flashMessenger()->setNamespace('recharge-success')->getMessages()):
+                ?>
+                <div class="alert alert-success alert-block fade in">
+                    <button class="close close-sm" type="button" data-dismiss="alert">
+                        <i class="fa fa-times-circle"></i>
+                    </button>
+                    <h4><i class="fa fa-thumbs-o-up"></i> Hoàn tất!</h4>
+                    <p>- <?php echo $this->flashMessenger()->setNamespace('change-pass-success')->getMessages()[0]; ?></p>
+                </div>
+            <?php endif; ?>
+
+            <div class="container">
+                <div class="row">
+                    <?php echo $this->render('frontend/nav-user-left'); ?>
+                    <div class="col-md-5">
+                        <div class="ads-detail">
+                            <div class="account-overview">
+                                <div class="row">
+                                    <div class="col-md-12 border-detail">
+                                        <div id="form">
+                                            <form method="post" id="form-recharge">
+                                                <div class="col-md-12 form-group">
+                                                    <label for="type">Chọn loại thẻ</label>
+                                                    <select class="form-group" name="type">
+                                                        <option value="0"> Chọn loại thẻ</option>
+                                                        <?php foreach (My\General::getMethodRecharge() as $key => $value): ?>
+                                                            <option value="<?php echo $key ?>"><?php echo $value; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="seri">Seri</label>
+                                                    <input type="text" class="form-control" name="seri" placeholder="Nhập seri">
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <label for="code">Mã thẻ cào</label>
+                                                    <input type="text" class="form-control" name="code" placeholder="Nhập mã thẻ">
+                                                </div>
+                                                <div class="col-md-12 form-group">
+                                                    <div class="col-md-3 form-group">
+                                                        <img class="img-captcha form-control" src="" style="height: 50px; width: 80px"/>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" name="code_security" placeholder="Nhập mã bên cạnh">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <i class="fa fa-refresh" data-toggle="tooltip" title="Lấy mã mới" style=" cursor: pointer; margin-top: 15px"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-xs-offset-6 col-md-offset-8">
+                                                    <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <?php echo $this->render('frontend/nav-ads-right'); ?>
+                    </div>
+                </div>
+            </div>
+        </section><!--end details-->
+    </div>
+</section>
+<script>
+    User.captcha();
+</script>

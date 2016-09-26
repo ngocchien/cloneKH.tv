@@ -1,0 +1,149 @@
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h1>TÀI KHOẢN </h1>
+                <h4>DANH SÁCH RAO VẶT ĐÃ ĐĂNG</h4>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<section id="detail">
+    <div class="container">
+        <section class="wrapper site-min-height">
+            <div class="container">
+                <div class="row">
+                    <?php echo $this->render('frontend/nav-user-left'); ?>
+                    <div class="col-md-9">
+                        <div class="sidebar">
+                            <section class="panel panel-success">
+                                <div class="panel-body">    
+                                    <div class="adv-table editable-table ">  
+                                        <div class="row" style="margin-bottom: 5px">
+                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">                  
+                                                <div id="editable-sample_length" class="dataTables_length no-padding">
+                                                    <a class="btn btn-danger btn-sm remove-all" ><i class="fa fa-trash-o"></i> Xóa</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <section id="unseen">
+                                            <table class="table table-bordered table-hover table-striped table-condensed cf">
+                                                <thead class="cf">
+                                                    <tr>
+                                                        <th class="text-center"><input type="checkbox" class="check-all">All</th>
+                                                        <th class="text-center"><i class="fa fa-barcode"></i> Mã tin</th>
+                                                        <th class="text-center"><i class="fa fa-thumb-tack" aria-hidden="true"></i>Tiêu đề</th>
+                                                        <th class="text-center"><i class="fa fa-eye" aria-hidden="true"></i>Xem</th>
+                                                        <th class="text-center"><i class="fa fa-wrench" aria-hidden="true"></i> Chức năng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    if ($this->arrContentList):
+                                                        foreach ($this->arrContentList as $arrContent):
+                                                            ?>
+                                                            <tr id="item-<?php echo $arrContent['cont_id'] ?>">
+                                                                <td class="text-center">
+                                                                    <input type="checkbox" class="content-item" value="<?php echo $arrContent['cont_id']; ?>">
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>RV<?php echo sprintf("%04d", $arrContent['cont_id']); ?></b>
+                                                                </td>
+                                                                <td style="max-width: 400px">
+                                                                    <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $arrContent['cont_id']]); ?>" style="text-decoration: none">
+                                                                        <b><?php echo $arrContent['cont_title']; ?></b>
+                                                                    </a>
+                                                                    <div class="border-detail form-control timeline-desk">
+                                                                        <p style="color: blue">Bạn có thể nhắn tin theo cú pháp : </p> 
+                                                                        <p><b style="color: red">BQN SVIP RV<?php echo sprintf("%04d", $arrContent['cont_id']); ?></b> gửi <b style="color: red">7650</b> để mua <b style="color: red">2 </b> ngày <img src="<?php echo STATIC_URL . '/f/v1/images/s-vip.gif'; ?>"> cho tin</p>
+                                                                        <p><b style="color: red">BQN SVIP RV<?php echo sprintf("%04d", $arrContent['cont_id']); ?></b> gửi <b style="color: red">7750</b> để mua <b style="color: red">3</b> ngày <img src="<?php echo STATIC_URL . '/f/v1/images/s-vip.gif'; ?>"> cho tin</p>
+                                                                        <p style="color: blue">Hoặc nhắn tin theo cú pháp : </p> 
+                                                                        <p><b style="color: red">BQN VIP RV<?php echo sprintf("%04d", $arrContent['cont_id']); ?></b> gửi <b style="color: red">7650</b> để mua <b style="color: red">5 </b> ngày <img src="<?php echo STATIC_URL . '/f/v1/images/vip2.gif'; ?>"> cho tin</p>
+                                                                        <p><b style="color: red">BQN VIP RV<?php echo sprintf("%04d", $arrContent['cont_id']); ?></b> gửi <b style="color: red">7750</b> để mua <b style="color: red">8</b> ngày <img src="<?php echo STATIC_URL . '/f/v1/images/vip2.gif'; ?>"> cho tin</p>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-center"><?php echo $arrContent['cont_views']; ?></td>
+                                                                <td class="text-center" witd="100">
+                                                                    <span data-toggle="modal" data-target="#ModalUpVip">
+                                                                        <a class="btn btn-warning btn-xs up-vip" data-toggle="tooltip" title="Mua víp" rel="<?php echo $arrContent['cont_id'] ?>">
+                                                                            <i class="fa fa-star"></i>
+                                                                        </a>
+                                                                    </span>
+
+                                                                    <a class="btn btn-success btn-xs refresh-content" data-toggle="tooltip" title="Làm mới tin" rel="<?php echo $arrContent['cont_id'] ?>">
+                                                                        <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i>
+                                                                    </a>
+                                                                    <a class="btn btn-primary btn-xs" data-toggle="tooltip" title="Sửa" href="<?php echo $this->serverUrl() . $this->Url('edit-content', array('contentSlug' => $arrContent['cont_slug'], 'contentId' => $arrContent['cont_id'])) ?>">
+                                                                        <i class="fa fa-pencil"></i>
+                                                                    </a>
+                                                                    <a  class="btn btn-danger btn-xs remove" data-toggle="tooltip" title="Xóa tin" rel="<?php echo $arrContent['cont_id']; ?>">
+                                                                        <i class="fa fa-trash-o"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <tr><td colspan="5" class="text-center">Hiện tại chưa chưa có tin rao vặt nào cả.</td></tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </section>
+                                    </div>
+                                    <div>
+                                        <?php echo $this->paging; ?>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!--end details-->
+    </div>
+</section>
+<div class="modal fade" id="ModalUpVip" tabindex="-1" role="dialog" aria-labelledby="ModalUpVip">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">MUA VÍP CHO RAO VẶT</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row border-detail form-control timeline-desk">
+                    <input type="hidden" name="blance" value="<?php echo CUSTOMER_BALANCE; ?>">
+                    <div class="col" style="margin: 5px 0px 10px 0">
+                        <p><b class="color-blue">Số dư tài khoản bạn là : </b><b class="color-red"><?php echo number_format(CUSTOMER_BALANCE, 0, ",", "."); ?>đ</b></p>
+                    </div>
+                    <div class="col" style="margin: 5px 0px 10px 0">
+                        <p><img src="<?php echo STATIC_URL . '/f/v1/images/s-vip.gif'; ?>">  <b class="color-blue">= 5000đ/Ngày</b> <b style="color: red"> Hoặc </b> <img src="<?php echo STATIC_URL . '/f/v1/images/vip2.gif'; ?>"> <b class="color-blue">= 2000đ/Ngày</b></p>
+                    </div>
+                    <div class="col">
+                        <div class="col-md-4">
+                            <p  style="margin-bottom: 5px; color: blue">Chọn Loại Víp</p>
+                            <input class="radio" type="radio" value="<?php echo My\General::VIP_ALL_PAGE; ?>" name="typevip" checked><img src="<?php echo STATIC_URL . '/f/v1/images/s-vip.gif'; ?>">
+                            <input class="radio" type="radio" value="<?php echo My\General::VIP_CATE_PAGE; ?>" name="typevip"><img src="<?php echo STATIC_URL . '/f/v1/images/vip2.gif'; ?>">
+                        </div>
+                        <div class="col-md-3">
+                            <p  style="margin-bottom: 5px; color: blue">Số ngày</p>
+                            <input type="number" class="form-control input-sm" name="numdate" min="1">
+                        </div>
+                        <div class="col-md-3 mg-t-18 total-fee" style="display: none">
+                        </div>
+                        <div class="col-md-2 mg-t-18">
+                            <button class="btn btn-success" name="deal-vip">Mua</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var deletePostURL = '<?php echo $this->serverUrl() . $this->Url('delete-content'); ?>';
+    dealVipURL = '<?php echo $this->serverUrl() . $this->Url('deal-vip-content'); ?>';
+    refreshContentURL = '<?php echo $this->serverUrl() . $this->Url('refresh-content'); ?>';
+    User.listPost();
+</script>

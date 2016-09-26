@@ -1,0 +1,101 @@
+<script type="text/javascript">
+    //var checkoutURL = '<?php // echo $this->serverUrl() . $this->Url('frontend-order', array('controller' => 'order', 'action' => 'update_cart_in_checkout')); ?>';
+</script>
+<?php
+$arrOrder = $this->arrOrder;
+$arrDetailOrder = $this->arrDetailOrder;
+?>
+<div class="bar">
+    <div class="bar-ps step-4">
+        <div class="itm ps_1">
+            <div class="pl">
+                <div class="pr">
+                    <div class="pc">THÔNG TIN<br>ĐƠN HÀNG</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_2 ">  <div class="pl">
+                <div class="pr">
+                    <div class="pc">THÌNH THỨC <br>THANH TOÁN</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_3">  <div class="pl">
+                <div class="pr">
+                    <div class="pc">ĐỊA CHỈ<br> GIAO HÀNG</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_4 ps_en">  <div class="pl">
+                <div class="pr">
+                    <div class="pc">HOÀN TẤT<br> ĐƠN HÀNG</div>
+                </div>
+            </div>
+        </div>
+        <div class="itm ps_5">&nbsp;</div>
+
+        <div style="clear: both"></div>
+    </div>
+</div>
+<div id="cont-checkout">
+    <div class="from-info">
+        <div class="info-main"> 
+            <p class="subject"><strong><em>BẠN ĐÃ ĐẶT HÀNG THÀNH CÔNG!</em></strong></p>
+            <p><em>Bộ phân chăm sóc khách hàng sẽ liên lạc với bạn để xác nhận đơn hàng và tiến hành giao hàng trong thời gian sớm nhất. Cảm ơn bạn đã đặt hàng tại Megavita.vn </em></p>
+            <p><em>Mọi chi tiết xin liên hệ đường dây nóng:<span style="color:#FF0000"> <strong><?php echo HOTLINE_NUMBER ?></strong></span></em></p>
+            <p><em>Rất hân hạnh được phục vụ</em></p>
+        </div>
+        <br>
+        <p class="subject"><strong><em>THÔNG TIN ĐƠN HÀNG</em></strong></p>
+        <p class="title">Thông tin liên hệ</p>
+        <p class="info">Họ tên:<?php echo json_decode($arrOrder['orde_detail'], true)['fullname'] ?><span></span></p>
+        <p class="info">Email: <span><?php echo json_decode($arrOrder['orde_detail'], true)['email'] ?></span></p>
+        <p class="info">Điện thoại: <span><?php echo json_decode($arrOrder['orde_detail'], true)['phone'] ?></span></p>
+        <table class="info-cus">
+            <tbody><tr>
+                    <td class="title">Hình thức thanh toán : </td>
+                    <td>
+                        <?php if ($arrOrder['orde_payment'] == 1): ?>
+                            Thanh toán khi nhận hàng
+                        <?php elseif ($arrOrder['orde_payment'] == 2): ?>
+                            Chuyển khoản Ngân hàng
+                        <?php else: ?>
+                            Thanh toán Bảo Kim
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">Địa chỉ giao hàng : </td>
+                    <td><?php echo json_decode($arrOrder['orde_detail'], true)['address'] ?></td>
+                </tr>
+            </tbody></table>
+        <p class="title">Thông tin sản phẩm</p>
+        <table class="product">
+            <tbody>
+            <thead>
+                <tr>
+                    <th  class="title-main" style="width: 50%">Sản phẩm</th>
+                    <th style="width: 15%">Giá bán</th>
+                    <th style="width: 10%">Số lượng</th>
+                    <th style="width: 15%">Tổng Giá</th>
+                </tr>
+            </thead>
+            <?php foreach ($arrDetailOrder as $keyOrder => $valueOrder): ?>
+                <tr>
+                    <td class="title-main"><?php echo $valueOrder['prod_name']; ?></td>
+                    <td><?php echo number_format($valueOrder['prod_price']); ?> VNĐ</td>
+                    <td><?php echo $valueOrder['prod_quantity']; ?></td>
+                    <td><?php echo number_format($valueOrder['total_price']); ?> VNĐ</td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="total">
+            <p>Thành tiền (Đã bao gồm VAT): <span><?php echo number_format($arrOrder['orde_total_price']); ?> VNĐ</span></p>
+            <p>Giao hàng miễn phí toàn quốc</p>
+            <p>Đổi trả hàng trong 14 ngày</p>
+        </div>
+        <div><a href="<?php echo $this->serverUrl();?>"><button class=" btn-next">TIẾP TỤC MUA HÀNG &gt;&gt; </button></a></div>
+    </div>
+    <div style="clear: both"></div>
+</div>

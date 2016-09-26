@@ -1,0 +1,124 @@
+<?php
+use My\General;
+$gender = General::getGender();
+?>
+<div id="register-frame" style="display: none;">
+    <div class="line-head">
+        <label>Đăng ký</label>           
+    </div>
+    <div class="error">
+        <span class="error-display error-rgServer"></span>
+    </div>
+    <div class="register-frame">
+        <div class="ui-formRow ">
+            <label class="label">Họ tên <span class="required">*</span></label>                            
+            <div class="collection">
+                <input id="login-popup-email" class="rgFullname"><br>
+                <span class="error-display error-rgFullname"></span>
+            </div>
+        </div>
+        <div class="ui-formRow ">
+            <label class="label">E-Mail <span class="required">*</span></label>                            
+            <div class="collection">
+                <input id="login-popup-email" class="rgEmail"><br>
+                <span class="error-display error-rgEmail"></span>
+            </div>
+        </div>  
+        <div class="ui-formRow">
+            <label class="label">Mật khẩu <span class="required">*</span></label>
+            <div  class="collection">
+
+                <input type="password" id="login-popup-pass" class="ui-inputPassword error rgPassword">   <br>                           
+                <span class="error-display error-rgPassword"></span>                            
+
+            </div>
+        </div>
+        <div class="ui-formRow">
+            <label class="label">Nhập lại mật khẩu<span class="required">*</span></label>
+            <div  class="collection">
+
+                <input type="password" id="login-popup-pass" class="ui-inputPassword error rgRe-Password">   <br>                           
+                <span class="error-display error-rgRePassword"></span>                          
+            </div>
+        </div>
+
+        <div class="ui-formRow ">
+            <label class="label">Số điện thoại <span class="required">*</span></label>                            
+            <div class="collection">
+                <input type="text" id="login-popup-email" class="rgPhone"><br>
+                <span class="error-display error-rgPhone"></span>
+
+            </div>
+        </div>
+
+        <div class="ui-formRow ui-submmit-field">
+            <div class="button-login">
+                <button type="submit" class="ui-button btnsignup" onclick="Account.register();"><span>Đăng ký</span></button>
+            </div>
+        </div> 
+    </div>              
+</div>
+
+<div id="login-frame" style="display: none;">
+    <div class="line-head">
+        <label>Đăng nhập</label>           
+    </div>
+    <div class="error">
+        <span class="error-display error-lgServer"></span>
+    </div>
+    <div class="login-frame">
+        <div class="ui-formRow ">
+            <label class="label">E-Mail hoặc Tài khoản <span class="required">*</span></label>                            
+            <div class="collection">
+                <input id="login-popup-email" class="userName" <?php if (isset($_COOKIE['cookieUser'])) { ?> value="<?php echo unserialize($_COOKIE['cookieUser'])['Username']; ?>"<?php } ?> /><br>
+                <span class="error-display error-Username"></span>
+            </div>
+        </div>
+        <div class="ui-formRow">
+            <label class="label">Mật khẩu <span class="required">*</span></label>
+            <div  class="collection">
+                <input type="password" id="login-popup-pass" class="ui-inputPassword password" <?php if (isset($_COOKIE['cookieUser'])) { ?> value="<?php echo unserialize($_COOKIE['cookieUser'])['Password']; ?>"<?php } ?>>   <br>                           
+                <span class="error-display error-Password"></span> 
+                <input class="remember" type="checkbox" <?php if (isset($_COOKIE['cookieUser'])) { ?>checked<?php } ?>> Ghi nhớ mật khẩu  <br>    
+                <div class="fg-pas"> <a  rel="facebox"  class="ui-inlineBlock" href="javascript:megaPopup($('#fogot-pass-frame').html())" onclick="Account.captcha();">Lấy lại mật khẩu?</a></div>
+            </div>
+        </div>
+        <div class="ui-formRow ui-submmit-field">
+            <div class="button-login">
+                <button type="button" class="ui-button btnlogin" onclick="Account.login();"><span>Đăng nhập</span></button>
+            </div>
+        </div> 
+    </div>              
+</div>
+
+<div id="fogot-pass-frame" style="display: none;">
+    <div class="line-head">
+        <label>Lấy lại mật khẩu</label>           
+    </div>
+    <div class="error">
+        <span class="error-display error-rsServer"></span>
+    </div>
+    <div class="login-frame">
+        <div class="ui-formRow ">
+            <label class="label">E-Mail <span class="required">*</span></label>                            
+            <div class="collection">
+                <input id="login-popup-email" class="rsEmail"><br>
+                <span class="error-display error-rsEmail"></span>
+            </div>
+        </div>
+        <div class="ui-formRow ">
+            <label class="label">Mã xác nhận <span class="required">*</span></label>                            
+            <div class="collection">
+                <input id="login-popup-email" class="rsCaptcha" style="width: 100px;" placeholder="Nhập mã xác nhận">
+                <img class="imgCaptcha" style="margin-bottom:-10px;" src=""/>
+                <img title="Lấy mã mới" onclick="Account.refreshCaptcha();" style="cursor: pointer;margin-bottom:-10px;" width="25px" height="30px" src="<?php echo STATIC_URL . '/f/v1/images/refresh2.png' ?>"><br>
+                <span class="error-display error-rsCaptcha"></span>
+            </div>
+        </div> 
+        <div class="ui-formRow ui-submmit-field">
+            <div class="button-login">
+                <button type="submit" class="ui-button"  onclick="Account.resetpass();"><span>Lấy mật khẩu</span></button>
+            </div>
+        </div> 
+    </div>              
+</div>

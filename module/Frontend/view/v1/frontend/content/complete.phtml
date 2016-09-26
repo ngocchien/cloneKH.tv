@@ -1,0 +1,49 @@
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <?php if ($this->completeSession->type == 'add'): ?>
+                    <h1>ĐĂNG TIN RAO VẶT THÀNH CÔNG </h1>
+                <?php else: ?>
+                    <h1>CHỈNH SỬA RAO VẶT THÀNH CÔNG </h1>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<section id="detail">
+    <div class="container">
+        <section class="wrapper site-min-height">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="ads-detail">
+                            <div class="account-overview">
+                                <div class="row">
+                                    <div class="col-md-12 border-detail">
+                                        <div id="form">
+                                            <div class="alert alert-success alert-block fade in">
+                                                <?php if ($this->completeSession['type'] == 'add'): ?>
+                                                    <h4><i class="fa fa-thumbs-o-up"></i> Chúc mừng bạn đã đăng tin rao vặt thành công!</h4>
+                                                <?php else: ?>
+                                                    <h4><i class="fa fa-thumbs-o-up"></i> Chúc mừng bạn chỉnh sửa tin rao vặt thành công!</h4>
+                                                <?php endif; ?>
+                                                <h4><i class="fa fa fa-bullhorn"></i> Tiêu đề : <?php echo $this->completeSession['title']; ?></h4>
+                                                <p>- Bạn có thể click vào đây để <a href="<?php echo $this->serverUrl() . $this->Url('view-content', array('contentSlug' => $this->completeSession['title_slug'], 'contentId' => $this->completeSession['id'])) ?>">xem chi tiết</a></p>
+                                                <p>- Hoặc Bạn có thể click vào đây để <a href="">chỉnh sửa</a></p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <?php echo $this->render('frontend/nav-ads-right'); ?>
+                    </div>
+                </div>
+            </div>
+        </section><!--end details-->
+    </div>
+</section>

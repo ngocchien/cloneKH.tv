@@ -1,0 +1,91 @@
+<?php
+$methodRecharge = \My\General::getMethodRecharge();
+?>
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h1>TÀI KHOẢN </h1>
+                <h4>LỊCH SỬ GIAO DỊCH</h4>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<section id="detail">
+    <div class="container">
+        <section class="wrapper site-min-height">
+            <div class="container">
+                <div class="row">
+                    <?php echo $this->render('frontend/nav-user-left'); ?>
+                    <div class="col-md-9">
+                        <div class="sidebar">
+                            <section class="panel panel-success">
+                                <div class="panel-body">    
+                                    <div class="adv-table editable-table ">  
+                                        <section id="unseen">
+                                            <table class="table table-bordered table-hover table-striped table-condensed cf">
+                                                <thead class="cf">
+                                                    <tr>
+                                                        <th class="text-center"><i class="fa fa-barcode"  aria-hidden="true"></i> Mã</th>
+                                                        <th class="text-center"><i class="fa fa-calendar-o" aria-hidden="true"></i> Ngày</th>
+                                                        <th class="text-center">Chi tiết</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    if ($this->arrTranList):
+                                                        foreach ($this->arrTranList as $tran):
+                                                            if ($tran['tran_type'] == \My\General::TRANS_INPUT) {
+                                                                $content = 'Nạp tiền vào tài khoản<br/>'
+                                                                        . 'Loại thẻ : ' . $methodRecharge[$tran['soucre_id']] . '<br/>'
+                                                                        . 'Mệnh giá : ' . number_format($tran['tran_deal'], 0, ",", ".");
+                                                            } else {
+                                                                $img = $tran['vip_type'] == \My\General::VIP_ALL_PAGE ? \My\General::IMAGE_SVIP : \My\General::IMAGE_VIP;
+                                                                $content = '<b class="color-red">Mua víp tin</b><br/>'
+                                                                        . 'Loại víp : <img src="' . $img . '"><br/>'
+                                                                        . 'Mã tin : <b class="color-red">RV' . sprintf("%04d", $tran['cont_id']) . '</b><br/>'
+                                                                        . 'Số tiền :<b class="color-red">' . number_format($tran['tran_deal'], 0, ",", ".") . '</b>';
+                                                            }
+                                                            ?>
+                                                            <tr>
+                                                                <td class="text-center">
+                                                                    <b>GD<?php echo sprintf("%04d", $tran['tran_id']); ?></b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <?php echo date('H:i d/m', $tran['created_date']); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $arrContent['cont_id']]); ?>" style="text-decoration: none">
+                                                                        <b><?php echo $arrContent['cont_title']; ?></b>
+                                                                    </a>
+                                                                    <div class="border-detail form-control timeline-desk">
+                                                                        <p style="color: blue"><?php echo $content; ?></p> 
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                        <tr><td colspan="5" class="text-center">Chưa có giao dịch nào cả.</td></tr>
+                                                    <?php endif; ?>
+                                                </tbody>
+                                            </table>
+                                        </section>
+                                    </div>
+                                    <div>
+                                        <?php echo $this->paging; ?>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!--end details-->
+    </div>
+</section>
+<script>
+    var deletePostURL = '<?php echo $this->serverUrl() . $this->Url('delete-content'); ?>';
+    dealVipURL = '<?php echo $this->serverUrl() . $this->Url('deal-vip-content'); ?>';
+    refreshContentURL = '<?php echo $this->serverUrl() . $this->Url('refresh-content'); ?>';
+    User.listPost();
+</script>

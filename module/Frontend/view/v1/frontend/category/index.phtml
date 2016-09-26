@@ -1,0 +1,58 @@
+<div id="content" class="container">
+
+    <div id="main" class="row-fluid">
+        <div id="main-left" class="span8">
+            <div class="entry-header">
+                <h3>Danh mục: <span><?php echo $this->arrCategoryDetail['cate_name']; ?></span></h3>
+            </div><!-- .archive-header -->
+
+            <?php foreach ($this->arrContentList as $content): ?>
+                <article class="post">
+                    <h2 class="entry-title">
+                        <span class="the_title"><a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" title="<?php echo $content['cont_title'] ?>" rel="bookmark"><?php echo $content['cont_title'] ?></a></span>
+                        <?php
+                        $child_name = '';
+                        if (!empty($this->arrCategoryChildren)) {
+                            $child_name = $this->arrCategoryChildren[$content['cate_id']]['cate_name'];
+                            $url = $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryChildren[$content['cate_id']]['cate_slug'], 'cateId' => $this->arrCategoryChildren[$content['cate_id']]['cate_id']]);
+                        }
+                        ?>
+                            <?php if (!empty($child_name)): ?><span class="entry-cat"><a href="<?php echo $url; ?>" title="Xem tất cả tin <?php echo $child_name; ?>" rel="<?php echo $child_name; ?> tag"><?php echo $child_name; ?></a></span><?php endif; ?>
+                    </h2>
+                    <div class="entry-meta row-fluid">
+                        <ul class="clearfix">
+                            <li><img src="<?php echo STATIC_URL ?>/f/v1/images/time.png" alt=""><?php echo date('d/m/Y', $content['created_date']); ?></li>
+                            <li><img src="<?php echo STATIC_URL ?>/f/v1/images/view-bg.png" alt="">5726 </li>
+                            <li><img src="<?php echo STATIC_URL ?>/f/v1/images/komen.png" alt=""><a href="#" title="Comment on Lectus non rutrum pulvinar urna leo dignissim lorem">0 Comment</a></li>
+                            <li class="tagz"><img src="<?php echo STATIC_URL ?>/f/v1/images/tags-icon.png" alt=""><a href="#" rel="tag">Grid</a><br /></li>
+                        </ul>
+                    </div>						
+                    <div class="entry-content">
+                        <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" title="<?php echo $content['cont_title'] ?>" rel="bookmark">
+                            <p><img width="774" height="320" src="<?php echo $content['cont_main_image']; ?>" alt="shutterstock_134257640" /></p>
+                        </a>
+                        <p><?php echo $content['cont_desciption']; ?>
+                        <p class="moretag"><a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>"> Read more</a></p>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+            <?php echo $this->paging; ?>
+            <?php if (!empty($this->arrKeywordList)): ?>
+                <div class="entry-content">
+                    <h3>Từ khóa</h3>
+                    <?php foreach ($this->arrKeywordList as $arr_key): ?>
+                        <a href="<?php echo $this->serverUrl() . $this->Url('search', array('keySlug' => $arr_key['key_slug'])) ?>"><?php echo $arr_key['key_name']; ?></a> ,
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div><!-- #main-left -->
+
+        <div id="sidebar" class="span4">
+            <?php echo $this->render('frontend/nav-right'); ?>
+        </div><!-- sidebar -->
+
+        <div class="clearfix"></div>
+
+    </div><!-- #main -->
+
+</div>

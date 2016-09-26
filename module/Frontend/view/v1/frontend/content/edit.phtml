@@ -1,0 +1,250 @@
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h2>SỬA TIN RAO VẶT </h2>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<!--Detail -->
+<section id="detail">
+    <div class="container">
+        <section class="wrapper site-min-height">
+            <?php if ($this->errors['total']): ?>
+                <div class="alert alert-block alert-danger fade in">
+                    <button class="close close-sm" type="button" data-dismiss="alert">
+                        <i class="fa fa-times-circle"></i>
+                    </button>
+                    <h4><i class="fa fa-exclamation-triangle"></i> Lỗi!</h4>
+                    <p> - <?php echo $errors['total']; ?></p>
+                </div>
+            <?php endif; ?>
+
+            <?php
+            if ($this->success):
+                ?>
+                <div class="alert alert-success alert-block fade in">
+                    <button class="close close-sm" type="button" data-dismiss="alert">
+                        <i class="fa fa-times-circle"></i>
+                    </button>
+                    <h4><i class="fa fa-thumbs-o-up"></i> Hoàn tất!</h4>
+                    <p>- <?php echo $this->success; ?></p>
+                </div>
+            <?php endif; ?>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="ads-detail">
+                            <div class="account-overview">
+                                <h4 class="inner-heading">SỬA TIN RAO VẶT</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="form">
+                                            <form method="post">
+                                                <div class="col-sm-6 input-pad">
+                                                    <b>Chọn Danh mục</b>
+                                                    <?php if ($this->errors['category']): ?><p><b class="color-red"><?php echo $this->errors['category']; ?></b></p><?php endif; ?>
+                                                    <select class="form-control category" name="category">
+                                                        <option value="0"> Chọn danh mục</option>
+                                                        <?php
+                                                        $arrCategoryByParent = unserialize(ARR_CATEGORY_BY_PARENT);
+                                                        foreach (unserialize(ARR_CATEGORY_PARENT) as $value):
+                                                            ?>
+                                                            <option value="<?php echo $value['cate_id']; ?>" disabled><?php echo $value['cate_name']; ?></option>
+                                                            <?php
+                                                            foreach ($arrCategoryByParent[$value['cate_id']] as $val):
+                                                                ?>
+                                                                <option value="<?php echo $val['cate_id']; ?>" style="color: #0063DC" <?php echo ($params['category'] == $val['cate_id']) ? 'selected' : (($this->arrContent['cate_id'] == $val['cate_id']) ? 'selected' : ''); ?>>&nbsp;&nbsp;&nbsp;&nbsp;&#8627;&nbsp;&nbsp;<?php echo $val['cate_name']; ?></option>
+                                                                <?php
+                                                            endforeach;
+                                                            ?>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-6 padding-control select-properties" <?php if (empty($this->arrPropertiesList)): ?> style="display: none"<?php endif; ?>>
+                                                    <b>Chọn Nhu cầu</b>
+                                                    <select class="form-control properties" name="properties">
+                                                        <option value="0"> Chọn nhu cầu</option>
+                                                        <?php
+                                                        if (!empty($this->arrPropertiesList)):
+                                                            foreach ($this->arrPropertiesList as $arrProperties):
+                                                                ?>
+                                                                <option value="<?php echo $arrProperties['prop_id'] ?>" <?php echo ($params['properties'] == $arrProperties['prop_id']) ? 'selected' : ($this->arrContent['prop_id'] == $arrProperties['prop_id'] ? 'selected' : ''); ?>><?php echo $arrProperties['prop_name']; ?></option>
+                                                                <?php
+                                                            endforeach;
+                                                        endif;
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-12 padding-control">
+                                                    <div class="col-sm-6 input-pad">
+                                                        <b>Chọn Khu vực</b>
+                                                        <select class="form-control" name="location">
+                                                            <option value="0"> Toàn tỉnh</option>
+                                                            <?php
+                                                            $arrDistrict = unserialize(ARR_DISTRICT);
+                                                            foreach ($arrDistrict as $value):
+                                                                ?>
+                                                                <option value="<?php echo $value['dist_id']; ?>" <?php echo ($params['location'] == $value['dist_id']) ? 'selected' : ($this->arrContent['dist_id'] == $value['dist_id'] ? 'selected' : ''); ?>><?php echo $value['dist_name']; ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 padding-control">
+                                                    <b>Nhập tiêu đề cho tin rao vặt</b>
+                                                    <?php if ($this->errors['content_title']): ?><br/><p><b class="color-red"><?php echo $this->errors['content_title']; ?></b></p><?php endif; ?>
+                                                    <input type="text" class="form-control" name="content_title" value="<?php echo!empty($params['content_title']) ? $params['content_title'] : $this->arrContent['cont_title'] ?>"/>
+                                                </div>
+
+                                                <div class="col-sm-5 padding-control upload_file">
+                                                    <span class="fa fa-image form-control-feedback"></span>
+                                                    <label class="cabinet">
+                                                        <input type="file" class="file" placeholder="Chọn hình đại diện cho tin rao vặt">
+                                                    </label>
+                                                </div>
+
+                                                <div class="col-sm-12 padding-control list-image">
+                                                    <?php
+                                                    if (!empty($params['image_prod'])):
+                                                        foreach ($params['image_prod'] as $value):
+                                                            $arrImage = json_decode($value, true);
+                                                            ?>
+                                                            <div class="img-prod">
+                                                                <img class="prod-images" src="<?php echo $arrImage['thumbImage']['150x100']; ?>"><br/>
+                                                                <div class="pull-right">
+                                                                    <a target="_bank" href="<?php echo $arrImage['sourceImage']; ?>" class="tooltips view-images" data-placement="top" data-original-title="Xem"><i class="fa fa-search"></i></a>
+                                                                    <a class="tooltips delete-images" data-placement="top" data-original-title="Xóa"><i class="fa fa-trash-o"></i></a>
+                                                                </div>
+                                                                <input type="hidden" class="main-images" name='image_prod[]' value='<?php echo $value; ?>'/>
+                                                            </div>
+                                                            <?php
+                                                        endforeach;
+                                                    else:
+                                                        if (!empty($this->arrContent['cont_image'])):
+                                                            $arrImageList = json_decode($this->arrContent['cont_image'], true);
+                                                            foreach ($arrImageList as $value):
+                                                                $arrImage = json_decode($value, true);
+                                                                ?>
+                                                                <div class="img-prod">
+                                                                    <img class="prod-images" src="<?php echo $arrImage['thumbImage']['150x100']; ?>"><br/>
+                                                                    <div class="pull-right">
+                                                                        <a target="_bank" href="<?php echo $arrImage['sourceImage']; ?>" class="tooltips view-images" data-placement="top" data-original-title="Xem"><i class="fa fa-search"></i></a>
+                                                                        <a class="tooltips delete-images" data-placement="top" data-original-title="Xóa"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                    <input type="hidden" class="main-images" name='image_prod[]' value='<?php echo $value; ?>'/>
+                                                                </div>
+                                                                <?php
+                                                            endforeach;
+                                                        endif;
+                                                    endif;
+                                                    ?>
+                                                </div>
+
+                                                <div class="col-sm-12 padding-control">
+                                                    <p><b>Nội dung tin rao vặt</b></p>
+                                                    <?php if ($this->errors['content_content']): ?><br/><span class="color-red"><b><?php echo $this->errors['content_content']; ?></b></span><?php endif; ?>
+                                                    <textarea class="form-control editor" cols="10" rows="80" name="content_content"><?php echo!empty($params['content_content']) ? $params['content_content'] : $this->arrContent['cont_detail']; ?></textarea>
+                                                </div>
+
+                                                <div class="col-sm-12 padding-control">
+                                                    <b>Nhập tags cho tin rao vặt</b>
+                                                    <input type="text" class="form-control" name="content_tags" />
+                                                </div>
+                                                <?php if (empty(CUSTOMER_ID)): 
+                                                    $user_info = json_decode($this->arrContent['user_info'],true);
+                                                    ?>
+                                                    <div class="col-sm-12 padding-control">
+                                                        <h4 class="inner-heading">THÔNG TIN LIÊN HỆ</h4>
+                                                    </div>
+                                                    <?php if (!empty($this->errors['userInfo'])): ?>
+                                                        <div class="col-sm-12 padding-control">
+                                                            <div class="alert alert-block alert-danger fade in">
+                                                                <button class="close close-sm" type="button" data-dismiss="alert">
+                                                                    <i class="fa fa-times-circle"></i>
+                                                                </button>
+                                                                <?php foreach ($this->errors['userInfo'] as $value): ?>
+                                                                    <p> - <?php echo $value; ?></p><br/>
+                                                                <?php endforeach; ?>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <div class="col-sm-6 input-pad">
+                                                        <span class="fa fa-cc-visa form-control-feedback"></span>
+                                                        <input class="form-control" type="text" name="name" placeholder="Nhập họ và tên" value='<?php echo empty($params['name']) ? $user_info['user_fullname'] : $params['name']; ?>'>
+
+                                                    </div>
+                                                    <div class="col-sm-6 padding-control">
+                                                        <span class="fa fa-google form-control-feedback"></span>
+                                                        <input class="form-control" type="email" name="email" placeholder="Địa chỉ email" value='<?php echo empty($params['email']) ? $user_info['user_email'] : $params['email']; ?>'>
+                                                    </div>
+                                                    <div class="col-sm-6 input-pad">
+                                                        <span class="fa fa-phone form-control-feedback"></span>
+                                                        <input class="form-control" type="text" name="phone" placeholder="Số điện thoại" value='<?php echo empty($params['phone']) ? $user_info['user_phone'] : $params['phone']; ?>'>
+
+                                                    </div>
+                                                <?php endif; ?>
+                                                <div class="col-md-12 text-center" style="margin-bottom: 10px">
+                                                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> LƯU LẠI</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="sidebar">
+
+                            <!--advertisement-->
+                            <div class="side-widget">
+                                <h4 class="inner-heading">ADVERTISEMENT</h4>
+                                <div class="side-widget-adv">
+                                    <a href="#"><img src="<?php echo STATIC_URL; ?>/f/v1/images/images/advertiseimg_03.png" alt="google ads"></a>
+                                </div>
+                            </div><!--end advertisement widget-->
+
+                            <!--Tags-->
+                            <div class="side-widget">
+                                <h4 class="inner-heading">Tags</h4>
+                                <div class="tags">
+                                    <a href="#">Ads</a>
+                                    <a href="#">Design</a>
+                                    <a href="#">Classified</a>
+                                    <a href="#">PSD’s</a>
+                                    <a href="#">Advertisement</a>
+                                    <a href="#">Jobs</a>
+                                    <a href="#">Community</a>
+                                    <a href="#">Business</a>
+                                    <a href="#">Interior</a>
+                                    <a href="#">Condo</a>
+                                    <a href="#">Pet</a>
+                                    <a href="#">Shopping</a>
+                                    <a href="#">Clothing</a>
+                                    <a href="#">Vehicles</a>
+
+
+                                </div>
+                            </div><!--end tags widget-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!--end details-->
+    </div>
+</section>
+<script>
+    Content.add();
+    propURL = '<?php echo $this->serverUrl() . $this->Url('getproperties'); ?>';
+    UploadURL = '<?php echo $this->serverUrl() . $this->Url('upload', array('controller' => 'product', 'action' => 'upload')); ?>';
+    tinymce.init({
+        selector: 'textarea',
+        width: "300",
+        height: "300",
+        plugins: "image imagetools,textcolor",
+        toolbar: 'fontsizeselect,image,forecolor backcolor',
+        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
+    });
+</script>

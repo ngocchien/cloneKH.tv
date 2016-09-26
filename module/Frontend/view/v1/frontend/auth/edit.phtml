@@ -1,0 +1,165 @@
+<?php
+    use My\General;
+    $general = new General();
+    $gender = General::getGender();
+//    p($gender);die;
+?>
+
+<!--main sub page heading-->
+<section id="page-head">
+    <div class="container">
+        <div class="row col-md-12">
+            <div class="page-heading">
+                <h2>CHỈNH SỬA THÔNG TIN TÀI KHOẢN</h2>
+                <h4>Editing can be made anytime</h4>
+            </div>
+        </div>
+    </div>
+</section><!--end main page heading-->
+<!--Detail -->
+<section id="detail">
+    <div class="container">
+        <section class="wrapper site-min-height">
+    <?php if ($this->errors): ?>
+        <div class="alert alert-block alert-danger fade in">
+            <button class="close close-sm" type="button" data-dismiss="alert">
+                <i class="fa fa-times-circle"></i>
+            </button>
+            <h4><i class="fa fa-exclamation-triangle"></i> Lỗi!</h4>
+            <?php foreach ($this->errors as $error): ?>
+                <p> - <?php echo $error; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <?php
+    if ($this->success):
+        ?>
+        <div class="alert alert-success alert-block fade in">
+            <button class="close close-sm" type="button" data-dismiss="alert">
+                <i class="fa fa-times-circle"></i>
+            </button>
+            <h4><i class="fa fa-thumbs-o-up"></i> Hoàn tất!</h4>
+            <p>- <?php echo $this->success; ?></p>
+        </div>
+    <?php endif; ?>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="ads-detail">
+                    <div class="account-overview">
+                        <h4 class="inner-heading">THÔNG TIN TÀI KHOẢN</h4>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="author-account">
+                                    <div class="account-info">
+                                        <span>Số rao vặt đã đăng :</span>
+                                        <p class="text-right"><?php echo $this->intTotalProduct;?></p>
+                                    </div>
+                                    <div class="account-info">
+                                        <span>Số rao vặt víp :</span>
+                                        <p class="text-right">02</p>
+                                    </div>
+                                    <div class="account-info">
+                                        <span>Featured ads left :</span>
+                                        <p class="text-right">unlimited</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="author-avatar">
+                                    <img src="<?php echo (empty($this->arrDetailUser['user_avatar'])) ? STATIC_URL.'/f/v1/images/noavatar.jpg' : json_decode($this->arrDetailUser['user_avatar'],true)[0]['thumbImage']['120x120'] ;?>" alt="author avatar">
+                                </div>
+                                <div class="author-name">
+                                    <p><?php echo $this->arrDetailUser['user_name'];?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="form">
+                                    <form method="post">
+                                        <div class="col-sm-6 input-pad">
+                                            <span class="fa fa-user form-control-feedback"></span>
+                                            <input class="form-control" type="text" name="user_fullname" value="<?php echo (empty($this->params['user_fullname'])) ? $this->arrDetailUser['user_fullname'] : $this->params['user_fullname'];?>">
+
+                                        </div>
+                                        <div class="col-sm-6 padding-control">
+                                            <span class="fa fa-venus-mars form-control-feedback"></span>
+                                            <select class="form-control" name="user_gender">
+                                                <?php foreach($gender as $key => $value):?>
+                                                <option value="<?php echo $key;?>" <?php if($key == $this->arrDetailUser['user_gender']):?>selected<?php endif;?>>Giới tính  <?php echo $value?></option>
+                                                <?php endforeach;?>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6 input-pad">
+                                            <span class="fa fa-at form-control-feedback"></span>
+                                            <input class="form-control" type="email" name="email" value="<?php echo (empty($this->params['email'])) ? $this->arrDetailUser['user_email'] : $this->params['email'];?>">
+
+                                        </div>
+                                        <div class="col-sm-6 padding-control">
+                                            <span class="fa fa-calendar form-control-feedback"></span>
+                                            <input class="form-control" type="url" name="birthday" value="<?php echo (empty($this->params['birthday'])) ? date('d/m/Y',$this->arrDetailUser['user_created']) : $this->params['birthday'];?>" readonly>
+                                        </div>
+                                        <div class="col-sm-6 input-pad">
+                                            <span class="fa fa-phone form-control-feedback"></span>
+                                            <input class="form-control" type="text" name="user_phone" value="<?php echo  (empty($this->params['user_phone'])) ? $this->arrDetailUser['user_phone'] : $this->params['user_phone'];?>">
+
+                                        </div>
+                                        <div class="col-sm-6 padding-control">
+                                            <span class="fa fa-map-marker form-control-feedback"></span>
+                                            <input class="form-control" type="text" name="location" placeholder="Địa chỉ: Nhập Xã / Huyện" value="<?php echo (empty($this->params['location'])) ? $this->arrDetailUser['user_address'] :$this->params['location']?>">
+                                        </div>
+
+                                        <div class="col-sm-12 padding-control">
+                                            <textarea class="form-control" name="user_description" placeholder="Giới thiệu về bản thân"><?php echo (empty($this->params['user_description'])) ? $this->arrDetailUser['user_description'] : $this->params['user_description'] ;?></textarea>
+                                        </div>
+                                        <input type="submit" value="CẬP NHẬT">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+
+                    <!--advertisement-->
+                    <div class="side-widget">
+                        <h4 class="inner-heading">BANNER</h4>
+                        <div class="side-widget-adv">
+                            <a href="#"><img src="<?php echo STATIC_URL;?>/f/v1/images/images/advertiseimg_03.png" alt="google ads"></a>
+                        </div>
+                    </div><!--end advertisement widget-->
+
+                    <!--Tags-->
+                    <div class="side-widget">
+                        <h4 class="inner-heading">Tags</h4>
+                        <div class="tags">
+                            <a href="#">Ads</a>
+                            <a href="#">Design</a>
+                            <a href="#">Classified</a>
+                            <a href="#">PSD’s</a>
+                            <a href="#">Advertisement</a>
+                            <a href="#">Jobs</a>
+                            <a href="#">Community</a>
+                            <a href="#">Business</a>
+                            <a href="#">Interior</a>
+                            <a href="#">Condo</a>
+                            <a href="#">Pet</a>
+                            <a href="#">Shopping</a>
+                            <a href="#">Clothing</a>
+                            <a href="#">Vehicles</a>
+
+
+                        </div>
+                    </div><!--end tags widget-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--end details-->
+<script>
+    Auth.index();
+</script>
