@@ -4,7 +4,6 @@ namespace Backend\Controller;
 
 use My\General,
     My\Controller\MyController,
-    Zend\View\Model\ViewModel,
     Sunra\PhpSimple\HtmlDomParser;
 
 class ConsoleController extends MyController

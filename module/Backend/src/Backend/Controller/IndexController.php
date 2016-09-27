@@ -17,6 +17,7 @@ class IndexController extends MyController
 
     public function indexAction()
     {
+        return;
         $instanceSearchCategory = new \My\Search\Category();
         $arr_category = $instanceSearchCategory->getList(['cate_status' => 1], [], ['cate_sort' => ['order' => 'asc'], 'cate_id' => ['order' => 'asc']]);
         $instanceSearchContent = new \My\Search\Content();
