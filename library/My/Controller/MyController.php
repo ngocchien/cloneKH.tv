@@ -184,11 +184,9 @@ class MyController extends AbstractActionController {
                     $arrCategoryFormat[$arrCategory['cate_id']] = $arrCategory;
                 }
             }
-
             define('ARR_CATEGORY_PARENT', serialize($arrCategoryParentList));
             define('ARR_CATEGORY_BY_PARENT', serialize($arrCategoryByParent));
             define('ARR_CATEGORY', serialize($arrCategoryFormat));
-
             //get list new content
             $instanceSearchContent = new \My\Search\Content();
             $arr_content_news = $instanceSearchContent->getListLimit(['cont_status' => 1], 1, 15, ['created_date' => ['order' => 'desc']]);

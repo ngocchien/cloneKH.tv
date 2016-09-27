@@ -9,18 +9,19 @@ class IndexController extends MyController {
     /* @var $serviceProduct \My\Models\Product */
 
     public function __construct() {
-        $this->externalCSS = [
-            STATIC_URL . '/f/v1/css/??flexslider.css',
-        ];
-        $this->externalJS = [
-            STATIC_URL . '/f/v1/js/library/??jquery.flexslider.js',
-            STATIC_URL . '/f/v1/js/library/??jquery.flexslider.init.js',
-            STATIC_URL . '/f/v1/js/library/??jquery.bxslider.js',
-            STATIC_URL . '/f/v1/js/library/??jquery.bxslider.init.js'
-        ];
+//        $this->externalCSS = [
+//            STATIC_URL . '/f/v1/css/??flexslider.css',
+//        ];
+//        $this->externalJS = [
+//            STATIC_URL . '/f/v1/js/library/??jquery.flexslider.js',
+//            STATIC_URL . '/f/v1/js/library/??jquery.flexslider.init.js',
+//            STATIC_URL . '/f/v1/js/library/??jquery.bxslider.js',
+//            STATIC_URL . '/f/v1/js/library/??jquery.bxslider.init.js'
+//        ];
     }
 
     public function indexAction() {
+        return;
         $params = $this->params()->fromRoute();
 
         $arrCategoryParentList = unserialize(ARR_CATEGORY_PARENT);

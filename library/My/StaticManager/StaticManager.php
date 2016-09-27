@@ -25,8 +25,8 @@ class StaticManager {
         list($strModule, $strController, $strAction) = explode(':', $strResource);
         switch ($strModule) {
             case 'frontend':
-                $this->arrData['css']['defaultCSS'] = STATIC_URL . '/f/' . FRONTEND_TEMPLATE . '/css/??style.css,swipemenu.css,bootstrap.css,bootstrap-responsive.css,jquery.simplyscroll.css,jPages.css,jquery.rating.css,ie.css';
-                $this->arrData['js']['defaultJS'] = STATIC_URL . '/f/' . FRONTEND_TEMPLATE . '/js/library/??jquery-1.10.2.min.js,html5.js,bootstrap.min.js,jquery.rating.js,jquery.idTabs.min.js,jquery.simplyscroll.js,fluidvids.min.js,jPages.js,jquery.sidr.min.js,jquery.touchSwipe.min.js,custom.js';
+                $this->arrData['css']['defaultCSS'] = STATIC_URL . '/f/' . FRONTEND_TEMPLATE . '/css/??theme.min.css';
+                $this->arrData['js']['defaultJS'] = STATIC_URL . '/f/' . FRONTEND_TEMPLATE . '/js/library/??jquery.min.js,jquery.validate.min.js,jquery.validate.unobtrusive.min.js,jquery.raty.min.js,jquery.waypoints.min.js,jquery.sticky.min.js,jquery.bxslider.min.js,main.min.js';
                 break;
             case 'backend':
                 $this->arrData['css']['defaultCSS'] = STATIC_URL . '/b/css/??bootstrap.min.css,bootstrap-reset.css,font-awesome.css,style.css,style-responsive.css,datepicker.css';

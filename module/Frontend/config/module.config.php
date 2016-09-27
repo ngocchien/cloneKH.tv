@@ -253,6 +253,7 @@ return array(
             'frontend/auth/reset-password' => __DIR__ . '/../view/' . FRONTEND_TEMPLATE . '/frontend/auth/reset-password.phtml',
             'frontend/nav-user-left' => __DIR__ . '/../view/' . FRONTEND_TEMPLATE . '/layout/nav-user-left.phtml',
             'frontend/nav-right' => __DIR__ . '/../view/' . FRONTEND_TEMPLATE . '/layout/nav-right.phtml',
+            'frontend/nav-left' => __DIR__ . '/../view/' . FRONTEND_TEMPLATE . '/layout/nav-left.phtml',
             'frontend/content/add-comment' => __DIR__ . '/../view/' . FRONTEND_TEMPLATE . '/frontend/content/add-comment.phtml',
             'frontend/email-messages' => __DIR__ . '/../view/' . FRONTEND_TEMPLATE . '/layout/email-messages.phtml',
             'frontend/footer-email' => __DIR__ . '/../view/' . FRONTEND_TEMPLATE . '/layout/footer-email.phtml',

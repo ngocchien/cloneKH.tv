@@ -4,14 +4,14 @@ namespace My;
 
 class General {
 
-    const SITE_DOMAIN_FULL = 'http://tin247.mobi';
-    const TITLE_META = " || Tin247.mobi";
-    const SITE_AUTH = "Tin247.mobi";
-    const SITE_DOMAIN = 'Tin247.mobi';
+    const SITE_DOMAIN_FULL = 'http://khampha.net';
+    const TITLE_META = " - Khampha.net";
+    const SITE_AUTH = "Khampha.net";
+    const SITE_DOMAIN = 'Khampha.net';
     const SITE_SLOGAN = 'Cập nhật tin tức nhanh nhất';
     const SITE_HOTLINE = '(+84) 97 353 1618';
-    const KEYWORD_DEFAULT = 'tin247.mobi, tin147, cap nhat tin tuc nhanh nhat, tin nhanh 24h, tin tuc gioi tre, tin 24h qua, cap nhat tin tuc, tin nhanh trong ngay, tin tuc the thao, tin van hoa, tin giai tri, tin thoi trang, tin trong nuoc va the gioi, tin nong trong ngay';
-    const DESCRIPTION_DEFAULT = 'tin247.mobi - Cập nhật tin tức nhanh nhất, cập nhật nhanh nhất tình tình trong và ngoại nước, tổng hợp các vấn đề nóng nhất, Cập nhật tin tức thể thao, tin ngoại hạng';
+    const KEYWORD_DEFAULT = 'Khampha.net, khampha, cap nhat tin tuc nhanh nhat, tin nhanh 24h, tin tuc gioi tre, tin 24h qua, cap nhat tin tuc, tin nhanh trong ngay, tin tuc the thao, tin van hoa, tin giai tri, tin thoi trang, tin trong nuoc va the gioi, tin nong trong ngay';
+    const DESCRIPTION_DEFAULT = 'Khampha.net - Cập nhật tin tức nhanh nhất, cập nhật nhanh nhất tình tình trong và ngoại nước, tổng hợp các vấn đề nóng nhất, Cập nhật tin tức thể thao, tin ngoại hạng';
     const SITE_IMAGES_DEFAULT = 'http://static.tintuc.bestquynhon.com/f/v1/images/home.png';
     const SITE_SOCIAL = 'https://www.facebook.com/tin247.mobi';
     const SITE_LOCATION = "";
@@ -328,11 +328,6 @@ class General {
      * @return \Elastica\Client
      */
     public static function getSearchConfig() {
-
-//        $port = (APPLICATION_ENV === 'production') ? 9210 : 9200;
-//        if (in_array('isdev', $_SERVER['argv'])) {
-//            $port = 9200;
-//        }
         $port = 9200;
         $client = new \Elastica\Client(
                 array('servers' => array(
