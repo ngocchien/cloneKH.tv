@@ -187,23 +187,19 @@ class MyController extends AbstractActionController {
             define('ARR_CATEGORY_PARENT', serialize($arrCategoryParentList));
             define('ARR_CATEGORY_BY_PARENT', serialize($arrCategoryByParent));
             define('ARR_CATEGORY', serialize($arrCategoryFormat));
-            //get list new content
+
+            //get list content hot
             $instanceSearchContent = new \My\Search\Content();
-            $arr_content_news = $instanceSearchContent->getListLimit(['cont_status' => 1], 1, 15, ['created_date' => ['order' => 'desc']]);
+            $arr_content_hot = $instanceSearchContent->getListLimit(['cont_status' => 1], 1, 10, ['cont_views' => ['order' => 'desc']]);
+            define('ARR_CONTENT_HOT_LIST', serialize($arr_content_hot));
 
-            //top 14 in YEAR
-            $arrContentHotYear = $instanceSearchContent->getListLimit(['cont_status' => 1, 'more_created_date' => time() - (60 * 60 * 24 * 365)], 1, 14, ['cont_views' => ['order' => 'desc']]);
-
-            define('ARR_NEWS_LIST', serialize($arr_content_news));
-            define('ARR_TOP_4_YEAR', serialize($arrContentHotYear));
-
-            //Lay 20 keyword dau
+            //50 KEYWORD :)
             $instanceSearchKeyword = new \My\Search\Keyword();
-            $arr_20_keyword = $instanceSearchKeyword->getListLimit(['is_crawler'=>1],1,20,['key_id'=>['order'=>'asc']]);
-            define('ARR_20_KEYWORD', serialize($arr_20_keyword));
+            $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => 'khám phá'], 1, 50, ['_score' => ['order' => 'desc']]);
+            define('ARR_KEYWORD_ALL_PAGE', serialize($arrKeywordList));
 
-            unset($arr_20_keyword);
-            unset($arr_content_news);
+            unset($arrKeywordList);
+            unset($arr_content_hot);
             unset($instanceSearchCategory);
             unset($arrCategory);
             unset($arrCategoryParentList);

@@ -12,9 +12,11 @@ namespace My\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-class Paging extends AbstractHelper {
+class Paging extends AbstractHelper
+{
 
-    public function __invoke($strModule, $strController, $strAction, $intTotal, $intCurrentPage, $intLimit, $strRoute, $arrParams = array()) {
+    public function __invoke($strModule, $strController, $strAction, $intTotal, $intCurrentPage, $intLimit, $strRoute, $arrParams = array())
+    {
         $paging = $this->paging($strModule, $strController, $strAction, $intTotal, $intCurrentPage, $intLimit, $strRoute, $arrParams);
         return $paging;
     }
@@ -31,12 +33,13 @@ class Paging extends AbstractHelper {
      * @param <string> $strRoute
      * @return <string> $result
      */
-    public function paging($strModule, $strController, $strAction, $intTotal = 0, $intCurrentPage = 1, $intLimit = 15, $strRoute = null, $arrParams = array(), $str = 'kết quả') {
+    public function paging($strModule, $strController, $strAction, $intTotal = 0, $intCurrentPage = 1, $intLimit = 15, $strRoute = null, $arrParams = array(), $str = 'kết quả')
+    {
         $result = '';
         $urlHelper = '';
-        $intTotal = (int) $intTotal;
-        $intCurrentPage = (int) $intCurrentPage;
-        $intLimit = (int) $intLimit;
+        $intTotal = (int)$intTotal;
+        $intCurrentPage = (int)$intCurrentPage;
+        $intLimit = (int)$intLimit;
         $strModule = strtolower($strModule);
         $strController = $strController;
         $strAction = strtolower($strAction);
@@ -51,10 +54,9 @@ class Paging extends AbstractHelper {
 //        p($urlHelper);die;
         $arrCondition = array('controller' => $strController, 'action' => $strAction, 'page' => $intCurrentPage);
         $arrCondition = $arrParams ? $arrCondition + $arrParams : $arrCondition;
-    
 
 
-        if ($strModule === 'backend'||$strModule === 'partner') {
+        if ($strModule === 'backend' || $strModule === 'partner') {
             $serverUrl = $urlHelper('home', array(), array('force_canonical' => true));
             $serverUrl = substr($serverUrl, 0, -1);
             $result .= '<div style="text-align:right;" class="row">';
@@ -89,7 +91,7 @@ class Paging extends AbstractHelper {
                 $result .= '<li   style="margin: 0 2px;border:0px;"><a href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">Cuối »</a></li>';
             }
             $result .= '</ul></div>';
-            $result .='<div style="text-align:right;">';
+            $result .= '<div style="text-align:right;">';
             $from = ($intLimit * ($intCurrentPage - 1)) + 1;
             $tmp1 = 'Hiển thị từ ' . $from . ' đến ';
             $tmp2 = ($intLimit * $intCurrentPage > $intTotal) ? number_format($intTotal, 0, ',', '.') : $intLimit * $intCurrentPage;
@@ -141,41 +143,42 @@ class Paging extends AbstractHelper {
 //            }
 //           
 //            $result .= '</ul></div></div>';
-            
+
+
             $serverUrl = $urlHelper('home', array(), array('force_canonical' => true));
             $serverUrl = substr($serverUrl, 0, -1);
-            $result .= '<div class="pagination magz-pagination">';
+            $result .= '<div class="pagination-container"><ul class="pagination">';
             if ($intCurrentPage == 1) {
                 $intPage = 1;
-                $intLimitPage = 10;
+                $intLimitPage = 4;
             } else {
-                $intPage = ($intCurrentPage > 5) ? ($intCurrentPage == $intTotalPage && $intTotalPage > 10) ? $intCurrentPage - 10 : $intCurrentPage - 5 : 1;
-                $intLimitPage = ($intTotalPage < 11) ? $intTotalPage : $intCurrentPage + 5;
+                $intPage = ($intCurrentPage > 2) ? ($intCurrentPage == $intTotalPage && $intTotalPage > 4) ? $intCurrentPage - 4 : $intCurrentPage - 2 : 1;
+                $intLimitPage = ($intTotalPage < 6) ? $intTotalPage : $intCurrentPage + 2;
                 $arrCondition['page'] = 1;
-                $result .= '<a class="prev page-numbers" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '"><< đầu</a>';
+                $result .= '<li><a class="prev page-numbers" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '"><< đầu</a></li>';
                 $arrCondition['page'] = $intCurrentPage - 1;
-                $result .= '<a class="prev page-numbers" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">trước</a>';
-           
-                }
+                $result .= '<li class="PagedList-skipToPrevious"><a rel="prev" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">trước</a></li>';
+
+            }
             for ($intPage; $intPage <= $intTotalPage && $intPage <= $intLimitPage; $intPage++) {
                 $arrCondition['page'] = $intPage;
                 if ($intPage == $intCurrentPage) {
-                    $result .= '<span class="page-numbers current">' . $intPage . '</span>';
+                    $result .= '<li class="active"><a>' . $intPage . '</a></li>';
                 } else {
-                    $result .= '<a class="page-numbers" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">' . $intPage . '</a>';
+                    $result .= '<li><a href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">' . $intPage . '</a></li>';
                 }
             }
             if ($intCurrentPage == $intTotalPage) {
                 $result .= '';
             } else {
                 $arrCondition['page'] = $intCurrentPage + 1;
-                $result .= '<a class="next page-numbers" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">sau</a>';
+                $result .= '<li class="PagedList-skipToNext"><a href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">sau</a></li>';
                 $arrCondition['page'] = $intTotalPage;
-                $result .= '<a class="next page-numbers" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">cuối >></a>';
+                $result .= '<li><a class="next page-numbers" href="' . $serverUrl . $urlHelper($strRoute, $arrCondition) . '">cuối >></a></li>';
             }
-           
-            $result .= '</div>';
-            
+
+            $result .= '</ul></div>';
+
         } elseif ($strModule === 'blog') {
             if ($intCurrentPage == 1) {
                 $intPage = 1;

@@ -1,252 +1,80 @@
-<!--<div id="content" class="container">-->
-<!---->
-<!--    <div id="main" class="row-fluid">-->
-<!--        <div id="main-left" class="span8">-->
-<!--            <div id="slider" class="clearfix">-->
-<!--                <div id="slide-left" class="flexslider span8">-->
-<!--                    <ul class="slides">-->
-<!--                        --><?php
-//                        $i = 0;
-//                        foreach ($this->arr_new_list as $content):
-//                            ?>
-<!--                            <li data-thumb="--><?php //echo $content['cont_main_image']; ?><!--">-->
-<!--                                <a href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="--><?php //echo $content['cont_title']; ?><!--" rel="bookmark">-->
-<!--                                    <img style="width: 546px; height: 291px" width="546" height="291" src="--><?php //echo $content['cont_main_image']; ?><!--" alt="--><?php //echo $content['cont_slug']; ?><!--" />-->
-<!--                                </a>-->
-<!--                                <div class="entry">-->
-<!--                                    <h4>--><?php //echo $content['cont_title']; ?><!--</h4>-->
-<!--                                    <p>--><?php //echo $content['cont_desciption']; ?><!--</p>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            --><?php
-//                            $i++;
-//                            if ($i == 4) {
-//                                break;
-//                            }
-//                        endforeach;
-//                        ?>
-<!--                    </ul>-->
-<!--                </div>-->
-<!---->
-<!--                <div id="slide-right" class="span4">-->
-<!--                    <h3>Xem nhiều</h3>-->
-<!--                    <ul>-->
-<!--                        --><?php //foreach ($this->arr_top_4_week as $content): ?>
-<!--                            <li><a href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="--><?php //echo $content['cont_title'] ?><!--" rel="bookmark"><h4 class="post-title">--><?php //echo $content['cont_title'] ?><!--</h4></a></li>-->
-<!--                        --><?php //endforeach; ?>
-<!--                    </ul><div class="clear"></div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!---->
-<!--            --><?php
-//            $i = 0;
-//            $count_cate = count($this->arrCategoryParentList);
-//            foreach ($this->arrCategoryParentList as $cate):
-//                if ($i % 2 == 0):
-//                    ?>
-<!--                    <div id="home-middle" class="clearfix">-->
-<!--                        <div class="left span6">-->
-<!--                        --><?php //else: ?>
-<!--                            <div class="right span6">-->
-<!--                            --><?php //endif; ?>
-<!--                            <h3 class="title"><a href="--><?php //echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $cate['cate_slug'], 'cateId' => $cate['cate_id']]) ?><!--" title="--><?php //echo $cate['cate_name']; ?><!--"><span>--><?php //echo $cate['cate_name']; ?><!--</span></a></h3>-->
-<!--                            <div class="row-fluid">-->
-<!--                                --><?php //foreach ($this->arr_new_by_cate[$cate['cate_id']] as $key => $content): ?>
-<!--                                    --><?php //if ($key == 0): ?>
-<!--                                        <article class="post">-->
-<!--                                            <a class="image_thumb_zoom" href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="--><?php //echo $content['cont_title']; ?><!--" rel="bookmark">-->
-<!--                                                <img style="width: 371px;height: 177px" src="--><?php //echo $content['cont_main_image']; ?><!--" class="attachment-post-first wp-post-image" alt="--><?php //echo $content['cont_slug']; ?><!--" />-->
-<!--                                            </a>-->
-<!--                                            <h4 class="post-title">-->
-<!--                                                <a href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="--><?php //echo $content['cont_title']; ?><!--" rel="bookmark">--><?php //echo strlen($content['cont_title']) < 55 ? $content['cont_title'] : substr($content['cont_title'], 0, 51) . ' ...'; ?><!--</a>-->
-<!--                                                <span class="date">--><?php //echo date('d/m/Y', $content['created_date']); ?><!--</span>-->
-<!--                                            </h4>-->
-<!--                                            <p>--><?php //echo strlen($content['cont_desciption']) < 140 ? $content['cont_desciption'] : substr($content['cont_desciption'], 0, 136) . ' ...'; ?><!--</p>-->
-<!--                                        </article>-->
-<!--                                    --><?php //else: ?>
-<!--                                        <article class="post">-->
-<!--                                            <div class="entry clearfix">-->
-<!--                                                <a href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="--><?php //echo $content['cont_title']; ?><!--" rel="bookmark">-->
-<!--                                                    <img style="width: 91px;height: 55px"width="225" height="136" src="--><?php //echo $content['cont_main_image']; ?><!--" class="thumb" alt="--><?php //echo $content['cont_slug']; ?><!--" />-->
-<!--                                                    <h4 class="post-title">--><?php //echo strlen($content['cont_title']) < 50 ? $content['cont_title'] : substr($content['cont_title'], 0, 46) . ' ...'; ?><!--</h4>-->
-<!--                                                </a>-->
-<!--                                                <p>--><?php //echo strlen($content['cont_desciption']) < 50 ? $content['cont_desciption'] : substr($content['cont_desciption'], 0, 46) . ' ...'; ?><!--</p>-->
-<!--                                                <div class="meta">-->
-<!--                                                    <span class="date">--><?php //echo date('d/m/Y', $content['created_date']); ?><!--</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </article>-->
-<!--                                    --><?php //endif; ?>
-<!--                                --><?php //endforeach; ?>
-<!--                                <div class="clearfix"></div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        --><?php //if (($i + 1) % 2 == 0 || ($i + 2 == $count_cate && $count_cate % 2 != 0) || $i + 1 == $count_cate): ?>
-<!--                        </div>-->
-<!--                    --><?php //endif; ?>
-<!--                    --><?php
-//                    if (($count_cate % 2 != 0 && $i + 2 == $count_cate)) {
-//                        break;
-//                    }
-//                    $i++;
-//                endforeach;
-//                ?>
-<!--<!--            </div>-->-->
-<!--            --><?php
-//            if ($count_cate % 2 != 0):
-//                $end_category = end($this->arrCategoryParentList);
-//                ?>
-<!--                <div id="home-bottom" class="clearfix">-->
-<!--                    <h3 class="title"><a href="--><?php //echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $end_category['cate_slug'], 'cateId' => $end_category['cate_id']]) ?><!--" title="--><?php //echo $end_category['cate_name']; ?><!--"><span>--><?php //echo $end_category['cate_name']; ?><!--</span></a></h3>-->
-<!--                    <div class="row-fluid">-->
-<!--                        --><?php
-//                        foreach ($this->arr_new_by_cate[$end_category['cate_id']] as $key => $content):
-//                            if ($key == 0):
-//                                ?>
-<!--                                <div class="span6">-->
-<!--                                    <article class="post">-->
-<!--                                        <a class="image_thumb_zoom" href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="--><?php //echo $content['cont_title']; ?><!--" rel="bookmark">-->
-<!--                                            <img style="width: 371px; height: 177px" src="--><?php //echo $content['cont_main_image']; ?><!--" alt="shutterstock_134257640" />-->
-<!--                                        </a>-->
-<!--                                        <h4 class="post-title">-->
-<!--                                            <a href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="--><?php //echo $content['cont_title']; ?><!--" rel="bookmark">--><?php //echo $content['cont_title']; ?><!--</a>-->
-<!--                                            <span class="date">--><?php //echo date('d/m/Y', $content['created_date']); ?><!--</span>-->
-<!--                                        </h4>-->
-<!--                                        <p>--><?php //echo strlen($content['cont_desciption']) < 140 ? $content['cont_desciption'] : substr($content['cont_desciption'], 0, 136) . ' ...'; ?><!--</p>-->
-<!--                                    </article>-->
-<!--                                </div>-->
-<!--                            --><?php //else: ?>
-<!--                                <div class="span6">-->
-<!--                                    <article class="post">-->
-<!--                                        <div class="entry clearfix">-->
-<!--                                            <a href="--><?php //echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?><!--" title="Permalink to Suspen disse auctor dapibus neque pulvinar urna leo" rel="bookmark">-->
-<!--                                                <img style="width: 91px; height: 55px" src="--><?php //echo $content['cont_main_image']; ?><!--" class="thumb" alt="--><?php //echo $content['cont_title']; ?><!--" />-->
-<!--                                                <h4 class="post-title">--><?php //echo $content['cont_title']; ?><!--</h4>-->
-<!--                                            </a>-->
-<!--                                            <p>--><?php //echo strlen($content['cont_desciption']) < 50 ? $content['cont_desciption'] : substr($content['cont_desciption'], 0, 46) . ' ...'; ?><!--</p>-->
-<!--                                            <div class="meta">-->
-<!--                                                <span class="date">--><?php //echo date('d/m/Y', $content['created_date']); ?><!--</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </article>-->
-<!--                                    <div class="clearfix"></div>-->
-<!--                                </div>-->
-<!--                            --><?php
-//                            endif;
-//                        endforeach;
-//                        ?>
-<!--                    </div>-->
-<!--                </div>-->
-<!--            --><?php //endif; ?>
-<!---->
-<!--        </div><!-- #main-left -->-->
-<!---->
-<!--        <div id="sidebar" class="span4">-->
-<!--            --><?php //echo $this->render('frontend/nav-right'); ?>
-<!--        </div><!-- sidebar -->-->
-<!---->
-<!--        <div class="clearfix"></div>-->
-<!---->
-<!--<!--        <div id="gallery">-->-->
-<!--<!--            <h3 class="title"><span>All News Gallery</span></h3>-->-->
-<!--<!--            <ul class="gallery">-->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Fusce pellentesque suscipit nibh massa porta molestie iaculis" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/shutterstock_58382248-225x136.jpg" alt="shutterstock_58382248" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Fusce pellentesque suscipit nibh massa porta molestie iaculis" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Text post" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/text.png"> Fusce pellentesque suscipit nibh ma...</h4></a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 30, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!---->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Praesent placerat risus quis pellentesque suscipit nibh ultricies nulla" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/shutterstock_70184773-225x136.jpg" alt="shutterstock_70184773" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Praesent placerat risus quis pellentesque suscipit nibh ultricies nulla" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Gallery post" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/image.png"> Praesent placerat risus quis pellen...</h4>-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 30, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!---->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Integer malesuada commodo nulla ligula vulputate sem tristique" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/shutterstock_109209743-225x136.jpg" alt="shutterstock_109209743" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Integer malesuada commodo nulla ligula vulputate sem tristique" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Photo" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/photo.png"> Integer malesuada commodo nulla lig...</h4>-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 30, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!---->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Vestibulum volutpat tortor libero sodales leo mauris ut lectus" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/photodune-3517559-idea-s-225x136.jpg" alt="photodune-3517559-idea-s" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Vestibulum volutpat tortor libero sodales leo mauris ut lectus" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Video post" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/vid.png"> Vestibulum volutpat tortor libero s...</h4>-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 30, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!---->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Fusce accumsan mollis eros amet interdum consectetuer" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/shutterstock_2114081-225x136.jpg" alt="shutterstock_2114081" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Fusce accumsan mollis eros amet interdum consectetuer" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Text post" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/text.png"> Fusce accumsan mollis eros amet int...</h4>-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 30, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!---->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Quisque fermentum penatibus et magnis dis parturient montes" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/shutterstock_58382248-225x136.jpg" alt="shutterstock_58382248" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Quisque fermentum penatibus et magnis dis parturient montes" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Gallery post" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/image.png"> Quisque fermentum penatibus et magn...</h4>-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 30, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!---->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Proin malesuada adipiscing lacus imperdiet nibh feugiat" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/shutterstock_134257640-225x136.jpg" alt="shutterstock_134257640" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Proin malesuada adipiscing lacus imperdiet nibh feugiat" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Photo" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/photo.png"> Proin malesuada adipiscing lacus im...</h4>-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 30, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!---->-->
-<!--<!--                <li>-->-->
-<!--<!--                    <a class="image_thumb_zoom" href="#" title="Permalink to Vivamus ultrices luctus nunc sem sit amet interdum consectetuer" rel="bookmark">-->-->
-<!--<!--                        <img width="225" height="136" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/dummy/photodune-2043745-college-student-s-225x136.jpg" alt="photodune-2043745-college-student-s" />-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <a href="#" title="Permalink to Vivamus ultrices luctus nunc sem sit amet interdum consectetuer" rel="bookmark">-->-->
-<!--<!--                        <h4 class="post-title clearfix"><img class="post-icon" alt="Video post" src="-->--><?php ////echo STATIC_URL ?><!--<!--/f/v1/images/vid.png"> Vivamus ultrices luctus nunc sem si...</h4>-->-->
-<!--<!--                    </a>-->-->
-<!--<!--                    <div class="meta clearfix">-->-->
-<!--<!--                        <span class="date">July 18, 2013</span>-->-->
-<!--<!--                    </div>-->-->
-<!--<!--                </li>-->-->
-<!--<!--            </ul>-->-->
-<!--<!--        </div>-->-->
-<!---->
-<!--    </div><!-- #main -->-->
-<!---->
-<!--</div><!-- #content -->-->
+<div class="content">
+    <div class="slider">
+        <ul>
+            <li>
+                <a href="muoi-co-thuc-su-lam-cho-nuoc-soi-nhanh-hon-binh-thuong-hay-khong-75509.html">
+                    <img class="thumb"
+                         src="<?php echo STATIC_URL; ?>/f/v1/photos/image/2016/09/26/cho-muoi-vao-noi-650-size-650x340-znd.jpg"
+                         alt="Muối c&#243; thực sự l&#224;m cho nước s&#244;i nhanh hơn b&#236;nh thường hay kh&#244;ng?"/>
+                    <span>Muối c&#243; thực sự l&#224;m cho nước s&#244;i nhanh hơn b&#236;nh thường hay kh&#244;ng?</span>
+                </a>
+            </li>
+            <li>
+                <a href="9-cau-hoi-thuong-gap-o-tre-em-va-cach-tra-loi-khoa-hoc-hop-ly-75498.html">
+                    <img class="thumb"
+                         src="<?php echo STATIC_URL; ?>/f/v1/photos/image/2016/09/26/nguoi-vo-gia-cu-650-size-650x340-znd.jpg"
+                         alt="9 c&#226;u hỏi thường gặp ở trẻ em v&#224; c&#225;ch trả lời khoa học, hợp l&#253;"/>
+                    <span>9 c&#226;u hỏi thường gặp ở trẻ em v&#224; c&#225;ch trả lời khoa học, hợp l&#253;</span>
+                </a>
+            </li>
+            <li>
+                <a href="dau-hieu-ve-su-song-dau-tien-tren-trai-dat-co-the-la-vi-khuan-75492.html">
+                    <img class="thumb"
+                         src="<?php echo STATIC_URL; ?>/f/v1/photos/image/2016/09/25/Dickinsonia-Costa-650-size-650x340-znd.jpg"
+                         alt="Dấu hiệu về sự sống đầu ti&#234;n tr&#234;n Tr&#225;i Đất c&#243; thể l&#224; vi khuẩn"/>
+                    <span>Dấu hiệu về sự sống đầu ti&#234;n tr&#234;n Tr&#225;i Đất c&#243; thể l&#224; vi khuẩn</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="adindexcenter" class="adbox" style="margin-bottom:20px">
+        <!-- KhoaHoc Cat Resp -->
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9275417305531302"
+             data-ad-slot="3096293681" data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    <div class="listview">
+        <ul>
+            <?php
+            foreach ($this->arrContentList as $arrContent):
+                ?>
+                <li class="listitem clearfix">
+                    <a class="title"
+                       href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $arrContent['cont_id']]) ?>">
+                        <?php echo $arrContent['cont_title']; ?>
+                    </a>
+                    <a class="thumb"
+                       href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $arrContent['cont_id']]) ?>">
+                        <img src="<?php echo $arrContent['cont_main_image']; ?>"
+                             alt="<?php echo $arrContent['cont_title']; ?>"/>
+                    </a>
+                    <div class="desc"><?php echo $arrContent['cont_description']; ?></div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <div class="pagination-container">
+        <ul class="pagination">
+            <?php if ($this->intPage > 1):
+                if ($this->intPage == 2):?>
+                    <li class="PagedList-skipToPrevious">
+                        <a href="<?php echo BASE_URL; ?>" rel="prev">Quay lại</a>
+                    </li>
+                <?php else: ?>
+                    <li class="PagedList-skipToPrevious">
+                        <a href="<?php echo BASE_URL; ?>/?page=<?php echo $this->intPage - 1; ?>" rel="prev">Quay
+                            lại</a>
+                    </li>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php if (!empty($this->arrContentList)): ?>
+                <li class="PagedList-skipToNext">
+                    <a href="<?php echo BASE_URL; ?>/?page=<?php echo $this->intPage + 1 ?>" rel="next">Xem thêm</a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</div>

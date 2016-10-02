@@ -1,21 +1,18 @@
 <div class="content">
-    <h2>Tìm kiếm : <?php echo $this->params['keyName']; ?></h2>
+    <h1>Từ khóa : <span style="color: blue"><?php echo $this->arrKeyDetail['key_name'] ?></span></h1>
     <div class="taxdesc">
-        <p>Tìm thấy <b><?php echo $this->intTotal; ?></b> kết quả</p>
     </div>
-
     <div class="breadcrumbs info-detail" xmlns:v="http://rdf.data-vocabulary.org/#">
         <span class="first breadcrumb">
             <a href="<?php echo BASE_URL; ?>">🏠</a>
         </span>
         <span typeof="v:Breadcrumb" class="breadcrumb">
             <a rel="v:url" property="v:title"
-               href="<?php echo $this->serverUrl() . $this->Url('search', array('keyName' => $this->params['keyName'])) ?>">
-                Tìm kiếm
+               href="<?php echo $this->serverUrl() . $this->Url('keyword') ?>">
+                Từ khóa
             </a>
         </span>
     </div>
-
     <?php if (!empty($this->arrContentList)): ?>
         <div class="listview">
             <ul>
@@ -47,21 +44,22 @@
                 <!--        <ul>-->
             </ul>
         </div>
-        <div class="listitems">
-            <div class="title">Từ khoá tương tự</div>
-            <ul>
-                <?php if (!empty($this->arrKeywordList)):
-                    foreach ($this->arrKeywordList as $arr_key):
-                        ?>
-                        <li>
-                            <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $arr_key['key_slug'], 'keyId' => $arr_key['key_id'])) ?>">
-                                <?php echo $arr_key['key_name']; ?>
-                            </a>
-                        </li>
-                    <?php endforeach;
-                endif;
-                ?>
-            </ul>
-        </div>        <?php echo $this->paging;?>
     <?php endif; ?>
+    <div class="listitems">
+        <div class="title">Từ khoá tương tự</div>
+        <ul>
+            <?php if (!empty($this->arrKeywordList)):
+                foreach ($this->arrKeywordList as $arr_key):
+                    ?>
+                    <li>
+                        <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $arr_key['key_slug'], 'keyId' => $arr_key['key_id'])) ?>">
+                            <?php echo $arr_key['key_name']; ?>
+                        </a>
+                    </li>
+                <?php endforeach;
+            endif;
+            ?>
+        </ul>
+    </div>
+    <?php echo $this->paging ?>
 </div>

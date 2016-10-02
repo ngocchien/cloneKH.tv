@@ -10,21 +10,12 @@ $action = $paramsRouter['action'];
             <li><a href='https://www.facebook.com/khoahoc.tivi' class="icon facebook" target="_blank">facebook</a></li>
         </ul>
     </div>
-    <div class="headerleft"><a href="index.html" id="logo" title="KhoaHoc.tv">KhoaHoc.tv</a></div>
+    <div class="headerleft"><a href="<?php echo $this->serverUrl() . $this->Url('home') ?>" id="logo" title="<?php echo \My\General::SITE_AUTH;?>"><?php echo \My\General::SITE_AUTH;?></a></div>
     <div id="searchBox">
 
-        <form action="http://khoahoc.tv/g" id="cse-search-box">
-
-            <input type="hidden" name="cx" value="partner-pub-9275417305531302:7110546885" />
-
-            <input type="hidden" name="cof" value="FORID:10" />
-
-            <input type="hidden" name="ie" value="UTF-8" />
-
-            <input class="q" type="text" name="q" size="55" />
-
-            <input class="asearch" type="submit" name="sa" value="Search" />
-
+        <form action="<?php echo $this->serverUrl() . $this->Url('search') ?>" id="cse-search-box">
+            <input class="q" type="text" name="keyword" size="55" placeholder="Nhập từ khoá cần tìm kiếm"/>
+            <input class="asearch" type="submit" value="Search"/>
         </form>
     </div>
 </div>
@@ -32,15 +23,15 @@ $action = $paramsRouter['action'];
 <div id="mainmenu" class="clearfix">
     <ul id="topnav" class="navigation clearfix">
         <li class="item all">
-            <a href="index.html"><img src="<?php echo STATIC_URL;?>/f/v1/photos/icons/home.png"/> Trang chủ</a>
+            <a href="<?php echo $this->serverUrl() . $this->Url('home') ?>"><img src="<?php echo STATIC_URL; ?>/f/v1/photos/icons/home.png"/> Trang chủ</a>
         </li>
-        <?php foreach (unserialize(ARR_CATEGORY_PARENT) as $arr_category):?>
-            <li class="item  tax-<?php echo $arr_category['cate_slug'];?>">
-                <a href='cong-nghe.html'>
-                    <img src="<?php echo STATIC_URL.$arr_category['cate_img_url'];?>" />
-                    <?php echo $arr_category['cate_name']?>
+        <?php foreach (unserialize(ARR_CATEGORY_PARENT) as $arr_category): ?>
+            <li class="item  tax-<?php echo $arr_category['cate_slug']; ?>">
+                <a href='<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $arr_category['cate_slug'], 'cateId' => $arr_category['cate_id']]) ?>'>
+                    <img src="<?php echo STATIC_URL . $arr_category['cate_img_url']; ?>"/>
+                    <?php echo $arr_category['cate_name'] ?>
                 </a>
             </li>
-        <?php endforeach;?>
+        <?php endforeach; ?>
     </ul>
 </div>

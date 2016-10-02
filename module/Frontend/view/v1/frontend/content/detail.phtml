@@ -1,130 +1,196 @@
-<div id="content" class="container">
-    <div id="main" class="row-fluid">
-        <div id="main-left" class="span8">
-            <article class="post">
-                <h2 class="entry-title">
-                    <span class="the_title"><?php echo $this->arrContent['cont_title']; ?></span>
-                    <span class="entry-cat"><a href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryDetail['cate_slug'], 'cateId' => $this->arrCategoryDetail['cate_id']]) ?>" title="Xem tất cả tin trong danh mục <?php echo $this->arrCategoryDetail['cate_name'] ?>" rel="category <?php echo $this->arrCategoryDetail['cate_name'] ?>"><?php echo $this->arrCategoryDetail['cate_name'] ?></a></span>
-                </h2>
-                <div class="entry-meta row-fluid">
-                    <ul class="clearfix">
-                        <!--<li><img alt='' src='<?php // echo STATIC_URL                      ?>/f/v1/images/dummy/avatar.html' height='15' width='15' /><a href="#" title="Posts by Admin" rel="author">Admin</a></li>-->
-                        <li><img src="<?php echo STATIC_URL ?>/f/v1/images/time.png" alt=""><?php echo date('d/m/Y', $this->arrContent['created_date']); ?></li>
-                        <li><img src="<?php echo STATIC_URL ?>/f/v1/images/view-bg.png" alt=""><?php echo (int)$this->arrContent['cont_views'] + 1;?> </li>
-<!--                        <li><img src="<?php // echo STATIC_URL                      ?>/f/v1/images/komen.png" alt=""><a href="#" title="Comment on Donec consectetuer ligula vulputate sem tristique cursus">0 Comment</a></li>-->
-                        <li class="tagz"><img src="<?php echo STATIC_URL ?>/f/v1/images/tags-icon.png" alt="">
-                            <a href="#" rel="tag">Blog</a>, <a href="#" rel="tag">Framework</a><br />
-                        </li>
-                    </ul>
-                </div>
-                <div class="entry-content">
-                    <p><b><?php echo $this->arrContent['cont_desciption']; ?></b></p>
-                    <p><?php echo $this->arrContent['cont_detail']; ?></p>
-                    <div style="float:right;margin-bottom:10px;">
-                        <i>Theo</i> <b><?php echo $this->arrContent['from_source']; ?></b>
-                    </div>
-                    <div class="ratings" style="float:none;margin-bottom:10px;">
-                        <div
-                            class="fb-like"
-                            data-share="true"
-                            data-width="450"
-                            data-show-faces="true">
-                        </div>
-                    </div>
-                    <div class="fb-comments" data-href="<?php echo $this->serverUrl() . $this->Url('view-content', array('contentSlug' => $this->arrContent["cont_slug"], 'cont_id' => $this->arrContent["cont_id"])) ?>" data-width="100%" data-numposts="5"></div>
-                    <?php if (!empty($this->arrContentLikeList)): ?>
-                        <div style="float:none;margin-bottom:10px;">
-                            Tham khảo thêm : 
-                            <ul>
-                                <?php
-                                foreach ($this->arrContentLikeList as $content):
-                                    ?>
-                                    <li><a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>"><?php echo $content['cont_title']; ?></a> (<i class="fa fa-eye"><?php echo (int) $content['cont_views']; ?> lượt xem</i>)</li> 
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                    <?php endif; ?>
-                    <span class='st_facebook_hcount' displayText='Facebook'></span>
-                    <span class='st_twitter_hcount' displayText='Tweet'></span>
-                    <span class='st_googleplus_hcount' displayText='Google +'></span>
-                    <span class='st_linkedin_hcount' displayText='LinkedIn'></span>
-                    <span class='st_pinterest_hcount' displayText='Pinterest'></span>
-                </div>
-            </article>
-            <div class="clear"></div>
-            <?php if (!empty($this->arrContentLastedList)): ?>
-                <div id="home-top">
-                    <h3 class="title"><span>Cùng danh mục : <b><a href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryDetail['cate_slug'], 'cateId' => $this->arrCategoryDetail['cate_id']]) ?>"><?php echo $this->arrCategoryDetail['cate_name'] ?></a></b></span></h3>
-                    <ul class="bxslider">
-                        <?php foreach ($this->arrContentLastedList as $content): ?>
-                            <li>
-                                <a class="image_thumb_zoom" href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" title="<?php echo $content['cont_title']; ?>" rel="bookmark">
-                                    <img style="width: 225px; height: 136px" width="225" height="136" src="<?php echo $content['cont_main_image']; ?>" alt="<?php echo $content['cont_title']; ?>" />
-                                </a>
-                                <h4 class="post-title clearfix">
-                                    <!--<img class="post-icon" alt="Text post" src="<?php // echo STATIC_URL                                ?>/f/v1/images/text.png">-->
-                                    <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" title="<?php echo $content['cont_title']; ?>" rel="bookmark"><?php echo strlen($content['cont_title']) < 50 ? $content['cont_title'] : substr($content['cont_title'], 0, 46) . '...'; ?></a>
-                                </h4>
-                                <div class="meta clearfix">
-                                    <span class="date"><?php echo date('d/m/Y', $content['created_date']); ?></span>
-                                </div>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
-            <?php if (!empty($this->arrKeywordList)): ?>
-                <div class="clear"></div>
-                <h3>Từ khóa</h3>
-                <div id="home-top">
-                    <?php foreach ($this->arrKeywordList as $arr_key): ?>
-                        <a href="<?php echo $this->serverUrl() . $this->Url('search', array('keySlug' => $arr_key['key_slug'])) ?>"><?php echo $arr_key['key_name']; ?></a> ,
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </div><!-- #main-left -->
+<div class="content post-detail"
+     data-url="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $this->arrContent['cont_slug'], 'contentId' => $this->arrContent['cont_id']]) ?>"
+     data-title="<?php echo $this->arrContent['cont_title'] ?>" data-id="<?php echo $this->arrContent['cont_id'] ?>"
+     data-load="true">
+    <h1>
+        <?php echo $this->arrContent['cont_title']; ?>
+    </h1>
+    <div class="socialbox top clearfix">
+        <ul>
+            <li class="raty" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
+                <meta itemprop="itemreviewed" content="<?php echo $this->arrContent['cont_title']; ?>"/>
+                <meta itemprop="rating" content="4"/>
+                <meta itemprop="votes" content="14"/>
+                <span class=" rating" data-rating="4" data-id="<?php echo $this->arrContent['cont_id']; ?>"></span>
+                <span class="rating-info">4</span><span class="rating-votes">14</span>
+            </li>
+            <li class="views"><?php echo number_format($this->arrContent['cont_views'] + 1, 0, ",", "."); ?></li>
+            <li class="share">
+                <div class="sharebox">
+                    <div class="sharetoolbox">
+                        <!--                        <div class="g-plusone" data-annotation="none" data-size="medium" data-href="http://khoahoc.tv/3-bi-an-ve-trai-dat-chua-co-loi-giai-dap-40490"></div>-->
 
-        <div id="sidebar" class="span4">
-            <?php echo $this->render('frontend/nav-right'); ?>
-            <div class="widget widget_latestpost"><h3 class="title"><span>Tin mới : <b><?php echo $this->arrCategoryDetail['cate_name']; ?></b></span></h3>
-                <div class="latest-posts">
-                    <?php
-                    foreach ($this->arrContentNews as $key => $content):
-                        if ($key == 0):
-                            ?>
-                            <article class="post">
-                                <a class="image_thumb_zoom" href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" title="<?php echo $content['cont_title'] ?>" rel="bookmark">
-                                    <img style="width: 371px; height: 177px" src="<?php echo $content['cont_main_image'] ?>" class="attachment-post-first wp-post-image" alt="<?php echo $content['cont_title'] ?>" />
-                                </a>
-                                <h4 class="post-title">
-                                    <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" title="<?php echo $content['cont_title'] ?>" rel="bookmark"><?php echo strlen($content['cont_title']) < 40 ? $content['cont_title'] : substr($content['cont_title'], 0, 36) . '...'; ?></a>
-                                    <span class="date"><?php echo date('d/m/Y', $content['created_date']); ?></span>
-                                </h4>
-                                <p><?php echo strlen($content['cont_desciption']) < 100 ? $content['cont_desciption'] : substr($content['cont_desciption'], 0, 96) . '...'; ?></p>
-                            </article>
-                        <?php else: ?>
-                            <article class="post">
-                                <div class="entry clearfix">
-                                    <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" title="Permalink to Donec consectetuer ligula vulputate sem tristique cursus" rel="bookmark">
-                                        <img style="width: 91px; height: 55px" src="<?php echo $content['cont_main_image'] ?>" class="thumb" alt="<?php echo $content['cont_title'] ?>" />
-                                        <h4 class="post-title"><?php echo strlen($content['cont_title']) < 40 ? $content['cont_title'] : substr($content['cont_title'], 0, 36) . '...'; ?></h4>
-                                    </a>
-                                    <p><?php echo strlen($content['cont_desciption']) < 100 ? $content['cont_desciption'] : substr($content['cont_desciption'], 0, 96) . '...'; ?></p>
-                                    <div class="meta">
-                                        <span class="date"><?php echo date('d/m/Y', $content['created_date']); ?></span>
-                                    </div>
-                                </div>
-                            </article>
-                        <?php
-                        endif;
-                    endforeach;
+                        <!--                        <div class="fb-like" data-href="http://khoahoc.tv/3-bi-an-ve-trai-dat-chua-co-loi-giai-dap-40490" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>-->
+                        <!--                        <div class="fb-like likebox" data-href="https://www.facebook.com/khoahoc.tivi" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>-->
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="breadcrumbs info-detail" xmlns:v="http://rdf.data-vocabulary.org/#">
+        <span class="first breadcrumb">
+            <a href="<?php echo BASE_URL; ?>">🏠</a>
+        </span>
+        <?php if (!empty($this->arrCategoryParent)): ?>
+            <span typeof="v:Breadcrumb" class="breadcrumb">
+                    <a rel="v:url" property="v:title"
+                       href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryParent['cate_slug'], 'cateId' => $this->arrCategoryParent['cate_id']]) ?>">
+                        <?php echo $this->arrCategoryParent['cate_name']; ?>
+                    </a>
+                </span>
+        <?php endif; ?>
+        <span typeof="v:Breadcrumb" class="breadcrumb">
+                    <a rel="v:url" property="v:title"
+                       href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryDetail['cate_slug'], 'cateId' => $this->arrCategoryDetail['cate_id']]) ?>">
+                        <?php echo $this->arrCategoryDetail['cate_name']; ?>
+                    </a>
+                </span>
+    </div>
+
+    <div class="content-detail">
+        <div id="adsarticletop" class="adbox">
+            <!-- KhoaHoc - BaiViet - Reponsive -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-9275417305531302"
+                 data-ad-slot="2384218482"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        <?php echo $this->arrContent['cont_detail']; ?>
+        <script>
+            //            if (location.hostname.toLowerCase().indexOf("khoahoc.tv") < 0) { location.href = "http://khoahoc.tv/"; }
+        </script>
+    </div>
+    <div class="author-info clearfix">
+        <span class="date">Cập nhật: <?php echo date('d/m/Y', $this->arrContent['updated_date']) ?></span>
+        <span class="author" style="float: right">Tổng hợp</span>
+    </div>
+
+    <div class="tags">
+        <span><b>Xem thêm:</b></span>
+        <?php if (!empty($this->arrKeywordList)):
+            foreach ($this->arrKeywordList as $arr_key):
+                ?>
+                <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $arr_key['key_slug'], 'keyId' => $arr_key['key_id'])) ?>"><?php echo $arr_key['key_name']; ?></a>
+                <?php
+            endforeach;
+        endif; ?>
+    </div>
+
+    <div class="listitems">
+        <div class="title">Tham khảo thêm</div>
+        <ul>
+            <?php if (!empty($this->arrContentLikeList)):
+                foreach ($this->arrContentLikeList as $arr_content):
                     ?>
+                    <li>
+                        <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>">
+                            <?php echo $arr_content['cont_title']; ?>
+                            <span><?php echo number_format($arr_content['cont_views'], 0, ",", "."); ?>
+                                người xem</span>
+                        </a>
+                    </li>
+                <?php endforeach;
+            endif;
+            ?>
+        </ul>
+    </div>
+
+    <!--    <div id="adsarticlebottom" class="adbox">-->
+    <!--        <!-- KhoaHoc-BaiViet-Resposive -->
+    <!--        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9275417305531302"-->
+    <!--             data-ad-slot="8671917284" data-ad-format="auto"></ins>-->
+    <!--        <script>-->
+    <!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
+    <!--        </script>-->
+    <!--    </div>-->
+    <div class="socialbox bottom clearfix">
+        <ul>
+            <li class="share">
+                <div class="sharebox">
+                    <div class="sharetoolbox">
+                        <div class="g-plusone" data-annotation="none" data-size="medium"
+                             data-href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $this->arrContent['cont_slug'], 'contentId' => $this->arrContent['cont_id']]) ?>"></div>
+
+                        <div class="fb-like"
+                             data-href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $this->arrContent['cont_slug'], 'contentId' => $this->arrContent['cont_id']]) ?>"
+                             data-layout="button_count" data-action="like" data-show-faces="false"
+                             data-share="true"></div>
+                    </div>
                 </div>
-            </div>
-        </div><!-- sidebar -->
+            </li>
+            <li class="raty">
+                <span class="rating" data-rating="4" data-id="40490"></span>
+                <span class="rating-info">4</span><span class="rating-votes">14</span>
+            </li>
+            <li class="views"><?php echo number_format($this->arrContent['cont_views'] + 1, 0, ",", "."); ?></li>
+        </ul>
+    </div>
 
-        <div class="clearfix"></div>
 
-    </div><!-- #main -->
+    <!--    <p>-->
+    <!--        <a href="https://www.facebook.com/khoahoc.tivi" target="_blank" rel="nofollow">Theo dõi cộng đồng KhoaHoc.tv trên-->
+    <!--            facebook</a></p>-->
+    <!--    <div class="fb-like" data-href="https://www.facebook.com/khoahoc.tivi" data-layout="standard"-->
+    <!--         data-action="recommend" data-show-faces="true" data-share="true"></div>-->
+    <!---->
+    <!--    <div class="comments">-->
+    <!--        <div id="fb_comments" class="fb-comments"-->
+    <!--             data-href="http://khoahoc.tv/3-bi-an-ve-trai-dat-chua-co-loi-giai-dap-40490" data-num-posts="3"-->
+    <!--             data-width="640"></div>-->
+    <!--    </div>-->
+    <!--    <div id="suggestion" class="adbox">-->
+    <!--        <ins class="adsbygoogle" style="display: inline-block; width: 100%; height: 250px"-->
+    <!--             data-ad-client="ca-pub-9275417305531302" data-ad-slot="6979590889"></ins>-->
+    <!--        <script>-->
+    <!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
+    <!--        </script>-->
+    <!--    </div>-->
 
-</div><!-- #content -->
+    <div class="more-news latest">
+        <div class="list-title">Bài viết mới nhất</div>
+        <ul class="clearfix">
+            <?php foreach ($this->arrContentNews as $arr_content): ?>
+                <li>
+                    <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>">
+                        <span class="thumb-detail">
+                            <img src="<?php echo $arr_content['cont_main_image'] ?>"
+                                 alt="<?php echo $arr_content['cont_title'] ?>"/>
+                        </span>
+                        <span><?php echo $arr_content['cont_title'] ?></span>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <a href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryParent['cate_slug'], 'cateId' => $this->arrCategoryParent['cate_id']]) ?>"
+           class="viewmore"><b>Xem thêm</b> <?php echo $this->arrCategoryParent['cate_name']; ?></a>
+    </div>
+
+    <div class="more-news">
+        <div class="list-title">Bài viết <?php echo $this->arrCategoryDetail['cate_name']; ?> khác</div>
+        <ul class="clearfix">
+            <?php
+            if (!empty($this->arrContentLastedList)):
+                foreach ($this->arrContentLastedList as $arr_content):
+                    ?>
+                    <li>
+                        <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>">
+                        <span class="thumb-detail">
+                            <img src="<?php echo $arr_content['cont_main_image'] ?>"
+                                 alt="<?php echo $arr_content['cont_title'] ?>"/>
+                        </span>
+                            <span><?php echo $arr_content['cont_title'] ?></span>
+                        </a>
+                    </li>
+                <?php endforeach;
+            endif;
+            ?>
+        </ul>
+        <a href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryDetail['cate_slug'], 'cateId' => $this->arrCategoryDetail['cate_id']]) ?>"
+           class="viewmore">Xem thêm</a>
+    </div>
+</div>

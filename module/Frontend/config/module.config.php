@@ -68,31 +68,15 @@ return array(
                     ),
                 ),
             ),
-            'product_rate' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '[/:rate].html',
-                    'constraints' => array(
-                        'rate' => '[a-zA-Z0-9_-]*',
-                    ),
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Frontend\Controller',
-                        'module' => 'frontend',
-                        'controller' => 'product',
-                        'action' => 'rate'
-                    ),
-                ),
-            ),
             'search' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/tim-kiem/[[:keySlug][?keyword=:keyword][&page=:page]]',
+                    'route' => '/tim-kiem/[[?keyword=:keyword][&page=:page]]',
                     'constraints' => array(
                         'controller' => 'search',
                         'action' => 'index',
                         'page' => '[0-9]+',
                         'keyword' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'keySlug' => '[a-zA-Z][a-zA-Z0-9_-]*'
                     ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'Frontend\Controller',
@@ -100,8 +84,47 @@ return array(
                         'controller' => 'search',
                         'action' => 'index',
                         'page' => 1,
-                        'keySlug' => '',
                         'keyword' => ''
+                    ),
+                ),
+            ),
+            'keyword' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/tu-khoa[[/:keySlug]-[:keyId].html[?page=:page]]',
+                    'constraints' => array(
+                        'controller' => 'search',
+                        'action' => 'keyword',
+                        'keyId' => '[0-9]+',
+                        'keySlug' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'page' => '[0-9]+'
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Frontend\Controller',
+                        'module' => 'frontend',
+                        'controller' => 'search',
+                        'action' => 'keyword',
+                        'keyId' => 1,
+                        'keySlug' => '',
+                        'page' => 1
+                    ),
+                ),
+            ),
+            'list-keyword' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/danh-sach-tu-khoa/[[?page=:page]]',
+                    'constraints' => array(
+                        'controller' => 'search',
+                        'action' => 'list-keyword',
+                        'page' => '[0-9]+'
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Frontend\Controller',
+                        'module' => 'frontend',
+                        'controller' => 'search',
+                        'action' => 'list-keyword',
+                        'page' => 1
                     ),
                 ),
             ),
@@ -129,7 +152,7 @@ return array(
             'view-content' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/chi-tiet[[/:contentSlug]-[:contentId].html]',
+                    'route' => '/bai-viet[[/:contentSlug]-[:contentId].html]',
                     'constraints' => array(
                         'module' => 'frontend',
                         'controller' => 'content',
@@ -209,7 +232,8 @@ return array(
             'sitemap' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/sitemap/[[:action]][/page[/:page]][.html]',
+//                    'route' => '/sitemap/[[:action]/[:page][.html]]',
+                    'route' => '/sitemap[[/:action][/:page].html]',
                     'constraints' => array(
                         'controller' => 'sitemap',
                         'action' => '[a-zA-Z0-9_-]*',

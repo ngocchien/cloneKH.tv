@@ -228,13 +228,13 @@ class Keyword extends SearchAbstract {
         }
         
         if (isset($params['key_id'])) {
-            $addQuery = new ESQuery\setTerm();
+            $addQuery = new ESQuery\Term();
             $addQuery->setTerm('key_id', $params['key_id']);
             $boolQuery->addMust($addQuery);
         }
 
         if (isset($params['not_key_id'])) {
-            $addQuery = new ESQuery\setTerm();
+            $addQuery = new ESQuery\Term();
             $addQuery->setTerm('key_id', $params['not_key_id']);
             $boolQuery->addMustNot($addQuery);
         }

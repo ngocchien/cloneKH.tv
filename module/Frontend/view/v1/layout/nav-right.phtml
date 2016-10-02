@@ -1,32 +1,43 @@
-<div id="tabwidget" class="widget tab-container">
+<div class="sidebar">
+    <div id="adrighttop" class="adbox">
+        <div id="adsense_right">
+            <!-- KH-300x250 -->
+<!--            <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-9275417305531302" data-ad-slot="3791346881"></ins>-->
+<!--            <script>-->
+<!--                (adsbygoogle = window.adsbygoogle || []).push({});-->
+<!--            </script>-->
+        </div>
+    </div>
 
-    <div id="tab-content" style="margin-bottom: 15px">
-
-        <div id="tab1" style="display: block; ">
-            <img style="width: 370px; 500px;"src="<?php echo STATIC_URL ?>/f/v1/images/85fc98fe18ddead77a9bbba4a497c7ac.png">
-
-    </div><!-- /#tab-content -->
-
-</div><!-- /#tab-widget -->
-
-<div class="widget widget_latestpost">
-    <h3 class="title"><span><b>Tiêu điểm</b></span></h3>
-    <div class="latest-posts widget">
-        <?php
-        $arrContentList = unserialize(ARR_TOP_4_YEAR);
-        foreach ($arrContentList as $key => $content):
-            if ($key < 4) {
-                continue;
-            }
-            ?>
-            <div class="latest-post clearfix">
-                <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>">
-                    <img style="width: 91px; height: 55px" src="<?php echo $content['cont_main_image']; ?>" class="thumb fl" alt="<?php echo $content['cont_title']; ?>" title="<?php echo $content['cont_title']; ?>"/>
+    <div class="listbox highlight">
+        <div class="list-title">Tiêu điểm</div>
+        <ul>
+            <?php foreach (unserialize(ARR_CONTENT_HOT_LIST) as $arr_content):?>
+            <li class="list-item">
+                <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>">
+                    <img src="<?php echo $arr_content['cont_main_image'] ?>" alt="<?php echo $arr_content['cont_title'] ?>"/>
+                    <?php echo $arr_content['cont_title'] ?>
                 </a>
-                <h4><a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $content['cont_slug'], 'contentId' => $content['cont_id']]) ?>" rel="bookmark" title="<?php echo $content['cont_title']; ?>"><?php echo $content['cont_title']; ?></a></h4>
-                <div class="post-time"><?php echo date('d/m/Y',$content['created_date']); ?></div>
-            </div>
-        <?php endforeach;
-        ?>
+            </li>
+            <?php endforeach;?>
+        </ul>
+    </div>
+
+    <div id="adrightsecond" class="adbox">
+
+    </div>
+    <style>
+        @media (max-width:639px) {
+            #sticky.adbox {
+                display: none;
+            }
+        }
+    </style>
+    <div id="sticky" class="adbox">
+        <!-- KhoaHoc 300x600 -->
+<!--        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-9275417305531302" data-ad-slot="9672107684"></ins>-->
+<!--        <script>-->
+<!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
+<!--        </script>-->
     </div>
 </div>

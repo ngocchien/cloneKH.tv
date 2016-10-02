@@ -314,30 +314,15 @@ class Content extends SearchAbstract {
             $boolQuery->addMust($addQuery);
         }
 
-        if (!empty($params['key_word'])) {
+        if (!empty($params['keyword'])) {
             $bool = new Bool();
-            if ((int) $params['key_word'] > 0) {
-                $queryTerm = new ESQuery\Term();
-                $queryTerm->setTerm('cont_id', (int) $params['key_word']);
-                $bool->addShould($queryTerm);
-            }
-
-            $strKeyword = trim($params['key_word']);
-
+            $strKeyword = trim($params['keyword']);
             $titleQueryString = new QueryString();
             $titleQueryString->setDefaultField('cont_title')
                     ->setQuery($strKeyword)
                     ->setAllowLeadingWildcard(1)
                     ->setDefaultOperator('AND');
             $bool->addShould($titleQueryString);
-
-            $detailQueryString = new QueryString();
-            $detailQueryString->setDefaultField('cont_detail_text')
-                    ->setQuery($strKeyword)
-                    ->setAllowLeadingWildcard(1)
-                    ->setDefaultOperator('AND');
-            $bool->addShould($detailQueryString);
-
             $boolQuery->addMust($bool);
         }
 

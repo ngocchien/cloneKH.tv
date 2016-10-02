@@ -13,7 +13,7 @@ $action = $paramsRouter['action'];
                     if(!empty($arr_category)):
                         foreach ($arr_category as $category):?>
                             <li class="l2 tax-<?php echo $category['cate_slug'];?>">
-                                <a href="cong-nghe-moi.html">
+                                <a href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $category['cate_slug'], 'cateId' => $category['cate_id']]) ?>">
                                     <img src="<?php echo STATIC_URL.$category['cate_img_url'];?>" />
                                     <?php echo $category['cate_name'];?>
                                 </a>
@@ -24,5 +24,4 @@ $action = $paramsRouter['action'];
             ?>
         </ul>
     </div>
-
 </div>

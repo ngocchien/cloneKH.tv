@@ -1,381 +1,99 @@
-<?php
-$strTemplate = current($this->layout()->getChildren())->getTemplate();
-?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <?php echo $this->headTitle(); ?>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="REFRESH" content="1200" />
-        <link rel="shortcut icon" href="<?php echo STATIC_URL; ?>/f/v1/images/icon.png" type="image/x-icon" />
-        <link rel='stylesheet' id='Roboto-css'  href='http://fonts.googleapis.com/css?family=Roboto' type='text/css' media='all' />
-        <?php
-        echo $this->headMeta();
-        ?>
-        <meta name="google-site-verification" content="BkUSNwKfepTa9vPvpivbyyRBC4MsN3LHGl_qae7RBpI" />
-        <meta name="dc.publisher" content="<?php echo My\General::SITE_AUTH; ?>" />
-        <meta name="dc.rights.copyright" content="<?php echo My\General::SITE_AUTH; ?>" />
-        <meta name="dc.creator.name" content="<?php echo My\General::SITE_AUTH; ?>" />
-        <meta name="dc.creator.email" content="<?php echo My\General::EMAIL_SYS ?>" />
-        <meta name="dc.identifier" content="<?php echo \My\General::SITE_DOMAIN_FULL?>" />
-        <meta name="copyright" content="<?php echo My\General::SITE_AUTH; ?>" />
-        <meta name="author" content="<?php echo My\General::SITE_AUTH; ?>" />
-        <meta name="dc.language" content="vi-VN" />
-        <meta name="robots" content="INDEX, FOLLOW" />
-        <meta http-equiv="content-language" content="vi" />
-        <!--<meta name="DC.title" content="" />-->
-        <meta name="geo.region" content="VN-31" />
-        <meta name="geo.placename" content="Quy Nhơn" />
-        <meta name="geo.position" content="13.770044;109.234571" />
-        <meta name="ICBM" content="13.770044, 109.234571" />
-        <meta http-equiv="Expires" content="0" />
-        <meta name='revisit-after' content='1 days' />
-        <link rel="alternate" href="<?php echo \My\General::SITE_DOMAIN_FULL?>" hreflang="vi-vn" />
-        <meta content="<?php echo \My\General::SITE_AUTH ?>" property="og:site_name" />
+<head>
+    <?php echo $this->headTitle(); ?>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="REFRESH" content="1200"/>
+    <link rel="shortcut icon" href="<?php echo STATIC_URL; ?>/uploads/favicon.ico" type="image/x-icon"/>
+    <link rel='stylesheet' id='Roboto-css' href='http://fonts.googleapis.com/css?family=Roboto' type='text/css'
+          media='all'/>
+    <?php
+    echo $this->headMeta();
+    ?>
+    <meta name="google-site-verification" content="BkUSNwKfepTa9vPvpivbyyRBC4MsN3LHGl_qae7RBpI"/>
+    <meta name="dc.publisher" content="<?php echo My\General::SITE_AUTH; ?>"/>
+    <meta name="dc.rights.copyright" content="<?php echo My\General::SITE_AUTH; ?>"/>
+    <meta name="dc.creator.name" content="<?php echo My\General::SITE_AUTH; ?>"/>
+    <meta name="dc.creator.email" content="<?php echo My\General::EMAIL_SYS ?>"/>
+    <meta name="dc.identifier" content="<?php echo \My\General::SITE_DOMAIN_FULL ?>"/>
+    <meta name="copyright" content="<?php echo My\General::SITE_AUTH; ?>"/>
+    <meta name="author" content="<?php echo My\General::SITE_AUTH; ?>"/>
+    <meta name="dc.language" content="vi-VN"/>
+    <meta name="robots" content="INDEX, FOLLOW"/>
+    <meta http-equiv="content-language" content="vi"/>
+    <!--<meta name="DC.title" content="" />-->
+    <meta name="geo.region" content="VN-31"/>
+    <meta name="geo.placename" content="Quy Nhơn"/>
+    <meta name="geo.position" content="13.770044;109.234571"/>
+    <meta name="ICBM" content="13.770044, 109.234571"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name='revisit-after' content='1 days'/>
+    <link rel="alternate" href="<?php echo \My\General::SITE_DOMAIN_FULL ?>" hreflang="vi-vn"/>
+    <meta content="<?php echo \My\General::SITE_AUTH ?>" property="og:site_name"/>
 
-        <meta name="fb:pages" content="272925143041233" />
+    <meta name="fb:pages" content="272925143041233"/>
 
-        <script type="text/javascript">
-            var baseurl = '<?php echo $this->serverUrl(); ?>';
-            var staticurl = '<?php echo STATIC_URL; ?>';
-        </script>
+    <script type="text/javascript">
+        var baseurl = '<?php echo BASE_URL; ?>';
+        var staticurl = '<?php echo STATIC_URL; ?>';
+    </script>
 
-<!--        <script>-->
-<!--            window.fbAsyncInit = function () {-->
-<!--                FB.init({-->
-<!--                    appId: '267543780301950',-->
-<!--                    xfbml: true,-->
-<!--                    version: 'v2.6'-->
-<!--                });-->
-<!--            };-->
-<!---->
-<!--            (function (d, s, id) {-->
-<!--                var js, fjs = d.getElementsByTagName(s)[0];-->
-<!--                if (d.getElementById(id)) {-->
-<!--                    return;-->
-<!--                }-->
-<!--                js = d.createElement(s);-->
-<!--                js.id = id;-->
-<!--                js.src = "//connect.facebook.net/en_US/sdk.js";-->
-<!--                fjs.parentNode.insertBefore(js, fjs);-->
-<!--            }(document, 'script', 'facebook-jssdk'));-->
-<!--        </script>-->
-<!---->
-<!--        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
-<!--        <script>-->
-<!--                    (adsbygoogle = window.adsbygoogle || []).push({-->
-<!--                        google_ad_client: "ca-pub-4608570842050780",-->
-<!--                        enable_page_level_ads: true-->
-<!--                    });-->
-<!--        </script>-->
+    <!--        <script>-->
+    <!--            window.fbAsyncInit = function () {-->
+    <!--                FB.init({-->
+    <!--                    appId: '267543780301950',-->
+    <!--                    xfbml: true,-->
+    <!--                    version: 'v2.6'-->
+    <!--                });-->
+    <!--            };-->
+    <!---->
+    <!--            (function (d, s, id) {-->
+    <!--                var js, fjs = d.getElementsByTagName(s)[0];-->
+    <!--                if (d.getElementById(id)) {-->
+    <!--                    return;-->
+    <!--                }-->
+    <!--                js = d.createElement(s);-->
+    <!--                js.id = id;-->
+    <!--                js.src = "//connect.facebook.net/en_US/sdk.js";-->
+    <!--                fjs.parentNode.insertBefore(js, fjs);-->
+    <!--            }(document, 'script', 'facebook-jssdk'));-->
+    <!--        </script>-->
+    <!---->
+    <!--        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+    <!--        <script>-->
+    <!--                    (adsbygoogle = window.adsbygoogle || []).push({-->
+    <!--                        google_ad_client: "ca-pub-4608570842050780",-->
+    <!--                        enable_page_level_ads: true-->
+    <!--                    });-->
+    <!--        </script>-->
+    <?php
+    echo $this->headLink();
+    ?>
 
-        <?php
-        echo $this->headLink();
-        echo $this->headScript();
-        ?>
-
-        <script type="application/ld+json">
+    <script type="application/ld+json">
             {
             "@context": "http://schema.org",
             "@type": "Organization",
             "url": "<?php echo $this->serverUrl(); ?>"
             }
-        </script>
-    </head>
-    <body>
-    <div id="page">
-        <!--        Start Header section-->
-        <?php echo $this->render('frontend/header'); ?>
 
-        <div id="main" class="indexpage clearfix">
-            <div class="content">
-                <div class="slider">
-                    <ul>
-                        <li>
-                            <a href="muoi-co-thuc-su-lam-cho-nuoc-soi-nhanh-hon-binh-thuong-hay-khong-75509.html">
-                                <img class="thumb" src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/26/cho-muoi-vao-noi-650-size-650x340-znd.jpg" alt="Muối c&#243; thực sự l&#224;m cho nước s&#244;i nhanh hơn b&#236;nh thường hay kh&#244;ng?" />
-                                <span>Muối c&#243; thực sự l&#224;m cho nước s&#244;i nhanh hơn b&#236;nh thường hay kh&#244;ng?</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="9-cau-hoi-thuong-gap-o-tre-em-va-cach-tra-loi-khoa-hoc-hop-ly-75498.html">
-                                <img class="thumb" src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/26/nguoi-vo-gia-cu-650-size-650x340-znd.jpg" alt="9 c&#226;u hỏi thường gặp ở trẻ em v&#224; c&#225;ch trả lời khoa học, hợp l&#253;" />
-                                <span>9 c&#226;u hỏi thường gặp ở trẻ em v&#224; c&#225;ch trả lời khoa học, hợp l&#253;</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="dau-hieu-ve-su-song-dau-tien-tren-trai-dat-co-the-la-vi-khuan-75492.html">
-                                <img class="thumb" src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/Dickinsonia-Costa-650-size-650x340-znd.jpg" alt="Dấu hiệu về sự sống đầu ti&#234;n tr&#234;n Tr&#225;i Đất c&#243; thể l&#224; vi khuẩn" />
-                                <span>Dấu hiệu về sự sống đầu ti&#234;n tr&#234;n Tr&#225;i Đất c&#243; thể l&#224; vi khuẩn</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div id="adindexcenter" class="adbox" style="margin-bottom:20px">
-                    <!-- KhoaHoc Cat Resp -->
-                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9275417305531302" data-ad-slot="3096293681" data-ad-format="auto"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-                <div class="listview">
-                    <ul>
-                        <li class="listitem clearfix">
-                            <a class="title" href="con-nguoi-se-xoa-so-vinh-vien-can-benh-dang-so-tren-pham-vi-toan-cau-75508.html">
-                                Con người sẽ x&#243;a sổ vĩnh viễn căn bệnh đ&#225;ng sợ tr&#234;n phạm vi to&#224;n cầu
-                            </a>
-                            <a class="thumb" href="con-nguoi-se-xoa-so-vinh-vien-can-benh-dang-so-tren-pham-vi-toan-cau-75508.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/26/giun-chi-200.jpg" alt="Con người sẽ x&#243;a sổ vĩnh viễn căn bệnh đ&#225;ng sợ tr&#234;n phạm vi to&#224;n cầu" />
-                            </a>
-                            <div class="desc">Con người ngày nay có thể chữa khỏi nhiều loại bệnh. Nhưng để loại bỏ được hoàn toàn một căn bệnh trên phạm vi toàn thế giới thì mới chỉ có 2 trường hợp thôi.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="yoga-va-cham-cuu-co-tac-dung-giam-dau-man-tinh-75506.html">
-                                Yoga v&#224; ch&#226;m cứu c&#243; t&#225;c dụng giảm đau m&#227;n t&#237;nh
-                            </a>
-                            <a class="thumb" href="yoga-va-cham-cuu-co-tac-dung-giam-dau-man-tinh-75506.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/con-dau-man-tinh-200.jpg" alt="Yoga v&#224; ch&#226;m cứu c&#243; t&#225;c dụng giảm đau m&#227;n t&#237;nh" />
-                            </a>
-                            <div class="desc">Hãy quên thuốc giảm đau đi, tập yoga và châm cứu có khả năng làm dịu cơn đau mãn tính. Đây là kết quả của một nghiên cứu khoa học vừa được công bố.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="project-loon-su-dung-tri-tue-nhan-tao-de-co-dinh-vi-tri-tu-bat-gio-de-bay-len-cao-75505.html">
-                                Project Loon sử dụng tr&#237; tuệ nh&#226;n tạo để cố định vị tr&#237;, tự bắt gi&#243; để bay l&#234;n cao
-                            </a>
-                            <a class="thumb" href="project-loon-su-dung-tri-tue-nhan-tao-de-co-dinh-vi-tri-tu-bat-gio-de-bay-len-cao-75505.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/26/Project-Loon-200.jpg" alt="Project Loon sử dụng tr&#237; tuệ nh&#226;n tạo để cố định vị tr&#237;, tự bắt gi&#243; để bay l&#234;n cao" />
-                            </a>
-                            <div class="desc">Nhóm phát triển Project Loon của X (thuộc Alphabet, công ty mẹ của Google) tiết lộ rằng họ đang sử dụng công nghệ trí tuệ nhân tạo (cụ thể là machine learning) để giúp cố định vị trí của các khinh khí cầu phát Wi-Fi trong thời gian dài.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="xac-uop-thanh-nu-300-nam-tuoi-mo-mat-trong-nha-tho-mexico-75503.html">
-                                X&#225;c ướp th&#225;nh nữ 300 năm tuổi &quot;mở mắt&quot; trong nh&#224; thờ Mexico
-                            </a>
-                            <a class="thumb" href="xac-uop-thanh-nu-300-nam-tuoi-mo-mat-trong-nha-tho-mexico-75503.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/26/Santa-innocence-200.jpg" alt="X&#225;c ướp th&#225;nh nữ 300 năm tuổi &quot;mở mắt&quot; trong nh&#224; thờ Mexico" />
-                            </a>
-                            <div class="desc">Xác ướp nằm trong lồng kính của cô gái trẻ chết cách đây 300 năm bên trong một nhà thờ ở Mexico bất ngờ "mở mắt" gây kinh ngạc cho những người đến xem.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="dao-mong-nha-phat-hien-trong-dong-co-2-ngan-nam-tuoi-75504.html">
-                                Đ&#224;o m&#243;ng nh&#224;, ph&#225;t hiện trống đồng cổ 2 ng&#224;n năm tuổi
-                            </a>
-                            <a class="thumb" href="dao-mong-nha-phat-hien-trong-dong-co-2-ngan-nam-tuoi-75504.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/26/trong-dong-co-200.jpg" alt="Đ&#224;o m&#243;ng nh&#224;, ph&#225;t hiện trống đồng cổ 2 ng&#224;n năm tuổi" />
-                            </a>
-                            <div class="desc">Một người nông dân ở Thanh Hóa trong lúc đào móng nhà ở gần Di sản thế giới Thành Nhà Hồ đã đụng phải 1 chiếc trống đồng cổ có niên đại 2.000-2.500 năm tuổi.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="thu-nghiem-hai-vac-xin-ngua-virus-zika-cho-ket-qua-kha-quan-75502.html">
-                                Thử nghiệm hai vắc xin ngừa virus Zika cho kết quả khả quan
-                            </a>
-                            <a class="thumb" href="thu-nghiem-hai-vac-xin-ngua-virus-zika-cho-ket-qua-kha-quan-75502.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/vaccine-zika-200.jpg" alt="Thử nghiệm hai vắc xin ngừa virus Zika cho kết quả khả quan" />
-                            </a>
-                            <div class="desc">Các nhà nghiên cứu Mỹ ngày 22/9 thông báo hai loại ​vắc xin phòng chống virus Zika do Viện Y tế Quốc gia Mỹ (NIH) điều chế đã cho kết quả khả quan khi thử nghiệm trên khỉ đuôi ngắn.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="tai-sao-cac-nan-nhan-bi-ton-cua-vao-co-de-tu-vong-75501.html">
-                                Tại sao c&#225;c nạn nh&#226;n bị t&#244;n cứa v&#224;o cổ dễ tử vong?
-                            </a>
-                            <a class="thumb" href="tai-sao-cac-nan-nhan-bi-ton-cua-vao-co-de-tu-vong-75501.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/26/so-cuu-200.jpg" alt="Tại sao c&#225;c nạn nh&#226;n bị t&#244;n cứa v&#224;o cổ dễ tử vong?" />
-                            </a>
-                            <div class="desc">Các bác sĩ không cứu được nạn nhân do tình trạng mất máu quá nặng và kéo dài trước khi đến bệnh viện.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="ngua-cung-thong-minh-nhu-ca-heo-va-chim-bo-cau-75500.html">
-                                Ngựa cũng th&#244;ng minh như c&#225; heo v&#224; chim bồ c&#226;u
-                            </a>
-                            <a class="thumb" href="ngua-cung-thong-minh-nhu-ca-heo-va-chim-bo-cau-75500.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/con-ngua-200.jpg" alt="Ngựa cũng th&#244;ng minh như c&#225; heo v&#224; chim bồ c&#226;u" />
-                            </a>
-                            <div class="desc">Trong một thử nghiệm vừa được tiến hành, các nhà khoa học đã nhận thấy ngựa có khả năng phân tích các biểu tượng khi giao tiếp với con người.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="phat-hien-thu-vi-nao-dung-meo-chong-lai-lao-hoa-75499.html">
-                                Ph&#225;t hiện th&#250; vị: N&#227;o d&#249;ng mẹo chống lại l&#227;o h&#243;a
-                            </a>
-                            <a class="thumb" href="phat-hien-thu-vi-nao-dung-meo-chong-lai-lao-hoa-75499.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/nguoi-gia-200.jpg" alt="Ph&#225;t hiện th&#250; vị: N&#227;o d&#249;ng mẹo chống lại l&#227;o h&#243;a" />
-                            </a>
-                            <div class="desc">Lão hóa là một quá trình tất yếu sẽ diễn ra của cuộc sống, nhưng não của chúng ta biết sử dụng một số mẹo giúp cơ thể làm chậm lại tốc độ lão hóa này.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="tac-dung-tuyet-voi-cua-nhung-cai-om-75494.html">
-                                T&#225;c dụng tuyệt vời của những c&#225;i &#244;m
-                            </a>
-                            <a class="thumb" href="tac-dung-tuyet-voi-cua-nhung-cai-om-75494.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/hug-200.jpg" alt="T&#225;c dụng tuyệt vời của những c&#225;i &#244;m" />
-                            </a>
-                            <div class="desc">Ôm không chỉ là hành động thể hiện tình cảm giữa con người mà còn có nhiều tác động tích cực đến cả tinh thần và thể chất của chúng ta.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="tho-dan-australia-la-dai-dien-nen-van-minh-co-xua-nhat-trai-dat-75493.html">
-                                Thổ d&#226;n Australia l&#224; đại diện nền văn minh cổ xưa nhất Tr&#225;i Đất
-                            </a>
-                            <a class="thumb" href="tho-dan-australia-la-dai-dien-nen-van-minh-co-xua-nhat-trai-dat-75493.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/tho-dan-australia-200.jpg" alt="Thổ d&#226;n Australia l&#224; đại diện nền văn minh cổ xưa nhất Tr&#225;i Đất" />
-                            </a>
-                            <div class="desc">Nghiên cứu được đăng trên tạp chí Nature tuần này phát hiện ra rằng tổ tiên của thổ dân Australia và Papuan bản địa đã gặp gỡ và giao phối với một chủng tộc người bí ẩn, mà tới nay vẫn chưa tìm ra hóa thạch.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="tai-tao-khuon-mat-chua-te-peru-co-dai-bang-cong-nghe-3d-75495.html">
-                                T&#225;i tạo khu&#244;n mặt ch&#250;a tể Peru cổ đại bằng c&#244;ng nghệ 3D
-                            </a>
-                            <a class="thumb" href="tai-tao-khuon-mat-chua-te-peru-co-dai-bang-cong-nghe-3d-75495.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/chua-te-sipan-200.jpg" alt="T&#225;i tạo khu&#244;n mặt ch&#250;a tể Peru cổ đại bằng c&#244;ng nghệ 3D" />
-                            </a>
-                            <div class="desc">Khuôn mặt vị chúa tể của Sipan qua đời 1900 năm trước được tái tạo bằng công nghệ 3D.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="xuat-hien-con-bao-manh-cap-14-dang-tien-vao-bien-dong-75497.html">
-                                Xuất hiện cơn b&#227;o mạnh cấp 14 đang tiến v&#224;o biển Đ&#244;ng
-                            </a>
-                            <a class="thumb" href="xuat-hien-con-bao-manh-cap-14-dang-tien-vao-bien-dong-75497.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/bao-megi-200.jpg" alt="Xuất hiện cơn b&#227;o mạnh cấp 14 đang tiến v&#224;o biển Đ&#244;ng" />
-                            </a>
-                            <div class="desc">Hiện nay (25/9), trên vùng biển ngoài khơi xa phía Đông Bắc đảo Lu-Dong (Philippin) một cơn bão mạnh đang hoạt động và có tên quốc tế là MEGI.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="thiet-bi-co-the-doc-duoc-cam-xuc-cua-con-nguoi-75490.html">
-                                Thiết bị c&#243; thể đọc được cảm x&#250;c của con người
-                            </a>
-                            <a class="thumb" href="thiet-bi-co-the-doc-duoc-cam-xuc-cua-con-nguoi-75490.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/EQ-Radio-200.jpg" alt="Thiết bị c&#243; thể đọc được cảm x&#250;c của con người" />
-                            </a>
-                            <div class="desc">EQ-Radio có thể dựa vào nhịp tim và hơi thở để dự đoán cảm xúc của con người, mở ra khả năng ứng dụng trong nhiều lĩnh vực.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="tu-che-kinh-thien-van-ngam-trang-bang-2-chiec-vo-chai-nhua-75489.html">
-                                Tự chế k&#237;nh thi&#234;n văn ngắm trăng bằng 2 chiếc vỏ chai nhựa
-                            </a>
-                            <a class="thumb" href="tu-che-kinh-thien-van-ngam-trang-bang-2-chiec-vo-chai-nhua-75489.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/kinh-thien-van-tu-che-200.jpg" alt="Tự chế k&#237;nh thi&#234;n văn ngắm trăng bằng 2 chiếc vỏ chai nhựa" />
-                            </a>
-                            <div class="desc">Chỉ với vài dụng cụ đơn giản, bạn có thể chế ra chiếc kính thiên văn mini và ngắm trăng sao thật gần mỗi ngày rồi!</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="bangkok-giang-1682-kenh-muong-va-25-khu-tru-lu-chong-ngap-75491.html">
-                                Bangkok giăng 1682 k&#234;nh mương v&#224; 25 khu trữ lũ chống ngập
-                            </a>
-                            <a class="thumb" href="bangkok-giang-1682-kenh-muong-va-25-khu-tru-lu-chong-ngap-75491.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/ho-chua-chong-ngap-200.jpg" alt="Bangkok giăng 1682 k&#234;nh mương v&#224; 25 khu trữ lũ chống ngập" />
-                            </a>
-                            <div class="desc">Gần gũi với Việt Nam, đặc biệt với TP.HCM: một thành phố sông nước. Không hoành tráng như người Nhật nhưng người Thái Lan chọn kênh mương làm kế chống ngập muôn đời tự nhiên.</div>
-                        </li>
-                        <li class="listitem clearfix">
-                            <a class="title" href="ca-duoi-lon-nhat-the-gioi-de-non-vi-so-nguoi-75496.html">
-                                C&#225; đuối khổng lồ đẻ non v&#236; sợ người
-                            </a>
-                            <a class="thumb" href="ca-duoi-lon-nhat-the-gioi-de-non-vi-so-nguoi-75496.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/25/ca-duoi-sinh-con-200.jpg" alt="C&#225; đuối khổng lồ đẻ non v&#236; sợ người" />
-                            </a>
-                            <div class="desc">Con cá đuối khổng lồ đẻ liền 8 con non trên tàu do áp lực khi bị đoàn nghiên cứu bắt trong cuộc khảo sát gần Izmir, Thổ Nhĩ Kỳ.</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="pagination-container"><ul class="pagination"><li class="PagedList-skipToNext"><a href="index905b.html?p=2" rel="next">Xem thêm</a></li></ul></div>    </div>
-            <div class="sidebar">
-                <div id="adrighttop" class="adbox">
-                    <div id="adsense_right">
-                        <!-- KH-300x250 -->
-                        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-9275417305531302" data-ad-slot="3791346881"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                </div>
-
-                <div class="listbox highlight">
-                    <div class="list-title">Tiêu điểm</div>
-                    <ul>
-                        <li class="list-item">
-                            <a href="loai-vat-tho-10000-nam-du-tra-tan-the-nao-cung-van-song-tro-tro-67846.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2015/12/30/artemia-200-size-80x80-znd.jpg" alt="Lo&#224;i vật thọ 10.000 năm, d&#249; &quot;tra tấn&quot; thế n&#224;o cũng vẫn sống trơ trơ"/>
-                                Lo&#224;i vật thọ 10.000 năm, d&#249; &quot;tra tấn&quot; thế n&#224;o cũng vẫn sống trơ trơ
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="tim-thay-thanh-pho-huyen-thoai-atlantis-32062.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/032011/15/city3-size-80x80-znd.jpg" alt="&quot;T&#236;m thấy th&#224;nh phố huyền thoại Atlantis&quot;"/>
-                                &quot;T&#236;m thấy th&#224;nh phố huyền thoại Atlantis&quot;
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="cay-cau-nuoc-pha-vo-moi-dinh-luat-vat-ly-tai-ha-lan-75376.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/19/cay-cau-nuoc-200-size-80x80-znd.jpg" alt="C&#226;y cầu nước &quot;ph&#225; vỡ mọi định luật vật l&#253;&quot; tại H&#224; Lan"/>
-                                C&#226;y cầu nước &quot;ph&#225; vỡ mọi định luật vật l&#253;&quot; tại H&#224; Lan
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="canh-bao-tim-thay-45-doc-to-moi-o-bui-ban-trong-nha-75459.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/23/bui-trong-nha-200-size-80x80-znd.jpg" alt="Cảnh b&#225;o: T&#236;m thấy 45 độc tố mới ở bụi bẩn trong nh&#224;"/>
-                                Cảnh b&#225;o: T&#236;m thấy 45 độc tố mới ở bụi bẩn trong nh&#224;
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="phoi-bay-bi-mat-tam-giac-quy-bermuda-52305.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2016/09/19/tam-giac-bermuada-200-size-80x80-znd.jpg" alt="Phơi b&#224;y b&#237; mật Tam gi&#225;c quỷ Bermuda"/>
-                                Phơi b&#224;y b&#237; mật Tam gi&#225;c quỷ Bermuda
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="nhung-noi-so-kho-hieu-18960.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/image/2008/01/12/clown-size-80x80-znd.jpg" alt="Những nỗi sợ kh&#243; hiểu"/>
-                                Những nỗi sợ kh&#243; hiểu
-                            </a>
-                        </li>
-                        <li class="list-item">
-                            <a href="bi-quyet-giam-met-khi-say-ruou-9028.html">
-                                <img src="<?php echo STATIC_URL;?>/f/v1/photos/Image/2006/10/15/vodka_drinking-size-80x80-znd.jpg" alt="B&#237; quyết giảm mệt khi say rượu"/>
-                                B&#237; quyết giảm mệt khi say rượu
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div id="adrightsecond" class="adbox">
-
-                </div>
-                <style>
-                    @media (max-width:639px) {
-                        #sticky.adbox {
-                            display: none;
-                        }
-                    }
-                </style>
-                <div id="sticky" class="adbox">
-                    <!-- KhoaHoc 300x600 -->
-                    <ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-9275417305531302" data-ad-slot="9672107684"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-
-            </div>
-            <?php echo $this->render('frontend/nav-left'); ?>
-        </div>
-        <div id="footer" class="clearfix">
-            <div class="info">
-                <a href="contact.html" rel="nofollow">Liên hệ với chúng tôi</a>  -
-                <a href="https://www.facebook.com/khoahoc.tivi" target="_blank" rel="nofollow">Khoa học trên Facebook</a> -
-                <a href="rss" target="_blank" rel="nofollow">Rss</a>
-            </div>
-            <div class="copyright">
-                Copyright © 2016 KhoaHoc.tv
-            </div>
-        </div>
+    </script>
+</head>
+<body>
+<div id="page">
+    <!-- render header -->
+    <?php echo \My\Minifier\HtmlMin::minify($this->render('frontend/header')); ?>
+    <div id="main" class="indexpage clearfix">
+        <!-- render content -->
+        <?php echo \My\Minifier\HtmlMin::minify($this->layout()->content); ?>
+        <!-- render nav-right -->
+        <?php echo \My\Minifier\HtmlMin::minify($this->render('frontend/nav-right')); ?>
+        <!-- render nav-left -->
+        <?php echo \My\Minifier\HtmlMin::minify($this->render('frontend/nav-left')); ?>
     </div>
-
-<!--        Start Header section-->
-<!--        --><?php //echo $this->render('frontend/header'); ?>
-
-        <!--End Header section-->
-<!--        --><?php //echo $this->layout()->content; ?>
-        <!--Footer-->
-<!--        --><?php //echo $this->render('frontend/footer'); ?>
-<!--        End Footer-->
-    </body>
+    <!-- render nav-footer -->
+    <?php echo \My\Minifier\HtmlMin::minify($this->render('frontend/footer')); ?>
+</div>
+</body>
 </html>
+<?php echo $this->headScript(); ?>

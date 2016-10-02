@@ -11,16 +11,18 @@ class CategoryController extends MyController {
     /* @var $serviceProperties \My\Models\Properties */
 
     public function __construct() {
-        $this->externalJS = [
-            STATIC_URL . '/f/v1/js/library/??jquery.swipemenu.init.js'
-        ];
+//        $this->externalJS = [
+//            STATIC_URL . '/f/v1/js/library/??jquery.swipemenu.init.js'
+//        ];
     }
 
     public function indexAction() {
         $params = $this->params()->fromRoute();
+
         if (empty($params['cateId'])) {
             return $this->redirect()->toRoute('404', array());
         }
+
         $arrCategoryList = unserialize(ARR_CATEGORY);
 
         if (empty($arrCategoryList[(int) $params['cateId']])) {
@@ -34,7 +36,7 @@ class CategoryController extends MyController {
         }
 
         $intPage = (int) $params['page'] > 0 ? (int) $params['page'] : 1;
-        $intLimit = 15;
+        $intLimit = 20;
 
         $arrCondition = [
             'cont_status' => 1
@@ -56,6 +58,7 @@ class CategoryController extends MyController {
 
         $instanceSearchContent = new \My\Search\Content();
         $arrContentList = $instanceSearchContent->getListLimit($arrCondition, $intPage, $intLimit, ['created_date' => ['order' => 'desc']]);
+
         $intTotal = $instanceSearchContent->getTotal($arrCondition);
         $helper = $this->serviceLocator->get('viewhelpermanager')->get('Paging');
         $paging = $helper($params['module'], $params['__CONTROLLER__'], $params['action'], $intTotal, $intPage, $intLimit, 'category', $params);
