@@ -23,7 +23,7 @@ class MyController extends AbstractActionController {
     public function onDispatch(MvcEvent $e) {
         if (php_sapi_name() != 'cli') {
             $this->serverUrl = $this->request->getUri()->getScheme() . '://' . $this->request->getUri()->getHost();
-            $this->params = $this->params()->fromRoute();
+            $this->params = array_merge($this->params()->fromRoute(),$this->params()->fromQuery());
             $this->params['module'] = strtolower($this->params['module']);
             $this->params['controller'] = strtolower($this->params['__CONTROLLER__']);
             $this->params['action'] = strtolower($this->params['action']);
@@ -195,8 +195,11 @@ class MyController extends AbstractActionController {
 
             //50 KEYWORD :)
             $instanceSearchKeyword = new \My\Search\Keyword();
-            $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => 'khám phá'], 1, 50, ['_score' => ['order' => 'desc']]);
+//            $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => 'khám phá'], 1, 50, ['_score' => ['order' => 'desc']]);
+            $arrKeywordList = $instanceSearchKeyword->getListLimit(['is_crawler' => 1], 1, 50, ['key_id' => ['order' => 'asc']]);
             define('ARR_KEYWORD_ALL_PAGE', serialize($arrKeywordList));
+
+            define('KEYWORD_SEARCH', !empty($arrData['keyword']) && $arrData['action'] == 'index' && $arrData['controller'] == 'search' ? $arrData['keyword'] : NULL);
 
             unset($arrKeywordList);
             unset($arr_content_hot);

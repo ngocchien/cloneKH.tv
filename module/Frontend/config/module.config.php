@@ -186,6 +186,22 @@ return array(
                     ),
                 ),
             ),
+            'contact' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/lien-he.html',
+                    'constraints' => array(
+                        'controller' => 'general',
+                        'action' => 'contact',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Frontend\Controller',
+                        'module' => 'frontend',
+                        'controller' => 'general',
+                        'action' => 'contact',
+                    ),
+                ),
+            ),
             'notfound' => array(
                 'type' => 'Segment',
                 'options' => array(

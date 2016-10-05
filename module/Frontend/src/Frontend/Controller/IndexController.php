@@ -17,7 +17,7 @@ class IndexController extends MyController
     {
         try {
             $params = $this->params()->fromRoute();
-            $params = array_merge($params,$this->params()->fromQuery());
+            $params = array_merge($params, $this->params()->fromQuery());
             $intPage = (int)$params['page'] > 0 ? (int)$params['page'] : 1;
             $intLimit = 20;
 
@@ -26,7 +26,7 @@ class IndexController extends MyController
 
             return [
                 'arrContentList' => $arrContentList,
-                'intPage' => $intPage
+                'intPage' => $intPage,
 //                'arrKeywordList' => $arrKeywordList
             ];
         } catch (\Exception $exc) {
@@ -38,7 +38,6 @@ class IndexController extends MyController
             echo '</pre>';
             die();
         }
-
 
 
         $params = $this->params()->fromRoute();

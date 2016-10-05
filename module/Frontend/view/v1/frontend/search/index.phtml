@@ -1,5 +1,5 @@
 <div class="content">
-    <h2>Tìm kiếm : <?php echo $this->params['keyName']; ?></h2>
+    <h2>Tìm kiếm : <b><?php echo $this->params['keyword']; ?></b></h2>
     <div class="taxdesc">
         <p>Tìm thấy <b><?php echo $this->intTotal; ?></b> kết quả</p>
     </div>
@@ -10,7 +10,7 @@
         </span>
         <span typeof="v:Breadcrumb" class="breadcrumb">
             <a rel="v:url" property="v:title"
-               href="<?php echo $this->serverUrl() . $this->Url('search', array('keyName' => $this->params['keyName'])) ?>">
+               href="<?php echo $this->serverUrl() . $this->Url('search', array('keyword' => $this->params['keyword'])) ?>">
                 Tìm kiếm
             </a>
         </span>
@@ -62,6 +62,7 @@
                 endif;
                 ?>
             </ul>
-        </div>        <?php echo $this->paging;?>
+        </div>
+        <?php echo $this->paging;?>
     <?php endif; ?>
 </div>

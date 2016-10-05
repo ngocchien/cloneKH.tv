@@ -9,8 +9,10 @@ mb_regex_encoding('UTF-8');
 ob_start('mb_output_handler');
 chdir(dirname(__DIR__));
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
-APPLICATION_ENV === 'production' ? $staticURL = 'http://bestquynhon.com' : $staticURL = 'http://static.bestquynhon.com';
-APPLICATION_ENV === 'production' ? $baseURL = 'http://static.bestquynhon.com' : $baseURL = 'http://static.bestquynhon.com';
+
+$staticURL = APPLICATION_ENV === 'production' ?  'http://static.khampha.tech' : 'http://dev.st.khampha.tech';
+$baseURL = APPLICATION_ENV === 'production' ? 'http://khampha.tech' : 'http://dev.khampha.tech';
+
 //define variable
 defined('WEB_ROOT') || define('WEB_ROOT', realpath(dirname(dirname(__FILE__))));
 define('FRONTEND_TEMPLATE', 'v1');
@@ -20,16 +22,15 @@ define('PUBLIC_PATH', WEB_ROOT . '/public');
 define('STATIC_PATH', WEB_ROOT . '/static');
 define('UPLOAD_PATH', STATIC_PATH . '/uploads/');
 define('UPLOAD_URL', STATIC_URL . '/uploads/');
-
 define('CAPTCHA_PATH', UPLOAD_PATH . 'captcha/');
 define('CAPTCHA_URL', UPLOAD_URL . 'captcha');
-
 define('FRONTEND_FONT_PATH', STATIC_PATH . '/f/' . FRONTEND_TEMPLATE . '/fonts/');
 define('VENDOR_DIR', WEB_ROOT . '/vendor/');
 define('CONFIG_CACHE_DIR', WEB_ROOT . '/config/config-cache');
 define('SES_EXPIRED', 7776000);
 define('CLI_DEBUG', 0);
-define('SEARCH_PREFIX', 'raovat_');
+define('SEARCH_PREFIX', 'news_');
+define('WORKER_PREFIX', 'news');
 
 // Setup autoloading
 require 'init_autoloader.php';

@@ -23,7 +23,8 @@ class GeneralController extends MyController {
             return $this->redirect()->toRoute('404');
         }
 
-        $instanceSeachGeneral = new \My\Search\GeneralBqn();
+        $instanceSeachGeneral = new \My\Search\General();
+
         $arr_general = $instanceSeachGeneral->getDetail(['gene_id' => $params['geneId'], 'gene_status' => 1]);
 
         if (empty($arr_general)) {
@@ -144,7 +145,6 @@ class GeneralController extends MyController {
                 }
             }
         }
-
         $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
         $this->renderer->headMeta()->appendName('dc.description', html_entity_decode('Gửi liên hệ với chúng tôi, gửi liên hệ với website quynhon247.com') . General::TITLE_META);
         $this->renderer->headTitle(html_entity_decode('Gửi liên hệ với chúng tôi, gửi liên hệ với website quynhon247.com') . General::TITLE_META);
