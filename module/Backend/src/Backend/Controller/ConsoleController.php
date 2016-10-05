@@ -1213,15 +1213,43 @@ class ConsoleController extends MyController
 
                         //crawler nội dung bài đọc
                         $content_detail_page_dom = HtmlDomParser::str_get_html(General::crawler($item_content_source));
-                        foreach ($content_detail_page_dom->find('script') as $item) {
-                            $item->outertext = '';
+
+                        try{
+                            foreach ($content_detail_page_dom->find('script') as $item) {
+                                $item->outertext = '';
+                            }
+                        }catch (\Exception $exc){
+                            echo \My\General::getColoredString("Empty Script", 'red');
                         }
-                        foreach ($content_detail_page_dom->find('.adbox') as $item) {
-                            $item->outertext = '';
+
+                        try{
+                            foreach ($content_detail_page_dom->find('.adbox') as $item) {
+                                $item->outertext = '';
+                            }
+                        }catch (\Exception $exc){
+                            echo \My\General::getColoredString("Empty .adbox", 'red');
                         }
-                        $content_detail_html = $content_detail_page_dom->find('.content-detail', 0);
-                        $content_detail_outertext = $content_detail_page_dom->find('.content-detail', 0)->outertext;
-                        $img_all = $content_detail_html->find("img");
+
+                        try{
+                            $content_detail_html = $content_detail_page_dom->find('.content-detail', 0);
+                        }catch (\Exception $exc){
+                            echo \My\General::getColoredString("Empty .adbox", 'red');
+                            continue;
+                        }
+
+                        try{
+                            $content_detail_outertext = $content_detail_page_dom->find('.content-detail', 0)->outertext;
+                        }catch (\Exception $exc){
+                            echo \My\General::getColoredString("Empty content-detail", 'red');
+                            continue;
+                        }
+
+                        try{
+                            $img_all = $content_detail_html->find("img");
+                        }catch (\Exception $exc){
+                            $img_all = [];
+                            echo \My\General::getColoredString("Empty images", 'red');
+                        }
 
                         //lấy hình ảnh trong bài
                         if (count($img_all) > 0) {
