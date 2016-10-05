@@ -1148,10 +1148,11 @@ class ConsoleController extends MyController
                 }
                 for ($i = 500; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
-                    echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
+                    echo \My\General::getColoredString("Crawler success 1 post id = {$source_url} \n", 'green');
 
                     $page_cate_content = General::crawler($source_url);
                     $page_cate_dom = HtmlDomParser::str_get_html($page_cate_content);
+
                     try {
                         $item_content_in_cate = $page_cate_dom->find('.listitem');
                     } catch (\Exception $exc) {
@@ -1166,8 +1167,6 @@ class ConsoleController extends MyController
                         $arr_data_content = [];
                         $item_content_dom = HtmlDomParser::str_get_html($item_content->outertext);
 
-                        echo \My\General::getColoredString("get url = {$item_content_dom} \n", 'green');
-
                         try {
                             $item_content_source = 'http://khoahoc.tv' . $item_content_dom->find('a', 0)->href;
                         }catch (\Exception $exc){
@@ -1175,17 +1174,20 @@ class ConsoleController extends MyController
                             continue;
                         }
 
+                        echo \My\General::getColoredString("get url = {$item_content_source} \n", 'green');
+
                         try {
                             $item_content_title = trim($item_content_dom->find('.title', 0)->plaintext);
                         }catch (\Exception $exc){
                             echo \My\General::getColoredString("Exception cannot get title url = {$item_content_source} \n", 'red');
                             continue;
                         }
+
                         $arr_data_content['cont_title'] = html_entity_decode($item_content_title);
                         $arr_data_content['cont_slug'] = General::getSlug(html_entity_decode($item_content_title));
 
                         $item_content_description = html_entity_decode(trim($item_content_dom->find('.desc', 0)->plaintext));
-                        
+
                         try {
                             $img_avatar_url = $item_content_dom->find('img', 0)->src;
                         }catch (\Exception $exc){
