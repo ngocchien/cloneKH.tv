@@ -96,7 +96,7 @@ return array(
                         'controller' => 'search',
                         'action' => 'keyword',
                         'keyId' => '[0-9]+',
-                        'keySlug' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'keySlug' => '[a-zA-Z0-9_-]*',
                         'page' => '[0-9]+'
                     ),
                     'defaults' => array(
