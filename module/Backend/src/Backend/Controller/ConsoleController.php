@@ -1142,107 +1142,112 @@ class ConsoleController extends MyController
         unset($instanceSearchCategory);
         $instanceSearchContent = new \My\Search\Content();
         foreach ($arr_category as $category) {
-            if (empty($category['cate_crawler_url'])) {
-                continue;
-            }
-            for ($i = 4; $i >= 1; $i--) {
-                $source_url = $category['cate_crawler_url'] . '?p=' . $i;
-                $page_cate_content = General::crawler($source_url);
-                $page_cate_dom = HtmlDomParser::str_get_html($page_cate_content);
-                try {
-                    $item_content_in_cate = $page_cate_dom->find('.listitem');
-                } catch (\Exception $exc) {
+            try {
+                if (empty($category['cate_crawler_url'])) {
                     continue;
                 }
-                if (empty($item_content_in_cate)) {
-                    continue;
-                }
-
-                foreach ($item_content_in_cate as $item_content) {
-                    $arr_data_content = [];
-                    $item_content_dom = HtmlDomParser::str_get_html($item_content->outertext);
-                    $item_content_source = 'http://khoahoc.tv' . $item_content_dom->find('a', 0)->href;
-                    $item_content_title = trim($item_content_dom->find('.title', 0)->plaintext);
-                    $arr_data_content['cont_title'] = html_entity_decode($item_content_title);
-                    $arr_data_content['cont_slug'] = General::getSlug(html_entity_decode($item_content_title));
-
-                    $item_content_description = html_entity_decode(trim($item_content_dom->find('.desc', 0)->plaintext));
-                    $img_avatar_url = $item_content_dom->find('img', 0)->src;
-                    $arr_detail = $instanceSearchContent->getDetail(['cont_slug' => $arr_data_content['cont_slug'], 'not_cont_status' => -1]);
-
-                    if (!empty($arr_detail)) {
+                for ($i = 500; $i >= 1; $i--) {
+                    $source_url = $category['cate_crawler_url'] . '?p=' . $i;
+                    $page_cate_content = General::crawler($source_url);
+                    $page_cate_dom = HtmlDomParser::str_get_html($page_cate_content);
+                    try {
+                        $item_content_in_cate = $page_cate_dom->find('.listitem');
+                    } catch (\Exception $exc) {
+                        continue;
+                    }
+                    if (empty($item_content_in_cate)) {
                         continue;
                     }
 
-                    //lấy hình đại diện
-                    if ($img_avatar_url == 'http://img.khoahoc.tv/photos/image/blank.png') {
-                        $arr_data_content['cont_main_image'] = STATIC_URL . '/f/v1/img/black.png';
-                    } else {
-                        $extension = end(explode('.', end(explode('/', $img_avatar_url))));
-                        $name = $arr_data_content['cont_slug'] . '.' . $extension;
-                        file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($img_avatar_url));
-                        $arr_data_content['cont_main_image'] = STATIC_URL . '/uploads/content/' . $name;
-                    }
+                    foreach ($item_content_in_cate as $item_content) {
+                        $arr_data_content = [];
+                        $item_content_dom = HtmlDomParser::str_get_html($item_content->outertext);
+                        $item_content_source = 'http://khoahoc.tv' . $item_content_dom->find('a', 0)->href;
+                        $item_content_title = trim($item_content_dom->find('.title', 0)->plaintext);
+                        $arr_data_content['cont_title'] = html_entity_decode($item_content_title);
+                        $arr_data_content['cont_slug'] = General::getSlug(html_entity_decode($item_content_title));
 
-                    //crawler nội dung bài đọc
-                    $content_detail_page_dom = HtmlDomParser::str_get_html(General::crawler($item_content_source));
-                    foreach ($content_detail_page_dom->find('script') as $item) {
-                        $item->outertext = '';
-                    }
-                    foreach ($content_detail_page_dom->find('.adbox') as $item) {
-                        $item->outertext = '';
-                    }
-                    $content_detail_html = $content_detail_page_dom->find('.content-detail', 0);
-                    $content_detail_outertext = $content_detail_page_dom->find('.content-detail', 0)->outertext;
-                    $img_all = $content_detail_html->find("img");
+                        $item_content_description = html_entity_decode(trim($item_content_dom->find('.desc', 0)->plaintext));
+                        $img_avatar_url = $item_content_dom->find('img', 0)->src;
+                        $arr_detail = $instanceSearchContent->getDetail(['cont_slug' => $arr_data_content['cont_slug'], 'not_cont_status' => -1]);
 
-                    //lấy hình ảnh trong bài
-                    if (count($img_all) > 0) {
-                        foreach ($img_all as $key => $im) {
-                            $extension = end(explode('.', end(explode('/', $im->src))));
-                            $name = $arr_data_content['cont_slug'] . '-' . ($key + 1) . '.' . $extension;
-                            file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($im->src));
-                            $content_detail_outertext = str_replace($im->src, STATIC_URL . '/uploads/content/' . $name, $content_detail_outertext);
+                        if (!empty($arr_detail)) {
+                            continue;
                         }
+
+                        //lấy hình đại diện
+                        if ($img_avatar_url == 'http://img.khoahoc.tv/photos/image/blank.png') {
+                            $arr_data_content['cont_main_image'] = STATIC_URL . '/f/v1/img/black.png';
+                        } else {
+                            $extension = end(explode('.', end(explode('/', $img_avatar_url))));
+                            $name = $arr_data_content['cont_slug'] . '.' . $extension;
+                            file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($img_avatar_url));
+                            $arr_data_content['cont_main_image'] = STATIC_URL . '/uploads/content/' . $name;
+                        }
+
+                        //crawler nội dung bài đọc
+                        $content_detail_page_dom = HtmlDomParser::str_get_html(General::crawler($item_content_source));
+                        foreach ($content_detail_page_dom->find('script') as $item) {
+                            $item->outertext = '';
+                        }
+                        foreach ($content_detail_page_dom->find('.adbox') as $item) {
+                            $item->outertext = '';
+                        }
+                        $content_detail_html = $content_detail_page_dom->find('.content-detail', 0);
+                        $content_detail_outertext = $content_detail_page_dom->find('.content-detail', 0)->outertext;
+                        $img_all = $content_detail_html->find("img");
+
+                        //lấy hình ảnh trong bài
+                        if (count($img_all) > 0) {
+                            foreach ($img_all as $key => $im) {
+                                $extension = end(explode('.', end(explode('/', $im->src))));
+                                $name = $arr_data_content['cont_slug'] . '-' . ($key + 1) . '.' . $extension;
+                                file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($im->src));
+                                $content_detail_outertext = str_replace($im->src, STATIC_URL . '/uploads/content/' . $name, $content_detail_outertext);
+                            }
+                        }
+
+                        //REPLACE ALL HREF TAG  A
+                        $content_detail_outertext = str_replace('http://khoahoc.tv', BASE_URL, $content_detail_outertext);
+
+                        $content_detail_outertext = trim(strip_tags($content_detail_outertext, '<a><div><img><b><p><br><span><br /><strong><h2><h1><h3><h4><table><td><tr><th><tbody><iframe>'));
+                        $arr_data_content['cont_detail'] = html_entity_decode($content_detail_outertext);
+                        $arr_data_content['created_date'] = time();
+                        $arr_data_content['user_created'] = 1;
+                        $arr_data_content['cate_id'] = $category['cate_id'];
+                        $arr_data_content['cont_description'] = $item_content_description;
+                        $arr_data_content['cont_status'] = 1;
+                        $arr_data_content['cont_views'] = rand(1, rand(100, 1000));
+                        $arr_data_content['method'] = 'crawler';
+                        $arr_data_content['from_source'] = $item_content_source;
+                        $arr_data_content['meta_keyword'] = str_replace(' ', ',', $arr_data_content['cont_title']);
+                        $arr_data_content['updated_date'] = time();
+                        unset($content_detail_outertext);
+                        unset($img_all);
+                        unset($img_avatar_url);
+                        unset($content_detail_html);
+                        unset($content_detail_page_dom);
+                        unset($item_content_dom);
+
+                        $serviceContent = $this->serviceLocator->get('My\Models\Content');
+                        $id = $serviceContent->add($arr_data_content);
+
+                        if ($id) {
+                            echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
+                        } else {
+                            echo \My\General::getColoredString("Can not insert content db", 'red');
+                        }
+
+                        unset($serviceContent);
+                        unset($arr_data_content);
+                        $this->flush();
+                        continue;
                     }
-
-                    //REPLACE ALL HREF TAG  A
-                    $content_detail_outertext = str_replace('http://khoahoc.tv', BASE_URL, $content_detail_outertext);
-
-                    $content_detail_outertext = trim(strip_tags($content_detail_outertext, '<a><div><img><b><p><br><span><br /><strong><h2><h1><h3><h4><table><td><tr><th><tbody><iframe>'));
-                    $arr_data_content['cont_detail'] = html_entity_decode($content_detail_outertext);
-                    $arr_data_content['created_date'] = time();
-                    $arr_data_content['user_created'] = 1;
-                    $arr_data_content['cate_id'] = $category['cate_id'];
-                    $arr_data_content['cont_description'] = $item_content_description;
-                    $arr_data_content['cont_status'] = 1;
-                    $arr_data_content['cont_views'] = rand(1, rand(100, 1000));
-                    $arr_data_content['method'] = 'crawler';
-                    $arr_data_content['from_source'] = $item_content_source;
-                    $arr_data_content['meta_keyword'] = str_replace(' ', ',', $arr_data_content['cont_title']);
-                    $arr_data_content['updated_date'] = time();
-                    unset($content_detail_outertext);
-                    unset($img_all);
-                    unset($img_avatar_url);
-                    unset($content_detail_html);
-                    unset($content_detail_page_dom);
-                    unset($item_content_dom);
-
-                    $serviceContent = $this->serviceLocator->get('My\Models\Content');
-                    $id = $serviceContent->add($arr_data_content);
-
-                    if ($id) {
-                        echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
-                    } else {
-                        echo \My\General::getColoredString("Can not insert content db", 'red');
-                    }
-
-                    unset($serviceContent);
-                    unset($arr_data_content);
-                    $this->flush();
-                    continue;
                 }
+            } catch (\Exception $exc) {
+                continue;
             }
+
         }
         echo \My\General::getColoredString("Crawler to success", 'green');
         return true;
