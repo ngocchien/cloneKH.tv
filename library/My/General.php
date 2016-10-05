@@ -8,10 +8,10 @@ class General {
     const TITLE_META = " - Khampha.tech";
     const SITE_AUTH = "Khampha.tech";
     const SITE_DOMAIN = 'Khampha.tech';
-    const SITE_SLOGAN = 'Cập nhật tin tức nhanh nhất';
+    const SITE_SLOGAN = 'Khám phá công nghệ';
     const SITE_HOTLINE = '(+84) 97 353 1618';
-    const KEYWORD_DEFAULT = 'Khampha.tech, khampha, cap nhat tin tuc nhanh nhat, tin nhanh 24h, tin tuc gioi tre, tin 24h qua, cap nhat tin tuc, tin nhanh trong ngay, tin tuc the thao, tin van hoa, tin giai tri, tin thoi trang, tin trong nuoc va the gioi, tin nong trong ngay';
-    const DESCRIPTION_DEFAULT = 'Khampha.tech - Cập nhật tin tức nhanh nhất, cập nhật nhanh nhất tình tình trong và ngoại nước, tổng hợp các vấn đề nóng nhất, Cập nhật tin tức thể thao, tin ngoại hạng';
+    const KEYWORD_DEFAULT = 'Khampha.tech, khampha, kham pha khoa hoc, tin tuc khoa hoc, su kien khoa hoc, kham pha doi song, bi an, bi an khoa hoc, goc hai huoc, tin tuc khoa hoc nhanh nhat, tong hop tin tuc khoa hoc, cong nghe';
+    const DESCRIPTION_DEFAULT = 'Khampha.tech - Khám phá công nghệ, Cập nhật thông tin khoa học , công nghê, khám phá những bí ẩn của cuộc sống - khoa học, nghiên cứu những phát minh mới';
     const SITE_IMAGES_DEFAULT = 'http://static.tech/f/v1/images/home.png';
     const SITE_SOCIAL = 'https://www.facebook.com/quynhon247/';
     const SITE_LOCATION = "";
