@@ -12,7 +12,7 @@ class General {
     const SITE_HOTLINE = '(+84) 97 353 1618';
     const KEYWORD_DEFAULT = 'Khampha.tech, khampha, kham pha khoa hoc, tin tuc khoa hoc, su kien khoa hoc, kham pha doi song, bi an, bi an khoa hoc, goc hai huoc, tin tuc khoa hoc nhanh nhat, tong hop tin tuc khoa hoc, cong nghe';
     const DESCRIPTION_DEFAULT = 'Khampha.tech - Khám phá công nghệ, Cập nhật thông tin khoa học , công nghê, khám phá những bí ẩn của cuộc sống - khoa học, nghiên cứu những phát minh mới';
-    const SITE_IMAGES_DEFAULT = 'http://static.tech/f/v1/images/home.png';
+    const SITE_IMAGES_DEFAULT = 'http://static.khampha.tech/f/v1/images/home.png';
     const SITE_SOCIAL = 'https://www.facebook.com/quynhon247/';
     const SITE_LOCATION = "";
     const MEMBER = 5;
