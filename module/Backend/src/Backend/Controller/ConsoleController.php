@@ -1223,10 +1223,11 @@ class ConsoleController extends MyController
                         try {
                             $script = $content_detail_page_dom->find('script');
                         } catch (\Exception $exc) {
+                            echo $exc->getMessage();
+                            $script = null;
                             echo \My\General::getColoredString("Empty Script", 'red');
                         }
                         if(!empty($script)){
-                            $script = null;
                             foreach ($content_detail_page_dom->find('script') as $item) {
                                 $item->outertext = '';
                             }
