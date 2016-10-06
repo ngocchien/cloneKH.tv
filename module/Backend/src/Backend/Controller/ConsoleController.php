@@ -1141,6 +1141,10 @@ class ConsoleController extends MyController
         $arr_category = $instanceSearchCategory->getList(['cate_status' => 1], [], ['cate_sort' => ['order' => 'asc'], 'cate_id' => ['order' => 'asc']]);
         unset($instanceSearchCategory);
         $instanceSearchContent = new \My\Search\Content();
+
+        $arr_pass = [
+            'http://khoahoc.tv/chua-du-co-so-de-xac-dinh-nien-dai-thoc-thanh-den-29433'
+        ];
         foreach ($arr_category as $category) {
             try {
                 if (empty($category['cate_crawler_url'])) {
@@ -1148,7 +1152,7 @@ class ConsoleController extends MyController
                 }
                 for ($i = 500; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
-                    echo \My\General::getColoredString("Crawler success 1 post id = {$source_url} \n", 'green');
+                    echo \My\General::getColoredString("Crawler page cate = {$source_url} \n", 'green');
 
                     $page_cate_content = General::crawler($source_url);
                     $page_cate_dom = HtmlDomParser::str_get_html($page_cate_content);
@@ -1174,6 +1178,12 @@ class ConsoleController extends MyController
                             echo \My\General::getColoredString("Exception item cate url = {$source_url} \n", 'red');
                             continue;
                         }
+
+                        if(in_array($item_content_source, $arr_pass)){
+                            echo \My\General::getColoredString("Pass url = {$item_content_source} \n", 'red');
+                            continue;
+                        }
+
 
                         echo \My\General::getColoredString("get url = {$item_content_source} \n", 'green');
 
