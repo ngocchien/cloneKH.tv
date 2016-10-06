@@ -1170,7 +1170,7 @@ class ConsoleController extends MyController
 
                         try {
                             $item_content_source = 'http://khoahoc.tv' . $item_content_dom->find('a', 0)->href;
-                        }catch (\Exception $exc){
+                        } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Exception item cate url = {$source_url} \n", 'red');
                             continue;
                         }
@@ -1179,7 +1179,7 @@ class ConsoleController extends MyController
 
                         try {
                             $item_content_title = trim($item_content_dom->find('.title', 0)->plaintext);
-                        }catch (\Exception $exc){
+                        } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Exception cannot get title url = {$item_content_source} \n", 'red');
                             continue;
                         }
@@ -1189,14 +1189,14 @@ class ConsoleController extends MyController
 
                         try {
                             $item_content_description = html_entity_decode(trim($item_content_dom->find('.desc', 0)->plaintext));
-                        }catch (\Exception $exc){
+                        } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Exception cannot get description", 'red');
 //                            continue;
                         }
 
                         try {
                             $img_avatar_url = $item_content_dom->find('img', 0)->src;
-                        }catch (\Exception $exc){
+                        } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Exception image title = {$item_content_title} \n", 'red');
 //                            continue;
                         }
@@ -1220,39 +1220,50 @@ class ConsoleController extends MyController
                         //crawler nội dung bài đọc
                         $content_detail_page_dom = HtmlDomParser::str_get_html(General::crawler($item_content_source));
 
-                        try{
+                        try {
+                            $script = $content_detail_page_dom->find('script');
+                        } catch (\Exception $exc) {
+                            echo \My\General::getColoredString("Empty Script", 'red');
+                        }
+                        if(!empty($script)){
+                            $script = null;
                             foreach ($content_detail_page_dom->find('script') as $item) {
                                 $item->outertext = '';
                             }
-                        }catch (\Exception $exc){
-                            echo \My\General::getColoredString("Empty Script", 'red');
+                            unset($script);
                         }
 
-                        try{
+                        try {
+                            $adbox = $content_detail_page_dom->find('.adbox');
+                        } catch (\Exception $exc) {
+                            $adbox = null;
+                            echo \My\General::getColoredString("Empty adbox", 'red');
+                        }
+
+                        if(!empty($adbox)){
                             foreach ($content_detail_page_dom->find('.adbox') as $item) {
                                 $item->outertext = '';
                             }
-                        }catch (\Exception $exc){
-                            echo \My\General::getColoredString("Empty .adbox", 'red');
+                            unset($adbox);
                         }
 
-                        try{
+                        try {
                             $content_detail_html = $content_detail_page_dom->find('.content-detail', 0);
-                        }catch (\Exception $exc){
+                        } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Empty .adbox", 'red');
                             continue;
                         }
 
-                        try{
+                        try {
                             $content_detail_outertext = $content_detail_page_dom->find('.content-detail', 0)->outertext;
-                        }catch (\Exception $exc){
+                        } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Empty content-detail", 'red');
                             continue;
                         }
 
-                        try{
+                        try {
                             $img_all = $content_detail_html->find("img");
-                        }catch (\Exception $exc){
+                        } catch (\Exception $exc) {
                             $img_all = [];
                             echo \My\General::getColoredString("Empty images", 'red');
                         }
