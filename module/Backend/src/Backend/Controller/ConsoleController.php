@@ -1145,6 +1145,10 @@ class ConsoleController extends MyController
         $arr_pass = [
             'http://khoahoc.tv/chua-du-co-so-de-xac-dinh-nien-dai-thoc-thanh-den-29433'
         ];
+
+        $arr_pass_cate = [
+            'http://khoahoc.tv/yhoc?p=223'
+        ];
         foreach ($arr_category as $category) {
             try {
                 if (empty($category['cate_crawler_url'])) {
@@ -1152,6 +1156,12 @@ class ConsoleController extends MyController
                 }
                 for ($i = 500; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
+                    
+                    if (in_array($source_url, $arr_pass_cate)) {
+                        echo \My\General::getColoredString("Continue page cate = {$source_url} \n", 'red');
+                        continue;
+                    }
+
                     echo \My\General::getColoredString("Crawler page cate = {$source_url} \n", 'green');
 
                     $page_cate_content = General::crawler($source_url);
@@ -1179,7 +1189,7 @@ class ConsoleController extends MyController
                             continue;
                         }
 
-                        if(in_array($item_content_source, $arr_pass)){
+                        if (in_array($item_content_source, $arr_pass)) {
                             echo \My\General::getColoredString("Pass url = {$item_content_source} \n", 'red');
                             continue;
                         }
@@ -1237,7 +1247,7 @@ class ConsoleController extends MyController
                             $script = null;
                             echo \My\General::getColoredString("Empty Script", 'red');
                         }
-                        if(!empty($script)){
+                        if (!empty($script)) {
                             foreach ($content_detail_page_dom->find('script') as $item) {
                                 $item->outertext = '';
                             }
@@ -1251,7 +1261,7 @@ class ConsoleController extends MyController
                             echo \My\General::getColoredString("Empty adbox", 'red');
                         }
 
-                        if(!empty($adbox)){
+                        if (!empty($adbox)) {
                             foreach ($content_detail_page_dom->find('.adbox') as $item) {
                                 $item->outertext = '';
                             }
