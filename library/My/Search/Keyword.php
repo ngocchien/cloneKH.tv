@@ -257,6 +257,13 @@ class Keyword extends SearchAbstract {
             $boolQuery->addMust($addQuery);
         }
 
+        if (isset($params['full'])) {
+            $wordNameQueryString = new ESQuery\QueryString();
+            $wordNameQueryString->setDefaultField('key_name')
+                ->setQuery('*');
+            $boolQuery->addMust($wordNameQueryString);
+        }
+
         return $boolQuery;
     }
 

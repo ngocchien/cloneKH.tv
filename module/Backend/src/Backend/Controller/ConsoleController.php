@@ -895,38 +895,26 @@ class ConsoleController extends MyController
 
     public function sitemapAction()
     {
+        $this->sitemapOther();
         $this->siteMapCategory();
         $this->siteMapContent();
-        $this->sitemapOther();
+        $this->siteMapSearch();
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>';
         $xml = new \SimpleXMLElement($xml);
 
-        if (is_file(PUBLIC_PATH . '/xml/content.xml')) {
-            $sitemap = $xml->addChild('sitemap', '');
-            $sitemap->addChild('loc', BASE_URL . '/xml/content.xml');
-            $sitemap->addChild('lastmod', date('c', time()));
-        }
-        if (is_file(PUBLIC_PATH . '/xml/category.xml')) {
-            $sitemap = $xml->addChild('sitemap', '');
-            $sitemap->addChild('loc', BASE_URL . '/xml/category.xml');
-            $sitemap->addChild('lastmod', date('c', time()));
-        }
-//
-//        if (is_file(PUBLIC_PATH . '/xml/general.xml')) {
-//            $sitemap = $xml->addChild('sitemap');
-//            $sitemap->addChild('loc', BASE_URL . '/xml/general.xml');
-//            $sitemap->addChild('lastmod', date('c', time()));
-//        }
-        if (is_file(PUBLIC_PATH . '/xml/other.xml')) {
-            $sitemap = $xml->addChild('sitemap');
-            $sitemap->addChild('loc', BASE_URL . '/xml/other.xml');
-            $sitemap->addChild('lastmod', date('c', time()));
+        $all_file = scandir(PUBLIC_PATH.'/xml/');
+        foreach ($all_file as $file_name){
+            if (strpos($file_name, 'xml') !== false) {
+                $sitemap = $xml->addChild('sitemap', '');
+                $sitemap->addChild('loc', BASE_URL . '/xml/'.$file_name);
+                $sitemap->addChild('lastmod', date('c', time()));
+            }
         }
 
-        $result = file_put_contents(PUBLIC_PATH . '/xml/bestquynhon_sitemap.xml', $xml->asXML());
+        $result = file_put_contents(PUBLIC_PATH . '/xml/khampha_sitemap.xml', $xml->asXML());
         if ($result) {
-            echo General::getColoredString("Create bestquynhon_sitemap.xml completed!", 'blue', 'cyan');
+            echo General::getColoredString("Create khampha_sitemap.xml completed!", 'blue', 'cyan');
             $this->flush();
         }
         echo General::getColoredString("DONE!", 'blue', 'cyan');
@@ -957,55 +945,13 @@ class ConsoleController extends MyController
 
         ksort($arrCategoryByParent);
 
-        //findall district
-        $instanceSearchDistrict = new \My\Search\District();
-        $arrDistrict = $instanceSearchDistrict->getList(['not_dist_status' => -1], [], ['dist_sort' => ['order' => 'asc'], 'dist_id' => ['order' => 'asc']]);
-
-        //findall properties
-        $instanceSearchProperties = new \My\Search\Properties();
-        $arrProperties = $instanceSearchProperties->getList(['not_prop_status' => -1, 'not_parent_id' => 0]);
-
-        //format properties
-        $arrPropertiesFormat = [];
-        foreach ($arrProperties as $value) {
-            $arrPropertiesFormat[$value['parent_id']][] = $value;
-        }
-
         foreach ($arrCategoryParentList as $value) {
             $strCategoryURL = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '.html';
             $url = $xml->addChild('url');
             $url->addChild('loc', $strCategoryURL);
             $url->addChild('lastmod', date('c', time()));
             $url->addChild('changefreq', 'daily');
-            $url->addChild('priority', 0.7);
-
-            //khu vuc tat ca
-            foreach ($arrPropertiesFormat[$value['prop_id']] as $prop) {
-                $href = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '/khu-vuc/toan-tinh-0/nhu-cau/' . $prop['prop_slug'] . '-' . $prop['prop_id'] . '.html';
-                $url = $xml->addChild('url');
-                $url->addChild('loc', $href);
-                $url->addChild('lastmod', date('c', time()));
-                $url->addChild('changefreq', 'daily');
-                $url->addChild('priority', 0.7);
-            }
-
-            foreach ($arrDistrict as $arrLoca) {
-                $href = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '/khu-vuc/' . $arrLoca['dist_slug'] . '-' . $arrLoca['dist_id'] . '.html';
-                $url = $xml->addChild('url');
-                $url->addChild('loc', $href);
-                $url->addChild('lastmod', date('c', time()));
-                $url->addChild('changefreq', 'daily');
-                $url->addChild('priority', 0.7);
-
-                foreach ($arrPropertiesFormat[$value['prop_id']] as $prop) {
-                    $href = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '/khu-vuc/' . $arrLoca['dist_slug'] . '-' . $arrLoca['dist_id'] . '/nhu-cau/' . $prop['prop_slug'] . '-' . $prop['prop_id'] . '.html';
-                    $url = $xml->addChild('url');
-                    $url->addChild('loc', $href);
-                    $url->addChild('lastmod', date('c', time()));
-                    $url->addChild('changefreq', 'daily');
-                    $url->addChild('priority', 0.7);
-                }
-            }
+            $url->addChild('priority', 0.9);
         }
         foreach ($arrCategoryByParent as $key => $arr) {
             foreach ($arr as $value) {
@@ -1014,35 +960,7 @@ class ConsoleController extends MyController
                 $url->addChild('loc', $strCategoryURL);
                 $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
-                $url->addChild('priority', 0.7);
-
-                //khu vuc tat ca
-                foreach ($arrPropertiesFormat[$arrCategoryParentList[$key]['prop_id']] as $prop) {
-                    $href = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '/khu-vuc/toan-tinh-0/nhu-cau/' . $prop['prop_slug'] . '-' . $prop['prop_id'] . '.html';
-                    $url = $xml->addChild('url');
-                    $url->addChild('loc', $href);
-                    $url->addChild('lastmod', date('c', time()));
-                    $url->addChild('changefreq', 'daily');
-                    $url->addChild('priority', 0.7);
-                }
-
-                foreach ($arrDistrict as $arrLoca) {
-                    $href = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '/khu-vuc/' . $arrLoca['dist_slug'] . '-' . $arrLoca['dist_id'] . '.html';
-                    $url = $xml->addChild('url');
-                    $url->addChild('loc', $href);
-                    $url->addChild('lastmod', date('c', time()));
-                    $url->addChild('changefreq', 'daily');
-                    $url->addChild('priority', 0.7);
-
-                    foreach ($arrPropertiesFormat[$arrCategoryParentList[$key]['prop_id']] as $prop) {
-                        $href = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '/khu-vuc/' . $arrLoca['dist_slug'] . '-' . $arrLoca['dist_id'] . '/nhu-cau/' . $prop['prop_slug'] . '-' . $prop['prop_id'] . '.html';
-                        $url = $xml->addChild('url');
-                        $url->addChild('loc', $href);
-                        $url->addChild('lastmod', date('c', time()));
-                        $url->addChild('changefreq', 'daily');
-                        $url->addChild('priority', 0.7);
-                    }
-                }
+                $url->addChild('priority', 0.9);
             }
         }
 
@@ -1071,12 +989,19 @@ class ConsoleController extends MyController
                 break;
             }
             foreach ($arrContentList as $arr) {
-                $href = BASE_URL . '/rao-vat/' . $arr['cont_slug'] . '-' . $arr['cont_id'] . '.html';
+                $href = BASE_URL . '/bai-viet/' . $arr['cont_slug'] . '-' . $arr['cont_id'] . '.html';
                 $url = $xml->addChild('url');
                 $url->addChild('loc', $href);
+                $url->addChild('title', $arr['cont_title']);
                 $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
                 $url->addChild('priority', 0.7);
+
+                if (!empty($arr['cont_main_image'])) {
+                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:loc', $arr['cont_main_image'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                }
             }
         }
 
@@ -1092,7 +1017,39 @@ class ConsoleController extends MyController
 
     public function siteMapSearch()
     {
+        $instanceSearchKeyword = new \My\Search\Keyword();
+        $doc = '<?xml version="1.0" encoding="UTF-8"?>';
+        $doc .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
+        $doc .= '</urlset>';
+        $xml = new \SimpleXMLElement($doc);
+        $this->flush();
+        $intLimit = 500;
+        for ($intPage = 1; $intPage < 10000; $intPage++) {
+            $file = PUBLIC_PATH . '/xml/keyword_' . $intPage . '.xml';
+            $arrKeyList = $instanceSearchKeyword->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'desc']]);
 
+            if (empty($arrKeyList)) {
+                break;
+            }
+
+            foreach ($arrKeyList as $arr) {
+                $href = BASE_URL . '/tu-khoa/' . $arr['key_slug'] . '-' . $arr['key_id'] . '.html';
+                $url = $xml->addChild('url');
+                $url->addChild('loc', $href);
+                $url->addChild('lastmod', date('c', time()));
+                $url->addChild('changefreq', 'daily');
+                $url->addChild('priority', 0.5);
+            }
+
+            unlink($file);
+            $result = file_put_contents($file, $xml->asXML());
+
+            if ($result) {
+                echo General::getColoredString("Site map complete keyword page {$intPage}", 'yellow', 'cyan');
+                $this->flush();
+            }
+        }
+        return true;
     }
 
     private function sitemapOther()
@@ -1102,7 +1059,7 @@ class ConsoleController extends MyController
         $doc .= '</urlset>';
         $xml = new \SimpleXMLElement($doc);
         $this->flush();
-        $arrData = ['http://bestquynhon.com/'];
+        $arrData = ['http://khampha.tech/'];
         foreach ($arrData as $value) {
             $href = $value;
             $url = $xml->addChild('url');
@@ -1156,7 +1113,7 @@ class ConsoleController extends MyController
                 }
                 for ($i = 500; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
-                    
+
                     if (in_array($source_url, $arr_pass_cate)) {
                         echo \My\General::getColoredString("Continue page cate = {$source_url} \n", 'red');
                         continue;
