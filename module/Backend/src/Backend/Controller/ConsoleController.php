@@ -1119,12 +1119,12 @@ class ConsoleController extends MyController
 
         if ($type == 'khoahocTV') {
             $this->__khoahocTV();
-            shell_exec("nohup php " . PUBLIC_PATH . "/index.php sitemap >/dev/null & echo 2>&1 & echo $!");
+//            shell_exec("nohup php " . PUBLIC_PATH . "/index.php sitemap >/dev/null & echo 2>&1 & echo $!");
             return true;
         }
 
         //crawler xong thì tạo sitemap
-        shell_exec("nohup php " . PUBLIC_PATH . "/index.php sitemap >/dev/null & echo 2>&1 & echo $!");
+//        shell_exec("nohup php " . PUBLIC_PATH . "/index.php sitemap >/dev/null & echo 2>&1 & echo $!");
         return true;
     }
 
