@@ -918,7 +918,7 @@ class ConsoleController extends MyController
             $this->flush();
         }
         echo General::getColoredString("DONE!", 'blue', 'cyan');
-        die('done');
+        return true;
     }
 
     public function siteMapCategory()
@@ -1115,13 +1115,17 @@ class ConsoleController extends MyController
         $type = $params['type'];
         if (empty($type)) {
             $this->__khoahocTV();
-            return true;
         }
 
         if ($type == 'khoahocTV') {
             $this->__khoahocTV();
+            shell_exec("nohup php " . PUBLIC_PATH . "/index.php sitemap >/dev/null & echo 2>&1 & echo $!");
             return true;
         }
+
+        //crawler xong thì tạo sitemap
+        shell_exec("nohup php " . PUBLIC_PATH . "/index.php sitemap >/dev/null & echo 2>&1 & echo $!");
+        return true;
     }
 
     public function __khoahocTV()
@@ -1144,7 +1148,7 @@ class ConsoleController extends MyController
                 if (empty($category['cate_crawler_url'])) {
                     continue;
                 }
-                for ($i = 3; $i >= 1; $i--) {
+                for ($i = 1; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
 
                     if (in_array($source_url, $arr_pass_cate)) {
