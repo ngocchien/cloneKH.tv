@@ -903,11 +903,11 @@ class ConsoleController extends MyController
         $xml = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>';
         $xml = new \SimpleXMLElement($xml);
 
-        $all_file = scandir(PUBLIC_PATH.'/xml/');
-        foreach ($all_file as $file_name){
+        $all_file = scandir(PUBLIC_PATH . '/xml/');
+        foreach ($all_file as $file_name) {
             if (strpos($file_name, 'xml') !== false) {
                 $sitemap = $xml->addChild('sitemap', '');
-                $sitemap->addChild('loc', BASE_URL . '/xml/'.$file_name);
+                $sitemap->addChild('loc', BASE_URL . '/xml/' . $file_name);
                 $sitemap->addChild('lastmod', date('c', time()));
             }
         }
@@ -982,12 +982,16 @@ class ConsoleController extends MyController
         $doc .= '</urlset>';
         $xml = new \SimpleXMLElement($doc);
         $this->flush();
-        $intLimit = 100;
+        $intLimit = 1000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
+
+            $file = PUBLIC_PATH . '/xml/content_' . $intPage . '.xml';
             $arrContentList = $instanceSearchContent->getListLimit(['not_cont_status' => -1], $intPage, $intLimit, ['cont_id' => ['order' => 'desc']]);
+
             if (empty($arrContentList)) {
                 break;
             }
+
             foreach ($arrContentList as $arr) {
                 $href = BASE_URL . '/bai-viet/' . $arr['cont_slug'] . '-' . $arr['cont_id'] . '.html';
                 $url = $xml->addChild('url');
@@ -1003,14 +1007,42 @@ class ConsoleController extends MyController
                     $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
                 }
             }
+
+            unlink($file);
+            $result = file_put_contents($file, $xml->asXML());
+
+            if ($result) {
+                echo General::getColoredString("Site map complete content page {$intPage}", 'yellow', 'cyan');
+                $this->flush();
+            }
+
+//            $arrContentList = $instanceSearchContent->getListLimit(['not_cont_status' => -1], $intPage, $intLimit, ['cont_id' => ['order' => 'desc']]);
+//            if (empty($arrContentList)) {
+//                break;
+//            }
+//            foreach ($arrContentList as $arr) {
+//                $href = BASE_URL . '/bai-viet/' . $arr['cont_slug'] . '-' . $arr['cont_id'] . '.html';
+//                $url = $xml->addChild('url');
+//                $url->addChild('loc', $href);
+//                $url->addChild('title', $arr['cont_title']);
+//                $url->addChild('lastmod', date('c', time()));
+//                $url->addChild('changefreq', 'daily');
+//                $url->addChild('priority', 0.7);
+//
+//                if (!empty($arr['cont_main_image'])) {
+//                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+//                    $image->addChild('image:loc', $arr['cont_main_image'], 'http://www.google.com/schemas/sitemap-image/1.1');
+//                    $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
+//                }
+//            }
         }
 
-        unlink(PUBLIC_PATH . '/xml/content.xml');
-        $result = file_put_contents(PUBLIC_PATH . '/xml/content.xml', $xml->asXML());
-        if ($result) {
-            echo General::getColoredString("Sitemap content done", 'blue', 'cyan');
-            $this->flush();
-        }
+//        unlink(PUBLIC_PATH . '/xml/content.xml');
+//        $result = file_put_contents(PUBLIC_PATH . '/xml/content.xml', $xml->asXML());
+//        if ($result) {
+//            echo General::getColoredString("Sitemap content done", 'blue', 'cyan');
+//            $this->flush();
+//        }
 
         return true;
     }
@@ -1100,7 +1132,8 @@ class ConsoleController extends MyController
         $instanceSearchContent = new \My\Search\Content();
 
         $arr_pass = [
-            'http://khoahoc.tv/chua-du-co-so-de-xac-dinh-nien-dai-thoc-thanh-den-29433'
+            'http://khoahoc.tv/chua-du-co-so-de-xac-dinh-nien-dai-thoc-thanh-den-29433',
+            'http://khoahoc.tv/phat-hien-dia-bay-kim-loai-bay-gan-trai-dat-69779'
         ];
 
         $arr_pass_cate = [
@@ -1111,7 +1144,7 @@ class ConsoleController extends MyController
                 if (empty($category['cate_crawler_url'])) {
                     continue;
                 }
-                for ($i = 500; $i >= 1; $i--) {
+                for ($i = 3; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
 
                     if (in_array($source_url, $arr_pass_cate)) {
@@ -1244,6 +1277,7 @@ class ConsoleController extends MyController
                         } catch (\Exception $exc) {
                             $img_all = [];
                             echo \My\General::getColoredString("Empty images", 'red');
+//                            continue;
                         }
 
                         //lấy hình ảnh trong bài
