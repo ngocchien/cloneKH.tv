@@ -912,7 +912,7 @@ class ConsoleController extends MyController
             }
         }
 
-        $result = file_put_contents(PUBLIC_PATH . '/xml/sitemap.xml', $xml->asXML());
+        $result = file_put_contents(PUBLIC_PATH . '/xml/sitemap_khampha.xml', $xml->asXML());
         if ($result) {
             echo General::getColoredString("Create sitemap.xml completed!", 'blue', 'cyan');
             $this->flush();
