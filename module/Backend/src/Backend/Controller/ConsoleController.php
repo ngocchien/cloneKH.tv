@@ -912,9 +912,9 @@ class ConsoleController extends MyController
             }
         }
 
-        $result = file_put_contents(PUBLIC_PATH . '/xml/khampha_sitemap.xml', $xml->asXML());
+        $result = file_put_contents(PUBLIC_PATH . '/xml/sitemap.xml', $xml->asXML());
         if ($result) {
-            echo General::getColoredString("Create khampha_sitemap.xml completed!", 'blue', 'cyan');
+            echo General::getColoredString("Create sitemap.xml completed!", 'blue', 'cyan');
             $this->flush();
         }
         echo General::getColoredString("DONE!", 'blue', 'cyan');
@@ -952,6 +952,12 @@ class ConsoleController extends MyController
             $url->addChild('lastmod', date('c', time()));
             $url->addChild('changefreq', 'daily');
             $url->addChild('priority', 0.9);
+
+            if (!empty($value['cate_img_url'])) {
+                $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+                $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+            }
         }
         foreach ($arrCategoryByParent as $key => $arr) {
             foreach ($arr as $value) {
@@ -961,6 +967,11 @@ class ConsoleController extends MyController
                 $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
                 $url->addChild('priority', 0.9);
+                if (!empty($value['cate_img_url'])) {
+                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+                }
             }
         }
 
