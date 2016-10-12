@@ -113,7 +113,7 @@ class ContentController extends MyController
             $arrContentLastedList = $instanceSearchContent->getListLimit(['cate_id' => $arrContent['cate_id'], 'not_cont_status' => -1, 'less_cont_id' => $arrContent['cont_id']], 1, 6, ['cont_id' => ['order' => 'desc']]);
 
             //Lấy tin có nội dung title gần giống nhau
-            $arrContentLikeList = $instanceSearchContent->getListLimit(['cont_status' => 1, 'full_text_title' => $arrContent['cont_title'], 'not_cont_id' => $arrContent['cont_id']], 1, 5, ['_score' => ['order' => 'desc']]);
+            $arrContentLikeList = $instanceSearchContent->getListLimit(['cont_status' => 1, 'full_text_title' => $arrContent['cont_title'], 'not_cont_id' => $arrContent['cont_id']], 1, 10, ['_score' => ['order' => 'desc']]);
 
             //5 bài mới nhất
             $arrContentNews = $instanceSearchContent->getListLimit(['cont_status' => 1, 'not_cont_id' => $arrContent['cont_id']], 1, 6, ['created_date' => ['order' => 'desc']]);

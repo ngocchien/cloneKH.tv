@@ -993,7 +993,7 @@ class ConsoleController extends MyController
         $doc .= '</urlset>';
         $xml = new \SimpleXMLElement($doc);
         $this->flush();
-        $intLimit = 1000;
+        $intLimit = 200;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
 
             $file = PUBLIC_PATH . '/xml/content_' . $intPage . '.xml';
@@ -1027,33 +1027,7 @@ class ConsoleController extends MyController
                 $this->flush();
             }
 
-//            $arrContentList = $instanceSearchContent->getListLimit(['not_cont_status' => -1], $intPage, $intLimit, ['cont_id' => ['order' => 'desc']]);
-//            if (empty($arrContentList)) {
-//                break;
-//            }
-//            foreach ($arrContentList as $arr) {
-//                $href = BASE_URL . '/bai-viet/' . $arr['cont_slug'] . '-' . $arr['cont_id'] . '.html';
-//                $url = $xml->addChild('url');
-//                $url->addChild('loc', $href);
-//                $url->addChild('title', $arr['cont_title']);
-//                $url->addChild('lastmod', date('c', time()));
-//                $url->addChild('changefreq', 'daily');
-//                $url->addChild('priority', 0.7);
-//
-//                if (!empty($arr['cont_main_image'])) {
-//                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
-//                    $image->addChild('image:loc', $arr['cont_main_image'], 'http://www.google.com/schemas/sitemap-image/1.1');
-//                    $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
-//                }
-//            }
         }
-
-//        unlink(PUBLIC_PATH . '/xml/content.xml');
-//        $result = file_put_contents(PUBLIC_PATH . '/xml/content.xml', $xml->asXML());
-//        if ($result) {
-//            echo General::getColoredString("Sitemap content done", 'blue', 'cyan');
-//            $this->flush();
-//        }
 
         return true;
     }
