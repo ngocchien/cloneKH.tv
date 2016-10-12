@@ -903,7 +903,8 @@ class ConsoleController extends MyController
         $xml = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>';
         $xml = new \SimpleXMLElement($xml);
 
-        $all_file = sort(scandir(PUBLIC_PATH . '/xml/'));
+        $all_file = scandir(PUBLIC_PATH . '/xml/');
+        sort($all_file);
         foreach ($all_file as $file_name) {
             if (strpos($file_name, 'xml') !== false) {
                 $sitemap = $xml->addChild('sitemap', '');
