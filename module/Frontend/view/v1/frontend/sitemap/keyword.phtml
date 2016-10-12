@@ -22,7 +22,9 @@
         <?php
         foreach ($this->arrKeywordList as $value):
             ?>
-            <a href="<?php echo $this->serverUrl() . $this->Url('search', array('keySlug' => $value['key_slug'])) ?>"><?php echo $value['key_name'] ?></a><br/>
+            <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $value['key_slug'], 'keyId' => $value['key_id'])) ?>">
+                <?php echo $value['key_name']; ?>
+            </a>
         <?php endforeach; ?>
         <div>
             <?php echo $this->paging; ?>
