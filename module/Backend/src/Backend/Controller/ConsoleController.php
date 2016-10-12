@@ -1040,7 +1040,7 @@ class ConsoleController extends MyController
         $doc .= '</urlset>';
         $xml = new \SimpleXMLElement($doc);
         $this->flush();
-        $intLimit = 500;
+        $intLimit = 2000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
             $file = PUBLIC_PATH . '/xml/keyword_' . $intPage . '.xml';
             $arrKeyList = $instanceSearchKeyword->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'desc']]);
