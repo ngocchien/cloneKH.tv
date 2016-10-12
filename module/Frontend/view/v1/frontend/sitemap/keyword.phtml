@@ -25,6 +25,7 @@
             <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $value['key_slug'], 'keyId' => $value['key_id'])) ?>">
                 <?php echo $value['key_name']; ?>
             </a>
+            <br/>
         <?php endforeach; ?>
         <div>
             <?php echo $this->paging; ?>
