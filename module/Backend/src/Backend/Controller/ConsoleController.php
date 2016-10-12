@@ -904,7 +904,8 @@ class ConsoleController extends MyController
         $xml = new \SimpleXMLElement($xml);
 
         $all_file = scandir(PUBLIC_PATH . '/xml/');
-        sort($all_file);
+        sort($all_file, SORT_NATURAL | SORT_FLAG_CASE);
+//        sort($all_file);
         foreach ($all_file as $file_name) {
             if (strpos($file_name, 'xml') !== false) {
                 $sitemap = $xml->addChild('sitemap', '');
