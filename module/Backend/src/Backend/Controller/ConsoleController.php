@@ -910,11 +910,11 @@ class ConsoleController extends MyController
             if (strpos($file_name, 'xml') !== false) {
                 $sitemap = $xml->addChild('sitemap', '');
                 $sitemap->addChild('loc', BASE_URL . '/xml/' . $file_name);
-                $sitemap->addChild('lastmod', date('c', time()));
+                //$sitemap->addChild('lastmod', date('c', time()));
             }
         }
 
-        $result = file_put_contents(PUBLIC_PATH . '/xml/sitemap_khampha.xml', $xml->asXML());
+        $result = file_put_contents(PUBLIC_PATH . '/xml/khampha-sitemap.xml', $xml->asXML());
         if ($result) {
             echo General::getColoredString("Create sitemap.xml completed!", 'blue', 'cyan');
             $this->flush();
@@ -951,29 +951,29 @@ class ConsoleController extends MyController
             $strCategoryURL = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '.html';
             $url = $xml->addChild('url');
             $url->addChild('loc', $strCategoryURL);
-            $url->addChild('lastmod', date('c', time()));
+//            $url->addChild('lastmod', date('c', time()));
             $url->addChild('changefreq', 'daily');
-            $url->addChild('priority', 0.9);
+//            $url->addChild('priority', 0.9);
 
-            if (!empty($value['cate_img_url'])) {
-                $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
-                $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
-                $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
-            }
+//            if (!empty($value['cate_img_url'])) {
+//                $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+//                $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
+//                $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+//            }
         }
         foreach ($arrCategoryByParent as $key => $arr) {
             foreach ($arr as $value) {
                 $strCategoryURL = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '.html';
                 $url = $xml->addChild('url');
                 $url->addChild('loc', $strCategoryURL);
-                $url->addChild('lastmod', date('c', time()));
+//                $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
-                $url->addChild('priority', 0.9);
-                if (!empty($value['cate_img_url'])) {
-                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
-                    $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
-                    $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
-                }
+//                $url->addChild('priority', 0.9);
+//                if (!empty($value['cate_img_url'])) {
+//                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+//                    $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
+//                    $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+//                }
             }
         }
 
@@ -998,7 +998,7 @@ class ConsoleController extends MyController
         $intLimit = 2000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
 
-            $file = PUBLIC_PATH . '/xml/content_' . $intPage . '.xml';
+            $file = PUBLIC_PATH . '/xml/content-' . $intPage . '.xml';
             $arrContentList = $instanceSearchContent->getListLimit(['not_cont_status' => -1], $intPage, $intLimit, ['cont_id' => ['order' => 'desc']]);
 
             if (empty($arrContentList)) {
@@ -1012,7 +1012,7 @@ class ConsoleController extends MyController
 //                $url->addChild('title', $arr['cont_title']);
 //                $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
-                $url->addChild('priority', 0.7);
+//                $url->addChild('priority', 0.7);
 
 //                if (!empty($arr['cont_main_image'])) {
 //                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
@@ -1044,7 +1044,7 @@ class ConsoleController extends MyController
         $this->flush();
         $intLimit = 2000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
-            $file = PUBLIC_PATH . '/xml/keyword_' . $intPage . '.xml';
+            $file = PUBLIC_PATH . '/xml/keyword-' . $intPage . '.xml';
             $arrKeyList = $instanceSearchKeyword->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'desc']]);
 
             if (empty($arrKeyList)) {
@@ -1057,7 +1057,7 @@ class ConsoleController extends MyController
                 $url->addChild('loc', $href);
 //                $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
-                $url->addChild('priority', 0.7);
+//                $url->addChild('priority', 0.7);
             }
 
             unlink($file);
