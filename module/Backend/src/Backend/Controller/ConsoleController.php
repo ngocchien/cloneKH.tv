@@ -990,11 +990,6 @@ class ConsoleController extends MyController
     public function siteMapContent()
     {
         $instanceSearchContent = new \My\Search\Content();
-        $doc = '<?xml version="1.0" encoding="UTF-8"?>';
-        $doc .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        $doc .= '</urlset>';
-        $xml = new \SimpleXMLElement($doc);
-        $this->flush();
         $intLimit = 2000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
 
@@ -1004,6 +999,12 @@ class ConsoleController extends MyController
             if (empty($arrContentList)) {
                 break;
             }
+
+            $doc = '<?xml version="1.0" encoding="UTF-8"?>';
+            $doc .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+            $doc .= '</urlset>';
+            $xml = new \SimpleXMLElement($doc);
+            $this->flush();
 
             foreach ($arrContentList as $arr) {
                 $href = BASE_URL . '/bai-viet/' . $arr['cont_slug'] . '-' . $arr['cont_id'] . '.html';
@@ -1037,11 +1038,6 @@ class ConsoleController extends MyController
     public function siteMapSearch()
     {
         $instanceSearchKeyword = new \My\Search\Keyword();
-        $doc = '<?xml version="1.0" encoding="UTF-8"?>';
-        $doc .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-        $doc .= '</urlset>';
-        $xml = new \SimpleXMLElement($doc);
-        $this->flush();
         $intLimit = 2000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
             $file = PUBLIC_PATH . '/xml/keyword-' . $intPage . '.xml';
@@ -1050,6 +1046,12 @@ class ConsoleController extends MyController
             if (empty($arrKeyList)) {
                 break;
             }
+
+            $doc = '<?xml version="1.0" encoding="UTF-8"?>';
+            $doc .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+            $doc .= '</urlset>';
+            $xml = new \SimpleXMLElement($doc);
+            $this->flush();
 
             foreach ($arrKeyList as $arr) {
                 $href = BASE_URL . '/tu-khoa/' . $arr['key_slug'] . '-' . $arr['key_id'] . '.html';
