@@ -1329,4 +1329,51 @@ class ConsoleController extends MyController
         echo \My\General::getColoredString("Crawler to success", 'green');
         return true;
     }
+
+    public function initKeywordOldAction()
+    {
+        $instanceSearchKeyWord = new \My\Search\Keyword();
+        $instanceSearchKeyWordOld = new \My\Search\KeywordOld();
+
+        $intLimit = 2000;
+        for ($intPage = 1; $intPage < 10000; $intPage++) {
+            $arrList = $instanceSearchKeyWordOld->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'asc']]);
+
+            if (empty($arrList)) {
+                break;
+            }
+
+            foreach ($arrList as $arr) {
+                //find in DB có tồn tại hay ko?
+                $is_exits = $instanceSearchKeyWord->getDetail(['key_slug' => trim(General::getSlug($arr['key_name']))]);
+
+                if ($is_exits) {
+                    continue;
+                }
+
+                $arr_data = [
+                    'key_name' => $arr['key_name'],
+                    'key_slug' => trim(General::getSlug($arr['key_name'])),
+                    'created_date' => time(),
+                    'is_crawler' => 0
+                ];
+
+                $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                $int_result = $serviceKeyword->add($arr_data);
+                unset($serviceKeyword);
+                if ($int_result) {
+                    echo \My\General::getColoredString("Insert success 1 row with id = {$int_result}", 'yellow');
+                }
+                $this->flush();
+            }
+
+            unset($arrList); //release memory
+            $this->flush();
+        }
+
+        $instanceSearchKeyWord = new \My\Search\Keyword();
+        $instanceSearchKeyWordOld = new \My\Search\KeywordOld();
+        unset($instanceSearchKeyWord);
+        unset($instanceSearchKeyWordOld);
+    }
 }

@@ -20,7 +20,8 @@
             <li class="share">
                 <div class="sharebox">
                     <div class="sharetoolbox">
-                        <div class="g-plusone" data-annotation="none" data-size="medium" data-href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $this->arrContent['cont_slug'], 'contentId' => $this->arrContent['cont_id']]); ?>"></div>
+                        <div class="g-plusone" data-annotation="none" data-size="medium"
+                             data-href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $this->arrContent['cont_slug'], 'contentId' => $this->arrContent['cont_id']]); ?>"></div>
 
                         <div class="fb-like"
                              data-href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $this->arrContent['cont_slug'], 'contentId' => $this->arrContent['cont_id']]); ?>"
@@ -48,28 +49,28 @@
                 </span>
         <?php endif; ?>
         <span itemprop="articleSection" typeof="v:Breadcrumb" class="breadcrumb">
-                    <a rel="v:url" property="v:title"
-                       href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryDetail['cate_slug'], 'cateId' => $this->arrCategoryDetail['cate_id']]) ?>">
-                        <?php echo $this->arrCategoryDetail['cate_name']; ?>
-                    </a>
-                </span>
+            <a rel="v:url" property="v:title"
+               href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryDetail['cate_slug'], 'cateId' => $this->arrCategoryDetail['cate_id']]) ?>">
+                <?php echo $this->arrCategoryDetail['cate_name']; ?>
+            </a>
+        </span>
     </div>
 
     <div class="content-detail">
         <div id="adsarticletop" class="adbox">
             <!-- KhoaHoc - BaiViet - Reponsive -->
-<!--            <ins class="adsbygoogle"-->
-<!--                 style="display:block"-->
-<!--                 data-ad-client="ca-pub-9275417305531302"-->
-<!--                 data-ad-slot="2384218482"-->
-<!--                 data-ad-format="auto"></ins>-->
+            <!--            <ins class="adsbygoogle"-->
+            <!--                 style="display:block"-->
+            <!--                 data-ad-client="ca-pub-9275417305531302"-->
+            <!--                 data-ad-slot="2384218482"-->
+            <!--                 data-ad-format="auto"></ins>-->
             <!--            <script>-->
             <!--                (adsbygoogle = window.adsbygoogle || []).push({});-->
             <!--            </script>-->
         </div>
         <?php echo $this->arrContent['cont_detail']; ?>
         <!--        <script>-->
-<!--        // if (location.hostname.toLowerCase().indexOf("khoahoc.tv") < 0) { location.href = "http://khoahoc.tv/"; }-->
+        <!--        // if (location.hostname.toLowerCase().indexOf("khoahoc.tv") < 0) { location.href = "http://khoahoc.tv/"; }-->
         <!--//        </script>-->
     </div>
     <div class="author-info clearfix">
@@ -107,14 +108,14 @@
         </ul>
     </div>
 
-<!--        <div id="adsarticlebottom" class="adbox">-->
-<!--            <!-- KhoaHoc-BaiViet-Resposive -->
-<!--            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9275417305531302"-->
-<!--                 data-ad-slot="8671917284" data-ad-format="auto"></ins>-->
-<!--            <script>-->
-<!--                (adsbygoogle = window.adsbygoogle || []).push({});-->
-<!--            </script>-->
-<!--        </div>-->
+    <!--        <div id="adsarticlebottom" class="adbox">-->
+    <!--            <!-- KhoaHoc-BaiViet-Resposive -->
+    <!--            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9275417305531302"-->
+    <!--                 data-ad-slot="8671917284" data-ad-format="auto"></ins>-->
+    <!--            <script>-->
+    <!--                (adsbygoogle = window.adsbygoogle || []).push({});-->
+    <!--            </script>-->
+    <!--        </div>-->
     <div class="socialbox bottom clearfix">
         <ul>
             <li class="share">
@@ -130,18 +131,19 @@
                     </div>
                 </div>
             </li>
-<!--            <li class="raty">-->
-<!--                <span class="rating" data-rating="4" data-id="40490"></span>-->
-<!--                <span class="rating-info">4</span><span class="rating-votes">14</span>-->
-<!--            </li>-->
-<!--            <li class="views">--><?php //echo number_format($this->arrContent['cont_views'] + 1, 0, ",", "."); ?><!--</li>-->
+            <!--            <li class="raty">-->
+            <!--                <span class="rating" data-rating="4" data-id="40490"></span>-->
+            <!--                <span class="rating-info">4</span><span class="rating-votes">14</span>-->
+            <!--            </li>-->
+            <!--            <li class="views">-->
+            <?php //echo number_format($this->arrContent['cont_views'] + 1, 0, ",", "."); ?><!--</li>-->
         </ul>
     </div>
 
 
     <p>
         <a href="<?php echo \My\General::SOCIAL_FACEBOOK_URL; ?>" target="_blank" rel="nofollow">Theo dõi cộng đồng
-            <?php echo \My\General::SITE_AUTH;?> trên
+            <?php echo \My\General::SITE_AUTH; ?> trên
             facebook</a>
     </p>
     <div class="fb-like" data-href="<?php echo \My\General::SOCIAL_FACEBOOK_URL; ?>" data-layout="standard"

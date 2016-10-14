@@ -111,6 +111,16 @@ return array(
                             'action' => 'init-es'
                         ),
                     ),
+                ),
+                'init-data-keyword' => array(
+                    'options' => array(
+                        'route' => 'init-data-keyword',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'init-keyword-old'
+                        ),
+                    ),
                 )
             )
         )
