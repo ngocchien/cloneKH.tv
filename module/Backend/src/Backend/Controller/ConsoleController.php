@@ -955,11 +955,11 @@ class ConsoleController extends MyController
             $url->addChild('changefreq', 'daily');
 //            $url->addChild('priority', 0.9);
 
-//            if (!empty($value['cate_img_url'])) {
-//                $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
-//                $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
-//                $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
-//            }
+            if (!empty($value['cate_img_url'])) {
+                $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+                $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+            }
         }
         foreach ($arrCategoryByParent as $key => $arr) {
             foreach ($arr as $value) {
@@ -969,11 +969,11 @@ class ConsoleController extends MyController
 //                $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
 //                $url->addChild('priority', 0.9);
-//                if (!empty($value['cate_img_url'])) {
-//                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
-//                    $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
-//                    $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
-//                }
+                if (!empty($value['cate_img_url'])) {
+                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+                }
             }
         }
 
@@ -1015,11 +1015,11 @@ class ConsoleController extends MyController
                 $url->addChild('changefreq', 'daily');
 //                $url->addChild('priority', 0.7);
 
-//                if (!empty($arr['cont_main_image'])) {
-//                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
-//                    $image->addChild('image:loc', $arr['cont_main_image'], 'http://www.google.com/schemas/sitemap-image/1.1');
-//                    $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
-//                }
+                if (!empty($arr['cont_main_image'])) {
+                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:loc', $arr['cont_main_image'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
+                }
             }
 
             unlink($file);
@@ -1038,7 +1038,7 @@ class ConsoleController extends MyController
     public function siteMapSearch()
     {
         $instanceSearchKeyword = new \My\Search\Keyword();
-        $intLimit = 2000;
+        $intLimit = 4000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
             $file = PUBLIC_PATH . '/xml/keyword-' . $intPage . '.xml';
             $arrKeyList = $instanceSearchKeyword->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'desc']]);
@@ -1375,5 +1375,7 @@ class ConsoleController extends MyController
         $instanceSearchKeyWordOld = new \My\Search\KeywordOld();
         unset($instanceSearchKeyWord);
         unset($instanceSearchKeyWordOld);
+
+        return true;
     }
 }
