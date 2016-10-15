@@ -439,7 +439,7 @@ class ConsoleController extends MyController
     {
 
         $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
-        $intLimit = 200;
+        $intLimit = 2000;
         $instanceSearchKeyword = new \My\Search\Keyword();
         for ($intPage = 1; $intPage < 10000; $intPage++) {
             $arrList = $serviceKeyword->getListLimit([], $intPage, $intLimit, 'key_id ASC');
@@ -478,7 +478,7 @@ class ConsoleController extends MyController
             $this->flush();
         }
 
-//        die('done');
+        die('done');
 //        $instanceSearchCategory = new \My\Search\Category();
 //        $arr_category = $instanceSearchCategory->getList(['cate_status' => 1]);
 //        $instanceSearchKeyword = new \My\Search\Keyword();
