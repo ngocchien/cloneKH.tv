@@ -77,6 +77,8 @@ class ContentController extends MyController
             }
 
             $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
+//            <meta name="robots" content="INDEX, FOLLOW"/>
+            $this->renderer->headMeta()->appendName('robots','noindex');
             $this->renderer->headMeta()->appendName('dc.description', html_entity_decode($arrCategoryDetail['cate_meta_description']) . General::TITLE_META);
             $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode($arrCategoryDetail['cate_name']) . General::TITLE_META);
             $this->renderer->headTitle(html_entity_decode($metaTitle) . General::TITLE_META);
