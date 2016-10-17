@@ -200,7 +200,7 @@ class ConsoleController extends MyController
     {
         $service = $this->serviceLocator->get('My\Models\GeneralBqn');
         $intLimit = 1000;
-        $instanceSearch = new \My\Search\GeneralBqn();
+        $instanceSearch = new \My\Search\GeneralSearch();
 
         for ($intPage = 1; $intPage < 10000; $intPage++) {
             $arrList = $service->getListLimit([], $intPage, $intLimit, 'gene_id ASC');
