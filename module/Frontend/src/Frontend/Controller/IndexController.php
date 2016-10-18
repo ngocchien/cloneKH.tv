@@ -61,7 +61,8 @@ class IndexController extends MyController
                 $arr_new_by_cate[$cate_parent['cate_id']] = $instanceSearchContent->getListLimit(['in_cate_id' => $arr_id_child, 'cont_status' => 1], 1, 3, ['updated_date' => ['order' => 'desc']]);
             }
         }
-
+        $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
+        $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('index', ['page' => $intPage]));
         //moi
         $arr_new_list = unserialize(ARR_NEWS_LIST);
 
