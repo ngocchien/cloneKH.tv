@@ -94,6 +94,7 @@ class ContentController extends MyController
             $this->renderer->headMeta()->setProperty('og:description', html_entity_decode($metaDescription));
 
             $this->renderer->headMeta()->appendName('og:title', html_entity_decode($arrContent['cont_title']));
+            $this->renderer->headMeta()->appendName('og:description', html_entity_decode($metaDescription));
 
             $this->renderer->headMeta()->setProperty('og:image', $arrContent['cont_main_image']);
             $this->renderer->headMeta()->setProperty('itemprop:datePublished', date('Y-m-d H:i', $arrContent['created_date']) . ' + 07:00');
