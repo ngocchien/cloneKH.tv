@@ -910,7 +910,7 @@ class ConsoleController extends MyController
             if (strpos($file_name, 'xml') !== false) {
                 $sitemap = $xml->addChild('sitemap', '');
                 $sitemap->addChild('loc', BASE_URL . '/rss/' . $file_name);
-                //$sitemap->addChild('lastmod', date('c', time()));
+                $sitemap->addChild('lastmod', date('c', time()));
             }
         }
 
@@ -951,7 +951,7 @@ class ConsoleController extends MyController
             $strCategoryURL = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '.html';
             $url = $xml->addChild('url');
             $url->addChild('loc', $strCategoryURL);
-//            $url->addChild('lastmod', date('c', time()));
+            $url->addChild('lastmod', date('c', time()));
             $url->addChild('changefreq', 'daily');
 //            $url->addChild('priority', 0.9);
 
@@ -966,7 +966,7 @@ class ConsoleController extends MyController
                 $strCategoryURL = BASE_URL . '/danh-muc/' . $value['cate_slug'] . '-' . $value['cate_id'] . '.html';
                 $url = $xml->addChild('url');
                 $url->addChild('loc', $strCategoryURL);
-//                $url->addChild('lastmod', date('c', time()));
+                $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
 //                $url->addChild('priority', 0.9);
                 if (!empty($value['cate_img_url'])) {
@@ -1011,7 +1011,7 @@ class ConsoleController extends MyController
                 $url = $xml->addChild('url');
                 $url->addChild('loc', $href);
 //                $url->addChild('title', $arr['cont_title']);
-//                $url->addChild('lastmod', date('c', time()));
+                $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
 //                $url->addChild('priority', 0.7);
 
@@ -1057,7 +1057,7 @@ class ConsoleController extends MyController
                 $href = BASE_URL . '/tu-khoa/' . $arr['key_slug'] . '-' . $arr['key_id'] . '.html';
                 $url = $xml->addChild('url');
                 $url->addChild('loc', $href);
-//                $url->addChild('lastmod', date('c', time()));
+                $url->addChild('lastmod', date('c', time()));
                 $url->addChild('changefreq', 'daily');
 //                $url->addChild('priority', 0.7);
             }
