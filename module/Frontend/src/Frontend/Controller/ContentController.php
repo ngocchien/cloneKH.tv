@@ -82,15 +82,20 @@ class ContentController extends MyController
             $this->renderer->headMeta()->appendName('dc.description', html_entity_decode($arrCategoryDetail['cate_meta_description']) . General::TITLE_META);
             $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode($arrCategoryDetail['cate_name']) . General::TITLE_META);
             $this->renderer->headTitle(html_entity_decode($metaTitle) . General::TITLE_META);
+            $this->renderer->headMeta()->setProperty('url', $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id]));
             $this->renderer->headMeta()->appendName('keywords', html_entity_decode($metaKeyword));
             $this->renderer->headMeta()->appendName('description', html_entity_decode($metaDescription));
+            $this->renderer->headMeta()->appendName('image', $arrContent['cont_main_image']);
+
             $this->renderer->headMeta()->appendName('social', $metaSocial);
-            $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id]));
+            $this->renderer->headMeta()->appendName('og:url', $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id]));
             $this->renderer->headMeta()->setProperty('og:title', html_entity_decode($arrContent['cont_title']));
-            $this->renderer->headMeta()->setProperty('og:description', html_entity_decode($arrContent['cont_title']));
+            $this->renderer->headMeta()->appendName('title', html_entity_decode($arrContent['cont_title']));
+            $this->renderer->headMeta()->setProperty('og:description', html_entity_decode($metaDescription));
+
+            $this->renderer->headMeta()->appendName('og:title', html_entity_decode($arrContent['cont_title']));
 
             $this->renderer->headMeta()->setProperty('og:image', $arrContent['cont_main_image']);
-
             $this->renderer->headMeta()->setProperty('itemprop:datePublished', date('Y-m-d H:i', $arrContent['created_date']) . ' + 07:00');
             $this->renderer->headMeta()->setProperty('itemprop:dateModified', date('Y-m-d H:i', $arrContent['updated_date']) . ' + 07:00');
             $this->renderer->headMeta()->setProperty('itemprop:dateCreated', date('Y-m-d H:i', $arrContent['created_date']) . ' + 07:00');
@@ -110,6 +115,11 @@ class ContentController extends MyController
             $this->renderer->headMeta()->setProperty('twitter:description', html_entity_decode($metaDescription));
             $this->renderer->headMeta()->setProperty('twitter:creator', General::SITE_AUTH);
             $this->renderer->headMeta()->setProperty('twitter:image:src', $arrContent['cont_main_image']);
+
+            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id])));
+            $this->renderer->headLink(array('rel' => 'canonical', 'href' => $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id])));
+
+            //rel="amphtml"
 
             //lấy tin cũ hơn cùng chuyên mục
             $arrContentLastedList = $instanceSearchContent->getListLimit(['cate_id' => $arrContent['cate_id'], 'not_cont_status' => -1, 'less_cont_id' => $arrContent['cont_id']], 1, 6, ['cont_id' => ['order' => 'desc']]);
