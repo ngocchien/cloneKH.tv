@@ -64,7 +64,7 @@ class MyController extends AbstractActionController {
                 $this->renderer->headMeta()->appendName('dc.description', html_entity_decode(General::SITE_SLOGAN) . General::TITLE_META);
                 $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode(General::SITE_SLOGAN) . General::TITLE_META);
                 $this->renderer->headMeta()->appendName('social', General::SITE_SOCIAL);
-                $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('home'));
+                //$this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('home'));
                 $this->renderer->headMeta()->setProperty('og:title', html_entity_decode(\My\General::SITE_DOMAIN . ' -'.General::SITE_SLOGAN));
                 $this->renderer->headMeta()->setProperty('og:description', html_entity_decode(\My\General::SITE_DOMAIN . ' - '.General::SITE_SLOGAN));
                 $this->renderer->headMeta()->setProperty('og:image', General::SITE_IMAGES_DEFAULT);
