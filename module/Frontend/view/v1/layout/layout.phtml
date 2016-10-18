@@ -1,3 +1,9 @@
+<?php
+$paramsRouter = $this->getHelperPluginManager()->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch()->getParams();
+$routeName = $this->getHelperPluginManager()->getServiceLocator()->get('Application')->getMvcEvent()->getRouteMatch();
+$controller = $paramsRouter['__CONTROLLER__'];
+$action = $paramsRouter['action'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +25,11 @@
     <meta name="copyright" content="<?php echo My\General::SITE_AUTH; ?>"/>
     <meta name="author" content="<?php echo My\General::SITE_AUTH; ?>"/>
     <meta name="dc.language" content="vi-VN"/>
-    <meta name="robots" content="INDEX, FOLLOW"/>
+    <?php if ($controller == 'content' && $action == 'detail'): ?>
+        <meta name="robots" content="noindex"/>
+    <?php else:?>
+        <meta name="robots" content="INDEX, FOLLOW"/>
+    <?php endif; ?>
     <meta http-equiv="content-language" content="vi"/>
     <!--<meta name="DC.title" content="" />-->
     <meta name="geo.region" content="VN"/>

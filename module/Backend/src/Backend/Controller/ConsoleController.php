@@ -903,18 +903,18 @@ class ConsoleController extends MyController
         $xml = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></sitemapindex>';
         $xml = new \SimpleXMLElement($xml);
 
-        $all_file = scandir(PUBLIC_PATH . '/xml/');
+        $all_file = scandir(PUBLIC_PATH . '/rss/');
         sort($all_file, SORT_NATURAL | SORT_FLAG_CASE);
 //        sort($all_file);
         foreach ($all_file as $file_name) {
             if (strpos($file_name, 'xml') !== false) {
                 $sitemap = $xml->addChild('sitemap', '');
-                $sitemap->addChild('loc', BASE_URL . '/xml/' . $file_name);
+                $sitemap->addChild('loc', BASE_URL . '/rss/' . $file_name);
                 //$sitemap->addChild('lastmod', date('c', time()));
             }
         }
 
-        $result = file_put_contents(PUBLIC_PATH . '/xml/sitemap-khampha.xml', $xml->asXML());
+        $result = file_put_contents(PUBLIC_PATH . '/rss/sitemap-location.xml', $xml->asXML());
         if ($result) {
             echo General::getColoredString("Create sitemap.xml completed!", 'blue', 'cyan');
             $this->flush();
@@ -977,8 +977,8 @@ class ConsoleController extends MyController
             }
         }
 
-        unlink(PUBLIC_PATH . '/xml/category.xml');
-        $result = file_put_contents(PUBLIC_PATH . '/xml/category.xml', $xml->asXML());
+        unlink(PUBLIC_PATH . '/rss/category.xml');
+        $result = file_put_contents(PUBLIC_PATH . '/rss/category.xml', $xml->asXML());
         if ($result) {
             echo General::getColoredString("Sitemap category done", 'blue', 'cyan');
             $this->flush();
@@ -993,7 +993,7 @@ class ConsoleController extends MyController
         $intLimit = 2000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
 
-            $file = PUBLIC_PATH . '/xml/content-' . $intPage . '.xml';
+            $file = PUBLIC_PATH . '/rss/content-' . $intPage . '.xml';
             $arrContentList = $instanceSearchContent->getListLimit(['not_cont_status' => -1], $intPage, $intLimit, ['cont_id' => ['order' => 'desc']]);
 
             if (empty($arrContentList)) {
@@ -1040,7 +1040,7 @@ class ConsoleController extends MyController
         $instanceSearchKeyword = new \My\Search\Keyword();
         $intLimit = 4000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
-            $file = PUBLIC_PATH . '/xml/keyword-' . $intPage . '.xml';
+            $file = PUBLIC_PATH . '/rss/keyword-' . $intPage . '.xml';
             $arrKeyList = $instanceSearchKeyword->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'desc']]);
 
             if (empty($arrKeyList)) {
@@ -1090,8 +1090,8 @@ class ConsoleController extends MyController
             $url->addChild('priority', 1);
         }
 
-        unlink(PUBLIC_PATH . '/xml/other.xml');
-        $result = file_put_contents(PUBLIC_PATH . '/xml/other.xml', $xml->asXML());
+        unlink(PUBLIC_PATH . '/rss/other.xml');
+        $result = file_put_contents(PUBLIC_PATH . '/rss/other.xml', $xml->asXML());
         if ($result) {
             echo General::getColoredString("Sitemap orther done", 'blue', 'cyan');
             $this->flush();
