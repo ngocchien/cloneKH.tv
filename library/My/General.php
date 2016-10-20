@@ -2,7 +2,8 @@
 
 namespace My;
 
-class General {
+class General
+{
 
     const SITE_DOMAIN_FULL = 'http://khampha.tech';
     const TITLE_META = " - Khampha.tech";
@@ -53,7 +54,15 @@ class General {
         'cyan' => '46', 'light_gray' => '47',
     );
 
-    public static function getSlug($string, $maxLength = 255, $separator = '-') {
+    static $config_fb = array(
+        'appId' => '654662148043081',
+        'secret' => '023f46f87634523c8dda5fbcbe4e3638',
+        'fb_id' => 158207711302448,
+        'access_token' => 'EAAJTaWjIMUkBAPzPyrhRFR85wEM6BRAxZCgaiwwkvuuZCRDTdoUvlusOj0a1KOZB4xJ6ZBMtig6F8TMQ8VWhXG6W8pGwZBUhyR6vB0Bp9P5wyIpnlfsF90XoXtXEqkHRlEZC8NdF2xEXHysoOZACEhAcv62Ei4nMxAZD'
+    );
+
+    public static function getSlug($string, $maxLength = 255, $separator = '-')
+    {
         $arrCharFrom = array("ạ", "á", "à", "ả", "ã", "Ạ", "Á", "À", "Ả", "Ã", "â", "ậ", "ấ", "ầ", "ẩ", "ẫ", "Â", "Ậ", "Ấ", "Ầ", "Ẩ", "Ẫ", "ă", "ặ", "ắ", "ằ", "ẳ", "ẵ", "ẫ", "Ă", "Ắ", "Ằ", "Ẳ", "Ẵ", "Ặ", "Ẵ", "ê", "ẹ", "é", "è", "ẻ", "ẽ", "Ê", "Ẹ", "É", "È", "Ẻ", "Ẽ", "ế", "ề", "ể", "ễ", "ệ", "Ế", "Ề", "Ể", "Ễ", "Ệ", "ọ", "ộ", "ổ", "ỗ", "ố", "ồ", "Ọ", "Ộ", "Ổ", "Ỗ", "Ố", "Ồ", "Ô", "ô", "ó", "ò", "ỏ", "õ", "Ó", "Ò", "Ỏ", "Õ", "ơ", "ợ", "ớ", "ờ", "ở", "ỡ", "Ơ", "Ợ", "Ớ", "Ờ", "Ở", "Ỡ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự", "Ụ", "Ư", "Ứ", "Ừ", "Ử", "Ữ", "Ự", "ú", "ù", "ủ", "ũ", "Ú", "Ù", "Ủ", "Ũ", "ị", "í", "ì", "ỉ", "ĩ", "Ị", "Í", "Ì", "Ỉ", "Ĩ", "ỵ", "ý", "ỳ", "ỷ", "ỹ", "Ỵ", "Ý", "Ỳ", "Ỷ", "Ỹ", "đ", "Đ");
         $arrCharEnd = array("a", "a", "a", "a", "a", "A", "A", "A", "A", "A", "a", "a", "a", "a", "a", "a", "A", "A", "A", "A", "A", "A", "a", "a", "a", "a", "a", "a", "a", "A", "A", "A", "A", "A", "A", "A", "e", "e", "e", "e", "e", "e", "E", "E", "E", "E", "E", "E", "e", "e", "e", "e", "e", "E", "E", "E", "E", "E", "o", "o", "o", "o", "o", "o", "O", "O", "O", "O", "O", "O", "O", "o", "o", "o", "o", "o", "O", "O", "O", "O", "o", "o", "o", "o", "o", "o", "O", "O", "O'", "O", "O", "O", "u", "u", "u", "u", "u", "u", "u", "U", "U", "U", "U", "U", "U", "U", "u", "u", "u", "u", "U", "U", "U", "U", "i", "i", "i", "i", "i", "I", "I", "I", "I", "I", "y", "y", "y", "y", "y", "Y", "Y", "Y", "Y", "Y", "d", "D");
         $arrCharnonAllowed = array("©", "®", "Æ", "Ç", "Å", "Ç", "๏", "๏̯͡๏", "Î", "Ø", "Û", "Þ", "ß", "å", "", "¼", "æ", "ð", "ñ", "ø", "û", "!", "ñ", "[", "\"", "$", "%", "'", "(", ")", "♥", "(", "+", "*", "/", "\\", ",", ":", "¯", "", "+", ";", "<", ">", "=", "?", "@", "`", "¶", "[", "]", "^", "~", "`", "|", "", "_", "?", "*", "{", "}", "€", "�", "ƒ", "„", "", "…", "‚", "†", "‡", "ˆ", "‰", "ø", "´", "Š", "‹", "Œ", "�", "Ž", "�", "ॐ", "۩", "�", "‘", "’", "“", "”", "•", "۞", "๏", "—", "˜", "™", "š", "›", "œ", "�", "ž", "Ÿ", "¡", "¢", "£", "¤", "¥", "¦", "§", "¨", "«", "¬", "¯", "°", "±", "²", "³", "´", "µ", "¶", "¸", "¹", "º", "»", "¼", "¾", "¿", "Å", "Æ", "Ç", "?", "×", "Ø", "Û", "Þ", "ß", "å", "æ", "ç", "ï", "ð", "ñ", "÷", "ø", "ÿ", "þ", "û", "½", "☺", "☻", "♥", "♦", "♣", "♠", "•", "░", "◘", "○", "◙", "♂", "♀", "♪", "♫", "☼", "►", "◄", "↕", "‼", "¶", "§", "▬", "↨", "↑", "↓", "←", "←", "↔", "▲", "▼", "⌂", "¢", "→", "¥", "ƒ", "ª", "º", "▒", "▓", "│", "┤", "╡", "╢", "╖", "╕", "╣", "║", "╗", "╝", "╜", "╛", "┐", "└", "┴", "┬", "├", "─", "┼", "╞", "╟", "╚", "╔", "╩", "╦", "╠", "═", "╬", "╧", "╨", "╤", "╥", "╙", "╘", "╒", "╓", "╫", "╪", "┘", "┌", "█", "▄", "▌", "▐", "▀", "α", "Γ", "π", "Σ", "σ", "µ", "τ", "Φ", "Θ", "Ω", "δ", "∞", "φ", "ε", "∩", "≡", "±", "≥", "≤", "⌠", "⌡", "≈", "°", "∙", "·", "√", "ⁿ", "²", "■", "¾", "×", "Ø", "Þ", "ð", "ღ", "ஐ", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "•", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "•", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "Ƹ", 'Ӝ', 'Ʒ', "★", "●", "♡", "ஜ", "ܨ");
@@ -67,7 +76,8 @@ class General {
     }
 
     //permission
-    public static function getRole($roleID) {
+    public static function getRole($roleID)
+    {
         $arrRole = self::listRole();
         if (isset($arrRole[$roleID])) {
             return $arrRole[$roleID];
@@ -76,7 +86,8 @@ class General {
         return false;
     }
 
-    public static function getGender() {
+    public static function getGender()
+    {
         return array(
             self::MR => 'Nam',
             self::MS => 'Nữ',
@@ -84,7 +95,8 @@ class General {
         );
     }
 
-    public static function listRole() {
+    public static function listRole()
+    {
         return array(
             self::ADMINISTRATOR => 'Administrator',
             self::MODERATOR => 'Moderator',
@@ -96,7 +108,8 @@ class General {
     }
 
     // Returns colored string
-    public static function getColoredString($string, $foreground_color = null, $background_color = null) {
+    public static function getColoredString($string, $foreground_color = null, $background_color = null)
+    {
         $colored_string = "";
 
         // Check if given foreground color found
@@ -115,20 +128,23 @@ class General {
     }
 
     // Returns all foreground color names
-    public static function getForegroundColors() {
+    public static function getForegroundColors()
+    {
         return array_keys(self::$foreground_colors);
     }
 
     // Returns all background color names
-    public static function getBackgroundColors() {
+    public static function getBackgroundColors()
+    {
         return array_keys(self::$background_colors);
     }
 
-    public static function randomDigits($length = 6) {
+    public static function randomDigits($length = 6)
+    {
         $characters = '0123456789';
         $string = '';
         $strLeng = strlen($characters) - 1;
-        for ($p = 0; $p < $length - 1; $p ++) {
+        for ($p = 0; $p < $length - 1; $p++) {
             $string .= $characters [mt_rand(0, $strLeng)];
         }
         return rand(1, 9) . $string;
@@ -141,7 +157,8 @@ class General {
      * @param string $strControllerName controller name
      * @return array
      */
-    public static function ImageUpload($arrFile = array(), $strControllerName = '') {
+    public static function ImageUpload($arrFile = array(), $strControllerName = '')
+    {
         $arrResult = array();
         if (empty($arrFile)) {
             return $arrResult;
@@ -216,7 +233,8 @@ class General {
      * @param String $strMessage email message
      * @return Boolean
      */
-    public static function sendMail($email, $strTitle, $strMessage) {
+    public static function sendMail($email, $strTitle, $strMessage)
+    {
 
         try {
             if (empty($email) || empty($strTitle) || empty($strMessage)) {
@@ -227,7 +245,7 @@ class General {
             }
 
             //parse to array
-            $arrEmail = (array) $email;
+            $arrEmail = (array)$email;
 
             $html = new \Zend\Mime\Part($strMessage);
             $html->type = \Zend\Mime\Mime::TYPE_HTML;
@@ -238,9 +256,9 @@ class General {
 
             $mail = new \Zend\Mail\Message();
             $mail->setSubject($strTitle)
-                    ->addFrom(self::EMAIL_SYS, self::SITE_AUTH)
-                    ->addReplyTo(self::EMAIL_SYS)
-                    ->setBody($body);
+                ->addFrom(self::EMAIL_SYS, self::SITE_AUTH)
+                ->addReplyTo(self::EMAIL_SYS)
+                ->setBody($body);
 
             $mail->addTo($arrEmail);
 
@@ -248,15 +266,15 @@ class General {
 
                 $smtpOptions = new \Zend\Mail\Transport\SmtpOptions();
                 $smtpOptions->setHost(self::HOST_MAIL)
-                        ->setPort(465)
-                        ->setConnectionClass('login')
-                        ->setConnectionConfig(
-                                array(
-                                    'username' => self::EMAIL_SYS,
-                                    'password' => self::EMAIL_SYS_PASSWORD,
-                                    'ssl' => 'ssl'
-                                )
-                );
+                    ->setPort(465)
+                    ->setConnectionClass('login')
+                    ->setConnectionConfig(
+                        array(
+                            'username' => self::EMAIL_SYS,
+                            'password' => self::EMAIL_SYS_PASSWORD,
+                            'ssl' => 'ssl'
+                        )
+                    );
                 $transport = new \Zend\Mail\Transport\Smtp($smtpOptions);
                 $transport->send($mail);
                 return true;
@@ -269,7 +287,8 @@ class General {
         }
     }
 
-    public static function resizeImages($strControllerName, $pathFile, $fileName) {
+    public static function resizeImages($strControllerName, $pathFile, $fileName)
+    {
 
         $arrThumb = self::getThumbSize($strControllerName);
         $serviceImage = new \Intervention\Image\ImageManager();
@@ -308,7 +327,8 @@ class General {
      * @return Array
      * @throws \Exception
      */
-    public static function getThumbSize($strControllerName = '') {
+    public static function getThumbSize($strControllerName = '')
+    {
         if ($strControllerName) {
             switch ($strControllerName) {
                 case 'content':
@@ -327,13 +347,14 @@ class General {
      * Get Elasticsearch Config
      * @return \Elastica\Client
      */
-    public static function getSearchConfig() {
+    public static function getSearchConfig()
+    {
         $port = 9200;
         $client = new \Elastica\Client(
-                array('servers' => array(
+            array('servers' => array(
                 array('host' => 'localhost', 'port' => $port),
             )
-        ));
+            ));
         return $client;
     }
 
@@ -341,7 +362,8 @@ class General {
      * Get Client config
      * @return \GearmanClient
      */
-    public static function getClientConfig() {
+    public static function getClientConfig()
+    {
         $client = new \GearmanClient();
         $client->addServer('127.0.0.1', 4730);
         return $client;
@@ -351,7 +373,8 @@ class General {
      * Get worker config
      * @return \GearmanWorker
      */
-    public static function getWorkerConfig() {
+    public static function getWorkerConfig()
+    {
         $worker = new \GearmanWorker();
         $worker->addServer('127.0.0.1', 4730);
         return $worker;
@@ -361,7 +384,8 @@ class General {
      * Get Redis config for pageview, comment, notification, banned user ... etc
      * @param String $strType
      */
-    public static function getRedisConfig($strType) {
+    public static function getRedisConfig($strType)
+    {
         $redis = new \Redis();
         $redis->connect('127.0.0.1', 6379, 15);
 
@@ -384,7 +408,8 @@ class General {
      * @param int $totalSplit
      * @return array
      */
-    public static function splitWords($strText, $totalSplit = 2) {
+    public static function splitWords($strText, $totalSplit = 2)
+    {
         $arrWords = explode(' ', $strText);
         $result = array();
         $icnt = count($arrWords) - ($totalSplit - 1);
@@ -398,14 +423,15 @@ class General {
         return $result;
     }
 
-    public static function toPrettyTime($seconds) {
+    public static function toPrettyTime($seconds)
+    {
         $day = 24 * 60 * 60;
         $hour = 60 * 60;
         $minute = 60;
 
         $d = floor($seconds / $day);
         $h = floor(($seconds % $day) / $hour);
-        $m = floor(($seconds % ($day * $hour) ) / $minute);
+        $m = floor(($seconds % ($day * $hour)) / $minute);
 
         if ($d > 0) {
             return $d . ' ngày';
@@ -416,7 +442,8 @@ class General {
         }
     }
 
-    public static function formatPrice($price) {
+    public static function formatPrice($price)
+    {
         list($priceEven, $priceOdd) = explode('.', $price);
         if (empty($priceOdd)) {
             return number_format($price);
@@ -424,11 +451,13 @@ class General {
         return number_format($priceEven) . '.' . $priceOdd;
     }
 
-    public static function dateToTimestamp($day, $month, $year, $hour = 0, $minute = 0, $second = 0) {
+    public static function dateToTimestamp($day, $month, $year, $hour = 0, $minute = 0, $second = 0)
+    {
         return mktime($hour, $minute, $second, $month, $day, $year);
     }
 
-    public static function dateRange($first, $last, $step = '+1 day', $format = 'Y/m/d') {
+    public static function dateRange($first, $last, $step = '+1 day', $format = 'Y/m/d')
+    {
         $dates = array();
         $current = strtotime($first);
         $last = strtotime($last);
@@ -440,7 +469,8 @@ class General {
         return $dates;
     }
 
-    public static function generateCaptcha($maxWordLength = 4, $width = 100, $height = 70) {
+    public static function generateCaptcha($maxWordLength = 4, $width = 100, $height = 70)
+    {
         if (!is_writable(CAPTCHA_PATH) || !is_dir(CAPTCHA_PATH)) {
             throw new \Exception(CAPTCHA_PATH . ' does not exist or cannot writable');
         }
@@ -465,14 +495,16 @@ class General {
         );
     }
 
-    public static function escapeJsonString($value) { # list from www.json.org: (\b backspace, \f formfeed)
+    public static function escapeJsonString($value)
+    { # list from www.json.org: (\b backspace, \f formfeed)
         $escapers = array("\\", "/", "\"", "\n", "\r", "\t", "\x08", "\x0c", "'");
         $replacements = array("\\\\", "\\/", "\\\"", "\\n", "\\r", "\\t", "\\f", "\\b", "\\'");
         $result = str_replace($escapers, $replacements, $value);
         return $result;
     }
 
-    public static function getRealIpAddr() {
+    public static function getRealIpAddr()
+    {
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {  //check ip from share internet
             $ip = $_SERVER['HTTP_CLIENT_IP'];
         } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -484,7 +516,8 @@ class General {
         return $ip;
     }
 
-    public static function crawler($strURL = '', $strCookiePath = '', $arrHeader = array(), $arrData = array()) {
+    public static function crawler($strURL = '', $strCookiePath = '', $arrHeader = array(), $arrData = array())
+    {
         try {
             if (empty($strURL)) {
                 return false;
@@ -517,7 +550,8 @@ class General {
         }
     }
 
-    public static function sortArray($records, $field, $reverse = false) {
+    public static function sortArray($records, $field, $reverse = false)
+    {
         $hash = array();
 
         foreach ($records as $record) {
@@ -539,20 +573,21 @@ class General {
      * Detect time of the day
      * @return string
      */
-    public static function detectTimeOfDay() {
+    public static function detectTimeOfDay()
+    {
         $time = date("H");
         if ($time < "12") {
             echo "buổi sáng vui vẻ và hạnh phúc.";
         } else
-        if ($time >= "12" && $time < "18") {
-            echo "buổi chiều vui vẻ và hạnh phúc.";
-        } else
-        if ($time >= "18" && $time < "22") {
-            echo "buổi tối vui vẻ và hạnh phúc.";
-        } else
-        if ($time >= "22") {
-            echo "buổi tối ngon giấc.";
-        }
+            if ($time >= "12" && $time < "18") {
+                echo "buổi chiều vui vẻ và hạnh phúc.";
+            } else
+                if ($time >= "18" && $time < "22") {
+                    echo "buổi tối vui vẻ và hạnh phúc.";
+                } else
+                    if ($time >= "22") {
+                        echo "buổi tối ngon giấc.";
+                    }
     }
 
     /**
@@ -560,12 +595,14 @@ class General {
      * @param string $namespace
      * @param string $message
      */
-    public static function setFlashMessenger($namespace = '', $message = '') {
+    public static function setFlashMessenger($namespace = '', $message = '')
+    {
         $messenger = new \Zend\Mvc\Controller\Plugin\FlashMessenger();
         $messenger->setNamespace($namespace)->addMessage($message);
     }
 
-    public static function formatDateString($date) {
+    public static function formatDateString($date)
+    {
         $current = time() - $date;
 
         if ($current < 60) {
@@ -590,12 +627,14 @@ class General {
         }
     }
 
-    public static function clean($str = "") {
+    public static function clean($str = "")
+    {
         $vowels = array('/', '\\', ':', ';', '!', '#', '$', '%', '^', '*', '(', ')', '=', '{', '}', '[', ']', '"', "'", '<', '>', '?', '~', '`', '&');
         return str_replace($vowels, "", $str);
     }
 
-    public static function cleanArray($array = "") {
+    public static function cleanArray($array = "")
+    {
         $arrReturn = [];
         foreach ($array as $key => $value) {
             $arrReturn[$key] = self::clean($value);
@@ -603,7 +642,8 @@ class General {
         return $arrReturn;
     }
 
-    public static function createLogs($arrParamsRoute, $arrParams, $intId) {
+    public static function createLogs($arrParamsRoute, $arrParams, $intId)
+    {
         $arrData = array(
             'user_id' => UID,
             'module' => $arrParamsRoute['module'],
@@ -617,7 +657,8 @@ class General {
         return $arrData;
     }
 
-    public static function formatDateTime($time) {
+    public static function formatDateTime($time)
+    {
         $temp = date('d/m/Y/H/i/s', $time);
         list($day, $month, $year, $hour, $min, $second) = explode('/', $temp);
         $strReturn = 'Ngày ' . $day . ' tháng ' . $month . ' năm ' . $year . ' - ' . $hour . ' giờ ' . $min . ' phút ' . $second . ' giây';

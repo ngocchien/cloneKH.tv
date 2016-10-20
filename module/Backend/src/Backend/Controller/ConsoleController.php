@@ -958,7 +958,7 @@ class ConsoleController extends MyController
             if (!empty($value['cate_img_url'])) {
                 $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
                 $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
-                $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+                $image->addChild('image:caption', $value['cate_name'] . General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
             }
         }
         foreach ($arrCategoryByParent as $key => $arr) {
@@ -972,7 +972,7 @@ class ConsoleController extends MyController
                 if (!empty($value['cate_img_url'])) {
                     $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
                     $image->addChild('image:loc', STATIC_URL . $value['cate_img_url'], 'http://www.google.com/schemas/sitemap-image/1.1');
-                    $image->addChild('image:caption',$value['cate_name']. General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
+                    $image->addChild('image:caption', $value['cate_name'] . General::TITLE_META, 'http://www.google.com/schemas/sitemap-image/1.1');
                 }
             }
         }
@@ -1310,6 +1310,8 @@ class ConsoleController extends MyController
                         $id = $serviceContent->add($arr_data_content);
 
                         if ($id) {
+                            $arr_data_content['cont_id'] = $id;
+                            $this->postToFb($arr_data_content);
                             echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
                         } else {
                             echo \My\General::getColoredString("Can not insert content db", 'red');
@@ -1328,6 +1330,37 @@ class ConsoleController extends MyController
         }
         echo \My\General::getColoredString("Crawler to success", 'green');
         return true;
+    }
+
+    public function postToFb($arrParams)
+    {
+        $config_fb = General::$config_fb;
+//        bai-viet/sai-lam-chien-luoc-khi-san-nguoi-ngoai-hanh-tinh-59339.html
+        $url_content = 'http://khampha.tech/bai-viet/' . $arrParams['cont_slug'] . '-' . $arrParams['cont_id'] . '.html';
+        $data = array(
+            "access_token" => $config_fb['access_token'],
+            "message" => $arrParams['cont_title'],
+            "link" => $url_content,
+            "picture" => $arrParams['cont_main_image'],
+            "name" => $arrParams['cont_title'],
+            "caption" => "khampha.tech",
+            "description" => $arrParams['cont_description']
+        );
+        $post_url = 'https://graph.facebook.com/' . $config_fb['fb_id'] . '/feed';
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $post_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            //$return = curl_exec($ch);
+            curl_close($ch);
+            echo \My\General::getColoredString("Post 1 content to facebook success cont_id = {$arrParams['cont_id']}", 'green');
+            return true;
+        } catch (Exception $e) {
+            echo \My\General::getColoredString($e->getMessage(), 'red');
+            return true;
+        }
     }
 
     public function initKeywordOldAction()
