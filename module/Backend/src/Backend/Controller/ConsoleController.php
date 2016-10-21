@@ -1335,7 +1335,6 @@ class ConsoleController extends MyController
     public function postToFb($arrParams)
     {
         $config_fb = General::$config_fb;
-//        bai-viet/sai-lam-chien-luoc-khi-san-nguoi-ngoai-hanh-tinh-59339.html
         $url_content = 'http://khampha.tech/bai-viet/' . $arrParams['cont_slug'] . '-' . $arrParams['cont_id'] . '.html';
         $data = array(
             "access_token" => $config_fb['access_token'],
@@ -1346,19 +1345,17 @@ class ConsoleController extends MyController
             "caption" => "khampha.tech",
             "description" => $arrParams['cont_description']
         );
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
-        die();
         $post_url = 'https://graph.facebook.com/' . $config_fb['fb_id'] . '/feed';
+
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $post_url);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            //$return = curl_exec($ch);
+            $return = curl_exec($ch);
             curl_close($ch);
+            echo \My\General::getColoredString($return, 'green');
             echo \My\General::getColoredString("Post 1 content to facebook success cont_id = {$arrParams['cont_id']}", 'green');
             return true;
         } catch (Exception $e) {
@@ -1372,7 +1369,7 @@ class ConsoleController extends MyController
         $arr_content = $instanceSearchContent->getDetail([
             'cont_id' => 59339
         ]);
-        $this->test($arr_content);
+        $this->postToFb($arr_content);
         return;
     }
 
