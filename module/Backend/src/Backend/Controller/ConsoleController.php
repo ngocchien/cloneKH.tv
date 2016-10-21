@@ -1338,7 +1338,7 @@ class ConsoleController extends MyController
         $url_content = 'http://khampha.tech/bai-viet/' . $arrParams['cont_slug'] . '-' . $arrParams['cont_id'] . '.html';
         $data = array(
             "access_token" => $config_fb['access_token'],
-            "message" => $arrParams['cont_title'],
+            "message" => $arrParams['cont_description'],
             "link" => $url_content,
             "picture" => $arrParams['cont_main_image'],
             "name" => $arrParams['cont_title'],
