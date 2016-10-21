@@ -1346,6 +1346,10 @@ class ConsoleController extends MyController
             "caption" => "khampha.tech",
             "description" => $arrParams['cont_description']
         );
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        die();
         $post_url = 'https://graph.facebook.com/' . $config_fb['fb_id'] . '/feed';
         try {
             $ch = curl_init();
@@ -1361,6 +1365,15 @@ class ConsoleController extends MyController
             echo \My\General::getColoredString($e->getMessage(), 'red');
             return true;
         }
+    }
+
+    public function testAction(){
+        $instanceSearchContent = new \My\Search\Content();
+        $arr_content = $instanceSearchContent->getDetail([
+            'cont_id' => 59339
+        ]);
+        $this->test($arr_content);
+        return;
     }
 
     public function initKeywordOldAction()

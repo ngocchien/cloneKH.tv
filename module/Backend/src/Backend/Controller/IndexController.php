@@ -48,6 +48,7 @@ class IndexController extends MyController
 
     public function indexAction()
     {
+        return;
         $instanceSearchContent = new \My\Search\Content();
         $arr_content = $instanceSearchContent->getDetail([
             'cont_id' => 59339

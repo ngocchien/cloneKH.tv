@@ -121,6 +121,16 @@ return array(
                             'action' => 'init-keyword-old'
                         ),
                     ),
+                ),
+                'test' => array(
+                    'options' => array(
+                        'route' => 'test',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'test'
+                        ),
+                    ),
                 )
             )
         )
