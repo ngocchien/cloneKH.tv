@@ -161,4 +161,10 @@ class GeneralController extends MyController {
         ];
     }
 
+    public function privacyPolicyAction(){
+        return[
+
+        ];
+    }
+
 }

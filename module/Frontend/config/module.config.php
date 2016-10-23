@@ -202,6 +202,22 @@ return array(
                     ),
                 ),
             ),
+            'privacy-policy' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/chinh-sach-bao-mat.html',
+                    'constraints' => array(
+                        'controller' => 'general',
+                        'action' => 'privacy-policy',
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Frontend\Controller',
+                        'module' => 'frontend',
+                        'controller' => 'general',
+                        'action' => 'privacy-policy',
+                    ),
+                ),
+            ),
             'notfound' => array(
                 'type' => 'Segment',
                 'options' => array(
