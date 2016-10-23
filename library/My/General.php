@@ -26,10 +26,10 @@ class General
     const MR = 1;
     const MRS = 2;
     //define email admin 
-    const EMAIL_SUPPORT = 'support@tin247.mobi';
-    const EMAIL_BCC = 'no-reply@tin247.mobi';
-    const EMAIL_SYS = 'no-reply@tin247.mobi';
-    const EMAIL_SYS_PASSWORD = 'quynhon@best247';
+    const EMAIL_SUPPORT = 'khampha.tech@gmail.com';
+    const EMAIL_BCC = 'khampha.tech@gmail.com';
+    const EMAIL_SYS = 'khampha.tech@gmail.com';
+    const EMAIL_SYS_PASSWORD = 'chien123';
     //define host mail
     const HOST_MAIL = 'smtp.gmail.com';
 
