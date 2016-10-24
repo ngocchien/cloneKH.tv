@@ -1356,7 +1356,19 @@ class ConsoleController extends MyController
             $return = curl_exec($ch);
             curl_close($ch);
             echo \My\General::getColoredString($return, 'green');
+
+            if (!empty($return)) {
+                $post_id = explode('_', json_decode($return, true)['id'])[1];
+                foreach (General::$face_traffic as $key => $value) {
+                    $this->shareFb([
+                        'post_id' => $post_id,
+                        'access_token' => $value,
+                        'name' => $key
+                    ]);
+                }
+            }
             echo \My\General::getColoredString("Post 1 content to facebook success cont_id = {$arrParams['cont_id']}", 'green');
+            unset($ch,$return,$post_id,$data,$post_url,$url_content,$config_fb,$arrParams);
             return true;
         } catch (Exception $e) {
             echo \My\General::getColoredString($e->getMessage(), 'red');
@@ -1364,7 +1376,32 @@ class ConsoleController extends MyController
         }
     }
 
-    public function testAction(){
+    public function shareFb($arrParams)
+    {
+        $data = [
+            'link' => General::SOCIAL_FACEBOOK_URL . 'post/' . $arrParams['post_id'],
+            'access_token' => $arrParams['access_token']
+        ];
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $arrParams['https://graph.facebook.com/me/feed']);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $return = curl_exec($ch);
+            curl_close($ch);
+            echo \My\General::getColoredString('Share post id ' . $arrParams['post_id'] . ' to facebook ' . $arrParams['name'] . ' SUCCESS', 'green');
+            unset($data, $return, $arrParams, $return);
+            return true;
+        } catch (\Exception $exc) {
+            echo \My\General::getColoredString('Share post id ' . $arrParams['post_id'] . ' to facebook ' . $arrParams['name'] . ' ERROR', 'red');
+            return true;
+        }
+
+    }
+
+    public function testAction()
+    {
         $instanceSearchContent = new \My\Search\Content();
         $arr_content = $instanceSearchContent->getDetail([
             'cont_id' => 59339

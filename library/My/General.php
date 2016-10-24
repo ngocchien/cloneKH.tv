@@ -61,6 +61,11 @@ class General
         'access_token' => 'EAAJTaWjIMUkBAPzPyrhRFR85wEM6BRAxZCgaiwwkvuuZCRDTdoUvlusOj0a1KOZB4xJ6ZBMtig6F8TMQ8VWhXG6W8pGwZBUhyR6vB0Bp9P5wyIpnlfsF90XoXtXEqkHRlEZC8NdF2xEXHysoOZACEhAcv62Ei4nMxAZD'
     );
 
+    static $face_traffic = [
+        'levan_token' => 'EAACEdEose0cBAEnnti6UOW9ZCL4hUQDVWl5O7o3hdfrZAoKZB6gWZAlc991lNxEYHRac1NZAu9W5jGrblzxtW1CYZBjAgjTXthZCJYpkZC9vqtmdAuypHQO6mzU6cxStMW8XWM8SyNgKnqcHPhNVGj99NcgZAeO3OL9dZBE13d4IA7TQZDZD',
+        'huyentrang_token' => 'EAACEdEose0cBAKPQLZBX6SBbbZBD2Ux0XzXlJibeZB03HcbBcBeaogJu9rm7cUmVAA3Gp1fM08NfAFA9XabwjpbOiMiZAlKBx42A6dCEJZC0OO5HZCkayXoOrHjVnGmbK52AT0nzJCWJQoEy9ZAq6iwy6sGJnZARta5lMrxZAh99sgQZDZD'
+    ];
+
     public static function getSlug($string, $maxLength = 255, $separator = '-')
     {
         $arrCharFrom = array("ạ", "á", "à", "ả", "ã", "Ạ", "Á", "À", "Ả", "Ã", "â", "ậ", "ấ", "ầ", "ẩ", "ẫ", "Â", "Ậ", "Ấ", "Ầ", "Ẩ", "Ẫ", "ă", "ặ", "ắ", "ằ", "ẳ", "ẵ", "ẫ", "Ă", "Ắ", "Ằ", "Ẳ", "Ẵ", "Ặ", "Ẵ", "ê", "ẹ", "é", "è", "ẻ", "ẽ", "Ê", "Ẹ", "É", "È", "Ẻ", "Ẽ", "ế", "ề", "ể", "ễ", "ệ", "Ế", "Ề", "Ể", "Ễ", "Ệ", "ọ", "ộ", "ổ", "ỗ", "ố", "ồ", "Ọ", "Ộ", "Ổ", "Ỗ", "Ố", "Ồ", "Ô", "ô", "ó", "ò", "ỏ", "õ", "Ó", "Ò", "Ỏ", "Õ", "ơ", "ợ", "ớ", "ờ", "ở", "ỡ", "Ơ", "Ợ", "Ớ", "Ờ", "Ở", "Ỡ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự", "Ụ", "Ư", "Ứ", "Ừ", "Ử", "Ữ", "Ự", "ú", "ù", "ủ", "ũ", "Ú", "Ù", "Ủ", "Ũ", "ị", "í", "ì", "ỉ", "ĩ", "Ị", "Í", "Ì", "Ỉ", "Ĩ", "ỵ", "ý", "ỳ", "ỷ", "ỹ", "Ỵ", "Ý", "Ỳ", "Ỷ", "Ỹ", "đ", "Đ");
