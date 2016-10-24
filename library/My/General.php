@@ -62,8 +62,8 @@ class General
     );
 
     static $face_traffic = [
-        'levan_token' => 'EAAJTaWjIMUkBAH9lzDWSgawr8h3BFwkKWOo5kaKOYqvRhcAwnOWs4rtA31rLtDEuShvGuA7mXbjeDCuuuIq8pNEYuzOQ4Ao3hJkCl3hPWYFd07pCanFrFV2AZAyXpSUsZCrpi0bjJw8lUv3yANm40Nawbp37GB20z374tEZAgZDZD',
-        'huyentrang_token' => 'EAAJTaWjIMUkBAFv7mXmVGZBOt9WHyZCrjGdBc5HZAUcFjsz6vlyCG6sPtJ4F5aE3arvEe6YRros1J6JcyBSvCx9VXQ5CX7qPLtZAbEvwsZAnEQ3RWTr97lIBgZAgphbCD3ikTEaE1eyp0ZBOPUDBjkd9JcC6eG2buAZD'
+        'levan_token' => 'EAAJTaWjIMUkBAFkTRJwvz2An4CMfLIpd2FX0YgdzHexZBIXH2C3ZCXEqvfLosMvRkJKtoCeliLfDDSaip9B7DeXMZBeZB9n6Kh1lNw9g40jMd1aUpFaDLupo6c9D3YZCPx2yCy004JQOnIpwhe71gYZC8XTQ4ZBorQZD',
+        'huyentrang_token' => 'EAAJTaWjIMUkBAFKaLbZCZCLsumShAeFAZB9pQC5QcfFqUayyE9bn29jzJ2Ii6lZBFyWOQjYarCeZBLEERGB8JI0c6iy72BZBDNCmnAa4zFkQzdvX02VJrAq12wJjMVUQqnHbBqlk2oNfqLYGrQ4PDnEbCjZAKyaIgMZD'
     ];
 
     public static function getSlug($string, $maxLength = 255, $separator = '-')
