@@ -131,6 +131,16 @@ return array(
                             'action' => 'test'
                         ),
                     ),
+                ),
+                'hot-key' => array(
+                    'options' => array(
+                        'route' => 'hot-key',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'keyword-hot'
+                        ),
+                    ),
                 )
             )
         )

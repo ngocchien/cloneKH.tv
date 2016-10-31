@@ -1457,4 +1457,178 @@ class ConsoleController extends MyController
 
         return true;
     }
+
+
+    public function keywordHotAction()
+    {
+        $arr_key = [
+            'phụ nữ',
+            'phái đẹp',
+            'nam giới',
+            'phai mạnh',
+            'phim hay',
+            'ca nhạc',
+            'nghệ sỹ',
+            'xe máy',
+            'ô tô',
+            'soai ca',
+            'kpop',
+            'show biz',
+            'thơ văn',
+            'ngôn tình',
+            'viễn tưởng',
+            'du lịch',
+            'văn hoá',
+            'trào lưu',
+            'tha thu',
+            'ném đá',
+            'hài vl',
+            'voz',
+            'ngáo đá',
+            'phồng tôm',
+            'cdsht',
+            'tuổi trẻ',
+            'yêu đời',
+            'tình yêu',
+            'sống thử',
+            'chịch',
+            'ngôn lù',
+            'minh hằng',
+            'lý hải',
+            'ca sỹ',
+            'hải ngoại',
+            'quang lê',
+            'hoài linh',
+            'trường giang',
+            'trấn thành',
+            'cười',
+            'chúng ta không thuộc về nhau',
+            'sơn tùng',
+            'sky',
+            'đạo nhạc',
+            'khởi my',
+            'chém gió',
+            'hôi của',
+            'sống ảo',
+            'co thủ',
+            'kiếm hiệp',
+            'kim dung',
+            'phim',
+            'chưởng',
+            'tiêu thuyết',
+            'vỡ mồm',
+            'yêu là cưới',
+            'yêu',
+            'deploy',
+            'pro',
+            'campaign',
+            'bóng đá',
+            'đau bụng',
+            '5 sao',
+            'thất thủ',
+            'sài gòn',
+            'An Giang',
+            'Bà Rịa - Vũng Tàu',
+            'Bắc Giang',
+            'Bắc Kạn',
+            'Bạc Liêu',
+            'Bắc Ninh',
+            'Bến Tre',
+            'Bình Định',
+            'Bình Dương',
+            'Bình Phước',
+            'Bình Thuận',
+            'Cà Mau',
+            'Cao Bằng',
+            'Đắk Lắk',
+            'Đắk Nông',
+            'Điện Biên',
+            'Đồng Nai',
+            'Đồng Tháp',
+            'Gia Lai',
+            'Hà Giang',
+            'Hà Nam',
+            'Hà Tĩnh',
+            'Hải Dương',
+            'Hậu Giang',
+            'Hòa Bình',
+            'Hưng Yên',
+            'Khánh Hòa',
+            'Kiên Giang',
+            'Kon Tum',
+            'Lai Châu',
+            'Lâm Đồng',
+            'Lạng Sơn',
+            'Lào Cai',
+            'Long An',
+            'Nam Định',
+            'Nghệ An',
+            'Ninh Bình',
+            'Ninh Thuận',
+            'Phú Thọ',
+            'Quảng Bình',
+            'Quảng Nam',
+            'Quảng Ngãi',
+            'Quảng Ninh',
+            'Quảng Trị',
+            'Sóc Trăng',
+            'Sơn La',
+            'Tây Ninh',
+            'Thái Bình',
+            'Thái Nguyên',
+            'Thanh Hóa',
+            'Thừa Thiên Huế',
+            'Tiền Giang',
+            'Trà Vinh',
+            'Tuyên Quang',
+            'Vĩnh Long',
+            'Vĩnh Phúc',
+            'Yên Bái',
+            'Phú Yên',
+            'Cần Thơ',
+            'Đà Nẵng',
+            'Hải Phòng',
+            'Hà Nội',
+            'TP HCM',
+            'miền trung',
+            'miền nam',
+            'miền bắc',
+            'tỉnh thành',
+            'việc làm',
+            'nhân sự',
+            'tuyển dụng',
+            'ý tưởng',
+            'kinh doanh',
+            'khởi nghiệp',
+            'nữ sinh',
+            'nam sinh',
+            'hot girl'
+        ];
+
+        $instanceSearchKeyWord = new \My\Search\Keyword();
+        foreach ($arr_key as $name) {
+            $isexist = $instanceSearchKeyWord->getDetail(['key_slug' => General::getSlug($name)]);
+
+            if ($isexist) {
+                continue;
+            }
+            $arr_data = [
+                'key_name' => $name,
+                'key_slug' => trim(General::getSlug($name)),
+                'created_date' => time(),
+                'is_crawler' => 0
+            ];
+            $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+            $int_result = $serviceKeyword->add($arr_data);
+            unset($serviceKeyword);
+            if ($int_result) {
+                echo General::getColoredString("add keyword : {$name} success id : {$int_result} ", 'green');
+            } else {
+                echo General::getColoredString("add keyword : {$name} error", 'red');
+            }
+            $this->flush();
+        }
+        echo General::getColoredString("add keyword complete", 'yellow', 'cyan');
+        return true;
+    }
 }
