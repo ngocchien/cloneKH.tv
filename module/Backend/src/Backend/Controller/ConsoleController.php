@@ -822,7 +822,7 @@ class ConsoleController extends MyController
             '', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
         ];
         $instanceSearchKeyWord = new \My\Search\Keyword();
-        $arr_keyword = current($instanceSearchKeyWord->getListLimit(['is_crawler' => 0], 1, 1, ['key_id' => ['order' => 'asc']]));
+        $arr_keyword = current($instanceSearchKeyWord->getListLimit(['is_crawler' => 0, 'key_id_greater' => 2962], 1, 1, ['key_id' => ['order' => 'asc']]));
 
         unset($instanceSearchKeyWord);
         if (empty($arr_keyword)) {
@@ -855,7 +855,9 @@ class ConsoleController extends MyController
                     continue;
                 }
             }
+            $this->flush();
         };
+        $this->flush();
         sleep(3);
         $this->getKeyword();
     }
@@ -1401,6 +1403,85 @@ class ConsoleController extends MyController
 
     public function testAction()
     {
+        $instanceSearchKeyWord = new \My\Search\Keyword();
+        $file = PUBLIC_PATH . '/migrate/keyword.txt';
+        $arrList = explode(',', file_get_contents($file));
+        foreach ($arrList as $name) {
+            //find in DB có tồn tại hay ko?
+            $is_exits = $instanceSearchKeyWord->getDetail(['key_slug' => trim(General::getSlug($name))]);
+
+            if ($is_exits) {
+                continue;
+            }
+
+            $arr_data = [
+                'key_name' => $name,
+                'key_slug' => trim(General::getSlug($name)),
+                'created_date' => time(),
+                'is_crawler' => 0
+            ];
+
+            $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+            $int_result = $serviceKeyword->add($arr_data);
+            unset($serviceKeyword);
+            if ($int_result) {
+                echo \My\General::getColoredString("Insert success 1 row with id = {$int_result}", 'yellow');
+            }
+            $this->flush();
+        }
+
+        unset($instanceSearchKeyWord, $arrList);
+        echo \My\General::getColoredString("DONE", 'yellow');
+        $this->flush();
+        return true;
+
+
+        for ($intPage = 1; $intPage < 10000; $intPage++) {
+            echo \My\General::getColoredString("page : {$intPage}\n", 'yellow');
+            $arrList = $instanceSearchKeyWord->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'asc']]);
+
+            if (empty($arrList)) {
+                break;
+            }
+
+            foreach ($arrList as $arr) {
+                file_put_contents($file, $arr['key_name'] . ',', FILE_APPEND);
+            }
+            unset($instanceSearchKeyWord);
+            unset($arrList); //release memory
+            $this->flush();
+        }
+        unset($instanceSearchKeyWord);
+        echo \My\General::getColoredString("DONE", 'yellow');
+        $this->flush();
+        return true;
+
+
+        $file = PUBLIC_PATH . '/tl/keyword.txt';
+
+        $intLimit = 2000;
+        for ($intPage = 1; $intPage < 10000; $intPage++) {
+            $instanceSearchKeyWord = new \My\Search\Keyword();
+            echo \My\General::getColoredString("page : {$intPage}\n", 'yellow');
+            $arrList = $instanceSearchKeyWord->getListLimit(['full' => 1], $intPage, $intLimit, ['key_id' => ['order' => 'asc']]);
+
+            if (empty($arrList)) {
+                break;
+            }
+
+            foreach ($arrList as $arr) {
+                file_put_contents($file, $arr['key_name'] . ',', FILE_APPEND);
+            }
+            unset($instanceSearchKeyWord);
+            unset($arrList); //release memory
+            $this->flush();
+        }
+        unset($instanceSearchKeyWord);
+        echo \My\General::getColoredString("DONE", 'yellow');
+        $this->flush();
+        return true;
+
+
         $instanceSearchContent = new \My\Search\Content();
         $arr_content = $instanceSearchContent->getDetail([
             'cont_id' => 59339
@@ -1602,8 +1683,125 @@ class ConsoleController extends MyController
             'khởi nghiệp',
             'nữ sinh',
             'nam sinh',
-            'hot girl'
+            'hot girl',
+            'Vợ Người Ta',
+            'Âm Thầm Bên Em',
+            'Không Phải Dạng Vừa Đâu',
+            'How Old net',
+            'Furious 7',
+            'Khuôn Mặt Đáng Thương',
+            'Em Của Quá Khứ',
+            'Cười Xuyên Việt',
+            'Cô Dâu 8 Tuổi',
+            'Chàng Trai Năm Ấy',
+            'Maldives',
+            'IS',
+            'Paris',
+            'Lý Quang Diệu',
+            'Pluto',
+            'Inge Lehmann',
+            'Nga không kích IS',
+            'Tình hình Syria',
+            'Tin Ukraina',
+            'Nepal',
+            'Điểm thi đại học quốc gia 2015',
+            'Tai nạn giao thông mới nhất',
+            'Giá xăng hôm nay',
+            'Tin bão số 1',
+            'Hang Sơn Đoòng',
+            'Đứt cáp quang',
+            'Tin bão mới nhất',
+            'Tân Hiệp Phát',
+            'Tin pháp luật mới nhất',
+            'Giá iPhone',
+            'Duy Nhân',
+            'DJ Trang Moon',
+            'Midu',
+            'Paul Walker',
+            'DJ Soda',
+            'MC Quang Minh',
+            'Ánh Viên',
+            'Kang Tae Oh',
+            'Thanh Duy',
+            'Angelababy',
+            'Cách làm mứt dừa',
+            'Cách làm kem chuối',
+            'Cách làm mứt cà rốt',
+            'Mâm ngũ quả ngày Tết',
+            'Cách làm mứt bí',
+            'Cách làm mứt khoai lang',
+            'Cách làm mứt cam',
+            'Cách gói bánh chưng',
+            'Cách làm dưa món',
+            'Cách làm mứt khoai tây',
+            'Vợ Người Ta',
+            'Âm Thầm Bên Em',
+            'Không Phải Dạng Vừa Đâu',
+            'Khuôn Mặt Đáng Thương',
+            'Em Của Quá Khứ',
+            'Say You Do',
+            'Chắc Ai Đó Sẽ Về',
+            'Em Là Của Anh',
+            'Thất Tình',
+            'Có Không Giữ Mất Đừng Tìm',
+            'Cười Xuyên Việt',
+            'Táo Quân',
+            'Thách Thức Danh Hài',
+            'Gương Mặt Thân Quen',
+            'Ơn Giời Cậu Đây Rồi',
+            'Bí Mật Đêm Chủ Nhật',
+            'Giọng Hát Việt Nhí',
+            'Giọng Hát Việt',
+            'Ca Sĩ Giấu Mặt',
+            'Người Bí Ẩn',
+            'Furious 7',
+            'Cô Dâu 8 Tuổi',
+            'Chàng Trai Năm ấy',
+            'School',
+            'Võ Tắc Thiên',
+            'Tôi Thấy Hoa Vàng Trên Cỏ Xanh',
+            'Hoa Thiên Cốt',
+            'Bên Nhau Trọn Đời',
+            '50 Sắc Thái',
+            'She Was Pretty',
+            'Copa America',
+            'SEA Games',
+            'Hoa hậu Hoàn vũ Việt Nam',
+            'Wimbledon',
+            'Hoa hậu Việt Nam',
+            'Zing Music Awards',
+            'Australian Open',
+            'US Open',
+            'Giờ Trái đất',
+            'Đêm hội chân dài',
+            'TPP là gì',
+            'IS là gì',
+            'Deep web là gì',
+            'IPU là gì',
+            'Thứ 6 ngày 13 là gì',
+            'Pray for Paris là gì',
+            'Tiamo là gì',
+            'Phơi nhiễm HIV là gì',
+            'Dub là gì',
+            'Marimo là gì'
         ];
+
+//        $instanceSearchKeyWord = new \My\Search\Keyword();
+//        //remove all doc
+////        $rm = $instanceSearchKeyWord->removeAllDoc();
+////        echo '<pre>';
+////        print_r($rm);
+////        echo '</pre>';
+////        die();
+//
+////        $arr_keyword = $instanceSearchKeyWord->getList(['is_crawler' => 1, 'key_id_greater' => 1077764]);
+//        foreach ($arr_key as $arr_key) {
+//            $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+//            $serviceKeyword->edit(['is_crawler' => 0], $arr_key['key_id']);
+//            unset($serviceKeyword);
+//        }
+//        echo General::getColoredString("update all keyword complete", 'yellow', 'cyan');
+//        return true;
 
         $instanceSearchKeyWord = new \My\Search\Keyword();
         foreach ($arr_key as $name) {
