@@ -916,7 +916,7 @@ class ConsoleController extends MyController
             }
         }
 
-        $result = file_put_contents(PUBLIC_PATH . '/rss/sitemap-location.xml', $xml->asXML());
+        $result = file_put_contents(PUBLIC_PATH . '/rss/sitemap.xml', $xml->asXML());
         if ($result) {
             echo General::getColoredString("Create sitemap.xml completed!", 'blue', 'cyan');
             $this->flush();
@@ -992,7 +992,7 @@ class ConsoleController extends MyController
     public function siteMapContent()
     {
         $instanceSearchContent = new \My\Search\Content();
-        $intLimit = 2000;
+        $intLimit = 4000;
         for ($intPage = 1; $intPage < 10000; $intPage++) {
 
             $file = PUBLIC_PATH . '/rss/content-' . $intPage . '.xml';
@@ -1017,11 +1017,11 @@ class ConsoleController extends MyController
                 $url->addChild('changefreq', 'daily');
 //                $url->addChild('priority', 0.7);
 
-                if (!empty($arr['cont_main_image'])) {
-                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
-                    $image->addChild('image:loc', $arr['cont_main_image'], 'http://www.google.com/schemas/sitemap-image/1.1');
-                    $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
-                }
+//                if (!empty($arr['cont_main_image'])) {
+//                    $image = $url->addChild('image:image', null, 'http://www.google.com/schemas/sitemap-image/1.1');
+//                    $image->addChild('image:loc', $arr['cont_main_image'], 'http://www.google.com/schemas/sitemap-image/1.1');
+//                    $image->addChild('image:caption', $arr['cont_title'], 'http://www.google.com/schemas/sitemap-image/1.1');
+//                }
             }
 
             unlink($file);
