@@ -10,9 +10,6 @@ class SearchController extends MyController
 
     public function __construct()
     {
-//        $this->externalJS = [
-//            STATIC_URL . '/f/v1/js/my/??search.js'
-//        ];
     }
 
     public function indexAction()
@@ -101,13 +98,16 @@ class SearchController extends MyController
             $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
             $this->renderer->headMeta()->appendName('dc.description', html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
             $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
-            $this->renderer->headTitle('Từ khoá - ' . html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
+            $this->renderer->headTitle(html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
             $this->renderer->headMeta()->appendName('keywords', html_entity_decode($arrKeyDetail['key_name']));
             $this->renderer->headMeta()->appendName('description', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name'] . General::TITLE_META));
             $this->renderer->headMeta()->appendName('social', null);
             $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage)));
             $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name'] . General::TITLE_META));
             $this->renderer->headMeta()->setProperty('og:description', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name'] . General::TITLE_META));
+
+            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage))));
+            $this->renderer->headLink(array('rel' => 'canonical', 'href' => $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage))));
 
             /*
              * get 20 keyword tương tự
@@ -154,13 +154,16 @@ class SearchController extends MyController
             $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
             $this->renderer->headMeta()->appendName('dc.description', html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
             $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
-            $this->renderer->headTitle('Từ khoá - ' . html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
+            $this->renderer->headTitle(html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
             $this->renderer->headMeta()->appendName('keywords', html_entity_decode('Danh sách từ khoá trang ' . $intPage));
             $this->renderer->headMeta()->appendName('description', html_entity_decode('Danh sách từ khoá trang ' . $intPage . General::TITLE_META));
             $this->renderer->headMeta()->appendName('social', null);
             $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('list-keyword', array('page' => $intPage)));
             $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Danh sách từ khoá trang ' . $intPage . General::TITLE_META));
             $this->renderer->headMeta()->setProperty('og:description', html_entity_decode('Danh sách từ khoá trang ' . $intPage . General::TITLE_META));
+
+            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => $this->url()->fromRoute('list-keyword', array('page' => $intPage))));
+            $this->renderer->headLink(array('rel' => 'canonical', 'href' => $this->url()->fromRoute('list-keyword', array('page' => $intPage))));
 
             return array(
                 'params' => $params,
