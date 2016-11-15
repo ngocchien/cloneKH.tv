@@ -83,7 +83,7 @@ class ContentController extends MyController
             $this->renderer->headMeta()->appendName('image', $arrContent['cont_main_image']);
             $this->renderer->headMeta()->setProperty('og:image', $arrContent['cont_main_image']);
 
-            $this->renderer->headLink(array('rel' => 'image_src', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id])));
+            $this->renderer->headLink(array('rel' => 'image_src', 'href' => $arrContent['cont_main_image']));
             $this->renderer->headLink(array('rel' => 'amphtml', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id])));
             $this->renderer->headLink(array('rel' => 'canonical', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $cont_id])));
 
