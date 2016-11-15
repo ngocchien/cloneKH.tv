@@ -39,13 +39,17 @@ class SearchController extends MyController
             $paging = $helper($params['module'], $params['__CONTROLLER__'], $params['action'], $intTotal, $intPage, $intLimit, 'search', $params);
 
             $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
-            $this->renderer->headMeta()->appendName('dc.description', $params['keyword']);
-            $this->renderer->headTitle('Tìm kiếm - ' . $params['keyword'] . General::TITLE_META);
-            $this->renderer->headMeta()->appendName('keywords', General::KEYWORD_DEFAULT . $params['keyword']);
-            $this->renderer->headMeta()->appendName('description', $params['keyName']);
-            $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('search', ['keyword' => $params['keyword'], 'page' => $intPage]));
-            $this->renderer->headMeta()->setProperty('og:title', $params['keyword']);
-            $this->renderer->headMeta()->setProperty('og:description', $params['keyword']);
+            $this->renderer->headTitle(html_entity_decode('Tìm kiếm - ' . $params['keyword'] . General::TITLE_META));
+            $this->renderer->headMeta()->setProperty('url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('search', ['keyword' => $params['keyword'], 'page' => $intPage]));
+            $this->renderer->headMeta()->appendName('og:url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('search', ['keyword' => $params['keyword'], 'page' => $intPage]));
+            $this->renderer->headMeta()->appendName('title', html_entity_decode('Tìm kiếm - ' . $params['keyword'] . General::TITLE_META));
+            $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Tìm kiếm - ' . $params['keyword'] . General::TITLE_META));
+            $this->renderer->headMeta()->appendName('keywords', html_entity_decode($params['keyword']));
+            $this->renderer->headMeta()->appendName('description', html_entity_decode($params['keyword']));
+            $this->renderer->headMeta()->setProperty('og:description', html_entity_decode($params['keyword']));
+
+            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('search', ['keyword' => $params['keyword'], 'page' => $intPage])));
+            $this->renderer->headLink(array('rel' => 'canonical', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('search', ['keyword' => $params['keyword'], 'page' => $intPage])));
 
             //get 50 keyword gần giống nhất
             $instanceSearchKeyword = new \My\Search\Keyword();
@@ -59,6 +63,7 @@ class SearchController extends MyController
                 'intTotal' => $intTotal
             ];
         } catch (\Exception $exc) {
+            return $this->redirect()->toRoute('404', array());
             echo '<pre>';
             print_r([
                 'code' => $exc->getCode(),
@@ -96,18 +101,18 @@ class SearchController extends MyController
             $paging = $helper($params['module'], $params['__CONTROLLER__'], $params['action'], $intTotal, $intPage, $intLimit, 'keyword', $params);
 
             $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
-            $this->renderer->headMeta()->appendName('dc.description', html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
-            $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
-            $this->renderer->headTitle(html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
-            $this->renderer->headMeta()->appendName('keywords', html_entity_decode($arrKeyDetail['key_name']));
-            $this->renderer->headMeta()->appendName('description', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name'] . General::TITLE_META));
-            $this->renderer->headMeta()->appendName('social', null);
-            $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage)));
-            $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name'] . General::TITLE_META));
-            $this->renderer->headMeta()->setProperty('og:description', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name'] . General::TITLE_META));
 
-            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage))));
-            $this->renderer->headLink(array('rel' => 'canonical', 'href' => $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage))));
+            $this->renderer->headTitle(html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
+            $this->renderer->headMeta()->setProperty('url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage)));
+            $this->renderer->headMeta()->appendName('og:url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage)));
+            $this->renderer->headMeta()->appendName('title', html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
+            $this->renderer->headMeta()->setProperty('og:title', html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
+            $this->renderer->headMeta()->appendName('keywords', html_entity_decode($arrKeyDetail['key_name']) . General::TITLE_META);
+            $this->renderer->headMeta()->appendName('description', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name']) . General::TITLE_META);
+            $this->renderer->headMeta()->setProperty('og:description', html_entity_decode('Danh sách bài viết trong từ khoá : ' . $arrKeyDetail['key_name']) . General::TITLE_META);
+
+            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage))));
+            $this->renderer->headLink(array('rel' => 'canonical', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('keyword', array('keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage))));
 
             /*
              * get 20 keyword tương tự
@@ -124,6 +129,7 @@ class SearchController extends MyController
                 'arrKeyDetail' => $arrKeyDetail
             );
         } catch (\Exception $exc) {
+            return $this->redirect()->toRoute('404', array());
             echo '<pre>';
             print_r([
                 'code' => $exc->getCode(),
@@ -152,18 +158,16 @@ class SearchController extends MyController
             $paging = $helper($params['module'], $params['__CONTROLLER__'], $params['action'], $intTotal, $intPage, $intLimit, 'list-keyword', $params);
 
             $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
-            $this->renderer->headMeta()->appendName('dc.description', html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
-            $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
-            $this->renderer->headTitle(html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
+            $this->renderer->headTitle(html_entity_decode('Danh sách từ khoá trang ' . $intPage) . \My\General::TITLE_META);
+            $this->renderer->headMeta()->setProperty('url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('list-keyword', array('page' => $intPage)));
+            $this->renderer->headMeta()->appendName('og:url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('list-keyword', array('page' => $intPage)));
+            $this->renderer->headMeta()->appendName('title', html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
+            $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
             $this->renderer->headMeta()->appendName('keywords', html_entity_decode('Danh sách từ khoá trang ' . $intPage));
             $this->renderer->headMeta()->appendName('description', html_entity_decode('Danh sách từ khoá trang ' . $intPage . General::TITLE_META));
-            $this->renderer->headMeta()->appendName('social', null);
-            $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('list-keyword', array('page' => $intPage)));
-            $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Danh sách từ khoá trang ' . $intPage . General::TITLE_META));
-            $this->renderer->headMeta()->setProperty('og:description', html_entity_decode('Danh sách từ khoá trang ' . $intPage . General::TITLE_META));
-
-            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => $this->url()->fromRoute('list-keyword', array('page' => $intPage))));
-            $this->renderer->headLink(array('rel' => 'canonical', 'href' => $this->url()->fromRoute('list-keyword', array('page' => $intPage))));
+            $this->renderer->headMeta()->appendName('og.description', html_entity_decode('Danh sách từ khoá trang ' . $intPage) . General::TITLE_META);
+            $this->renderer->headLink(array('rel' => 'amphtml', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('list-keyword', array('page' => $intPage))));
+            $this->renderer->headLink(array('rel' => 'canonical', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('list-keyword', array('page' => $intPage))));
 
             return array(
                 'params' => $params,
@@ -175,6 +179,7 @@ class SearchController extends MyController
                 'title' => 'Keyword'
             );
         } catch (\Exception $exc) {
+            return $this->redirect()->toRoute('404', array());
             echo '<pre>';
             print_r([
                 'code' => $exc->getCode(),

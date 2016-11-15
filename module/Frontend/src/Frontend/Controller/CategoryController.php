@@ -5,18 +5,21 @@ namespace Frontend\Controller;
 use My\Controller\MyController,
     My\General;
 
-class CategoryController extends MyController {
+class CategoryController extends MyController
+{
     /* @var $serviceCategory \My\Models\Category */
     /* @var $serviceProduct \My\Models\Product */
     /* @var $serviceProperties \My\Models\Properties */
 
-    public function __construct() {
+    public function __construct()
+    {
 //        $this->externalJS = [
 //            STATIC_URL . '/f/v1/js/library/??jquery.swipemenu.init.js'
 //        ];
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $params = $this->params()->fromRoute();
 
         if (empty($params['cateId'])) {
@@ -25,17 +28,17 @@ class CategoryController extends MyController {
 
         $arrCategoryList = unserialize(ARR_CATEGORY);
 
-        if (empty($arrCategoryList[(int) $params['cateId']])) {
+        if (empty($arrCategoryList[(int)$params['cateId']])) {
             return $this->redirect()->toRoute('404', array());
         }
 
-        $arrCategoryDetail = $arrCategoryList[(int) $params['cateId']];
+        $arrCategoryDetail = $arrCategoryList[(int)$params['cateId']];
 
         if ($arrCategoryDetail['cate_slug'] != $params['cateSlug']) {
             $this->redirect()->toRoute('category', ['cateSlug' => $arrCategoryDetail['cate_slug'], 'cateId' => $arrCategoryDetail['cate_id']]);
         }
 
-        $intPage = (int) $params['page'] > 0 ? (int) $params['page'] : 1;
+        $intPage = (int)$params['page'] > 0 ? (int)$params['page'] : 1;
         $intLimit = 20;
 
         $arrCondition = [
@@ -65,21 +68,20 @@ class CategoryController extends MyController {
 
         $metaTitle = $arrCategoryDetail['cate_meta_title'] ? $arrCategoryDetail['cate_meta_title'] : $arrCategoryDetail['cate_name'];
         $metaKeyword = $arrCategoryDetail['cate_meta_keyword'] ? $arrCategoryDetail['cate_meta_keyword'] : NULL;
-        $metaDescription = $arrCategoryDetail['cate_meta_description'] ? $arrCategoryDetail['cate_meta_description'] : NULL;
-        $metaSocial = $arrCategoryDetail['cate_meta_social'] ? $arrCategoryDetail['cate_meta_social'] : NULL;
+        $metaDescription = $arrCategoryDetail['cate_meta_description'] ? $arrCategoryDetail['cate_meta_description'] : 'Danh sách bài viết trong danh mục : ' . $arrCategoryDetail['cate_name'] . General::TITLE_META;
 
         $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
-
-        $this->renderer->headMeta()->appendName('dc.description', html_entity_decode($metaDescription) . General::TITLE_META);
-        $this->renderer->headMeta()->appendName('dc.subject', html_entity_decode($arrCategoryDetail['cate_name']) . General::TITLE_META);
         $this->renderer->headTitle(html_entity_decode($metaTitle) . General::TITLE_META);
+        $this->renderer->headMeta()->setProperty('url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId'], 'page' => $intPage)));
+        $this->renderer->headMeta()->appendName('og:url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId'], 'page' => $intPage)));
+        $this->renderer->headMeta()->appendName('title', html_entity_decode($metaTitle) . General::TITLE_META);
+        $this->renderer->headMeta()->setProperty('og:title', html_entity_decode($metaTitle) . General::TITLE_META);
         $this->renderer->headMeta()->appendName('keywords', html_entity_decode($metaKeyword));
-        $this->renderer->headMeta()->appendName('description', html_entity_decode('Danh sách bài viết trong danh mục : ' . $arrCategoryDetail['cate_name'] . General::TITLE_META));
-        $this->renderer->headMeta()->appendName('social', $metaSocial);
-        $this->renderer->headMeta()->setProperty('og:url', $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId'], 'page' => $intPage)));
-        $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Danh sách bài viết trong danh mục : ' . $arrCategoryDetail['cate_name'] . General::TITLE_META));
-        $this->renderer->headMeta()->setProperty('og:description', html_entity_decode('Danh sách bài viết trong danh mục : ' . $arrCategoryDetail['cate_name'] . General::TITLE_META));
-        
+        $this->renderer->headMeta()->appendName('description', html_entity_decode($metaDescription));
+        $this->renderer->headMeta()->setProperty('og:description', html_entity_decode($metaDescription));
+        $this->renderer->headLink(array('rel' => 'amphtml', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId'], 'page' => $intPage))));
+        $this->renderer->headLink(array('rel' => 'canonical', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId'], 'page' => $intPage))));
+
         //50 KEYWORD :)
         $instanceSearchKeyword = new \My\Search\Keyword();
         $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => $arrCategoryDetail['cate_name']], 1, 50, ['_score' => ['order' => 'desc']]);
@@ -91,7 +93,7 @@ class CategoryController extends MyController {
             'arrContentList' => $arrContentList,
             'arrCategoryChildren' => $arrCategoryChildren,
             'intTotal' => $intTotal,
-            'arrKeywordList'=>$arrKeywordList
+            'arrKeywordList' => $arrKeywordList
         );
     }
 

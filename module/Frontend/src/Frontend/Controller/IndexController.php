@@ -24,13 +24,12 @@ class IndexController extends MyController
 
             $instanceSearchContent = new \My\Search\Content();
             $arrContentList = $instanceSearchContent->getListLimit(['cont_status' => 1], $intPage, $intLimit, ['created_date' => ['order' => 'desc']]);
-            $this->renderer = $this->serviceLocator->get('Zend\View\Renderer\PhpRenderer');
-            $this->renderer->headMeta()->setProperty('og:url', General::SITE_DOMAIN_FULL);
             return [
                 'arrContentList' => $arrContentList,
                 'intPage' => $intPage,
             ];
         } catch (\Exception $exc) {
+            return $this->redirect()->toRoute('404', array());
             echo '<pre>';
             print_r([
                 'code' => $exc->getCode(),

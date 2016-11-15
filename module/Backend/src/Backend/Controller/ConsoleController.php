@@ -816,6 +816,17 @@ class ConsoleController extends MyController
         return;
     }
 
+    public function getHotKey()
+    {
+        $current_date = date('Ymd');
+        //https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=20150101&htv=l
+        for ($i = 0; $i <= 10000; $i++) {
+            $date = date($current_date, strtotime('-' . $i . ' days'));
+            $href = 'https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=' . $date . '&htv=l';
+        }
+
+    }
+
     public function getKeyword()
     {
         $match = [
@@ -1403,6 +1414,20 @@ class ConsoleController extends MyController
 
     public function testAction()
     {
+        $current_date = date('Y-m-d');
+        for ($i = 0; $i <= 10000; $i++) {
+            $date = strtotime('-'.$i.' day', strtotime($current_date));
+            $date = date ('Ymd',$date );
+            $href = 'https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=' . $date . '&htv=l';
+            $responseCurl = General::crawler($href);
+//            $arrData = json_decode($responseCurl,true);
+            echo '<pre>';
+            print_r($responseCurl);
+            echo '</pre>';
+            die();
+
+        }
+        return;
         $instanceSearchKeyWord = new \My\Search\Keyword();
         $file = PUBLIC_PATH . '/migrate/keyword.txt';
         $arrList = explode(',', file_get_contents($file));
@@ -1829,4 +1854,5 @@ class ConsoleController extends MyController
         echo General::getColoredString("add keyword complete", 'yellow', 'cyan');
         return true;
     }
+
 }
