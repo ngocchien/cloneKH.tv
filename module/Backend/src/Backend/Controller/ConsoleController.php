@@ -908,6 +908,7 @@ class ConsoleController extends MyController
 
     public function sitemapAction()
     {
+        unlink(PUBLIC_PATH . '/rss/sitemap.xml');
         $this->sitemapOther();
         $this->siteMapCategory();
         $this->siteMapContent();
@@ -927,7 +928,6 @@ class ConsoleController extends MyController
             }
         }
 
-        unlink(PUBLIC_PATH . '/rss/sitemap.xml');
         $result = file_put_contents(PUBLIC_PATH . '/rss/sitemap.xml', $xml->asXML());
         if ($result) {
             echo General::getColoredString("Create sitemap.xml completed!", 'blue', 'cyan');
