@@ -1416,13 +1416,46 @@ class ConsoleController extends MyController
     {
         $current_date = date('Y-m-d');
         for ($i = 0; $i <= 10000; $i++) {
-            $date = strtotime('-'.$i.' day', strtotime($current_date));
-            $date = date ('Ymd',$date );
+            $date = strtotime('-' . $i . ' day', strtotime($current_date));
+            $date = date('Ymd', $date);
             $href = 'https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=' . $date . '&htv=l';
             $responseCurl = General::crawler($href);
-//            $arrData = json_decode($responseCurl,true);
+            $arrData = json_decode($responseCurl, true);
+            foreach ($arrData['trendsByDateList'] as $data) {
+
+                foreach ($data['trendsList'] as $data1) {
+                    echo '<pre>';
+                    print_r($data1['title']);
+                    echo '</pre>';
+                    die();
+                    foreach ($data1 as $data2) {
+                        echo '<pre>';
+                        print_r($data2);
+                        echo '</pre>';
+                        die();
+                    }
+                    echo '<pre>';
+                    print_r($data2);
+                    echo '</pre>';
+                    die();
+                }
+                echo '<pre>';
+                print_r($data['trendsList']);
+                echo '</pre>';
+                die();
+            }
             echo '<pre>';
-            print_r($responseCurl);
+            print_r($arrData['trendsByDateList']);
+            echo '</pre>';
+            die();
+            foreach ($arrData as $value) {
+                echo '<pre>';
+                print_r($value['trendsByDateList']);
+                echo '</pre>';
+                die();
+            }
+            echo '<pre>';
+            print_r($arrData);
             echo '</pre>';
             die();
 
@@ -1853,6 +1886,70 @@ class ConsoleController extends MyController
         }
         echo General::getColoredString("add keyword complete", 'yellow', 'cyan');
         return true;
+    }
+
+    public function hotTrendAction()
+    {
+        $current_date = date('Y-m-d');
+        $instanceSearchKeyWord = new \My\Search\Keyword();
+        for ($i = 0; $i <= 1000; $i++) {
+            $date = strtotime('-' . $i . ' days', strtotime($current_date));
+            $date = date('Ymd', $date);
+            echo \My\General::getColoredString("Date = {$date}", 'cyan');
+            $href = 'https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=' . $date . '&htv=l';
+            $responseCurl = General::crawler($href);
+            $arrData = json_decode($responseCurl, true);
+            
+//            if($i == 0){
+//
+//                continue;
+//            }
+//            print_r($arrData);
+//            die();
+            foreach ($arrData['trendsByDateList'] as $data) {
+                foreach ($data['trendsList'] as $data1) {
+                    $arr_key[] = $data1['title'];
+                    if (!empty($data1['relatedSearchesList'])) {
+                        $arr_key = array_merge($arr_key, $data1['relatedSearchesList']);
+                    }
+                    $strDescription = '';
+                    if (!empty($data1['newsArticlesList'])) {
+                        foreach ($data1['newsArticlesList'] as $val) {
+                            $strDescription .= $val['snippet'] . ',';
+                        }
+
+                    }
+
+                    foreach ($arr_key as $val) {
+                        $is_exits = $instanceSearchKeyWord->getDetail(['key_slug' => trim(General::getSlug($val))]);
+
+                        if ($is_exits) {
+                            echo \My\General::getColoredString("exist {$val}", 'red') . '<br/>';
+                            continue;
+                        }
+
+                        $arr_data = [
+                            'key_name' => $val,
+                            'key_slug' => General::getSlug($val),
+                            'is_crawler' => 0,
+                            'created_date' => time()
+                        ];
+
+                        $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                        $int_result = $serviceKeyword->add($arr_data);
+                        unset($serviceKeyword);
+                        if ($int_result) {
+                            echo \My\General::getColoredString("Insert success 1 row with id = {$int_result} key name = {$arr_data['key_slug']}", 'yellow');
+                        }
+                        $this->flush();
+                    }
+                    $this->flush();
+                }
+                $this->flush();
+            }
+            $this->flush();
+        }
+        die('eee');
     }
 
 }

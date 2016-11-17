@@ -44,7 +44,7 @@ class ContentController extends MyController
             $arrContent = $instanceSearchContent->getDetail($arrConditionContent);
 
             if (empty($arrContent)) {
-                return $this->redirect()->toRoute('404');
+                return $this->redirect()->toRoute('404',[]);
             }
 
             if ($cont_slug != $arrContent['cont_slug']) {

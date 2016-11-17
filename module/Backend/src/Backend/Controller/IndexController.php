@@ -49,6 +49,60 @@ class IndexController extends MyController
     public function indexAction()
     {
         return;
+        $current_date = date('Y-m-d');
+        $instanceSearchKeyWord = new \My\Search\Keyword();
+        for ($i = 0; $i <= 10000; $i++) {
+            $date = strtotime('-' . $i . ' day', strtotime($current_date));
+            $date = date('Ymd', $date);
+            $href = 'https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=' . $date . '&htv=l';
+            $responseCurl = General::crawler($href);
+            $arrData = json_decode($responseCurl, true);
+            foreach ($arrData['trendsByDateList'] as $data) {
+                foreach ($data['trendsList'] as $data1) {
+                    $arr_key[] = $data1['title'];
+                    if (!empty($data1['relatedSearchesList'])) {
+                        $arr_key = array_merge($arr_key, $data1['relatedSearchesList']);
+                    }
+                    $strDescription = '';
+                    if (!empty($data1['newsArticlesList'])) {
+                        foreach ($data1['newsArticlesList'] as $val) {
+                            $strDescription .= $val['snippet'] . ',';
+                        }
+
+                    }
+
+                    foreach ($arr_key as $val) {
+                        $is_exits = $instanceSearchKeyWord->getDetail(['key_slug' => trim(General::getSlug($val))]);
+
+                        if ($is_exits) {
+                            echo \My\General::getColoredString("đã tồn tại {$val}", 'yellow') . '<br/>';
+                            continue;
+                        }
+
+                        $arr_data = [
+                            'key_name' => $val,
+                            'key_slug' => General::getSlug($val),
+                            'is_crawler' => 0,
+                            'created_date' => time()
+                        ];
+
+                        $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                        $int_result = $serviceKeyword->add($arr_data);
+                        unset($serviceKeyword);
+                        if ($int_result) {
+                            echo \My\General::getColoredString("Insert success 1 row with id = {$int_result}", 'yellow');
+                        }
+                        $this->flush();
+                    }
+                    $this->flush();
+                }
+                $this->flush();
+            }
+            $this->flush();
+        }
+        die('eee');
+
+        return;
         $instanceSearchContent = new \My\Search\Content();
         $arr_content = $instanceSearchContent->getDetail([
             'cont_id' => 59339

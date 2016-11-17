@@ -141,6 +141,16 @@ return array(
                             'action' => 'keyword-hot'
                         ),
                     ),
+                ),
+                'hot-trend' => array(
+                    'options' => array(
+                        'route' => 'hot-trend',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'hot-trend'
+                        ),
+                    ),
                 )
             )
         )
