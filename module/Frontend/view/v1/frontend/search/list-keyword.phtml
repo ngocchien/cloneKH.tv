@@ -29,7 +29,7 @@
                 foreach ($this->arrKeywordList as $arr_key):
                     ?>
                     <li>
-                        <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $arr_key['key_slug'], 'keyId' => $arr_key['key_id'])) ?>">
+                        <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $arr_key['key_slug'], 'keyId' => $arr_key['key_id'])) ?>" title="<?php echo $arr_key['key_name']; ?>">
                             <?php echo $arr_key['key_name']; ?>
                         </a>
                     </li>
