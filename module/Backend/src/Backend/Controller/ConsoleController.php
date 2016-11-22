@@ -1151,7 +1151,7 @@ class ConsoleController extends MyController
                 if (empty($category['cate_crawler_url'])) {
                     continue;
                 }
-                for ($i = 3; $i >= 1; $i--) {
+                for ($i = 1; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
 
                     if (in_array($source_url, $arr_pass_cate)) {
@@ -1325,7 +1325,7 @@ class ConsoleController extends MyController
 
                         if ($id) {
                             $arr_data_content['cont_id'] = $id;
-                            //$this->postToFb($arr_data_content);
+                            $this->postToFb($arr_data_content);
                             echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
                         } else {
                             echo \My\General::getColoredString("Can not insert content db", 'red');
@@ -1415,7 +1415,7 @@ class ConsoleController extends MyController
 
     public function testAction()
     {
-        $current_date = date('Y-m-d');
+        $current_date = '2016-03-01';
         for ($i = 0; $i <= 10000; $i++) {
             $date = strtotime('-' . $i . ' day', strtotime($current_date));
             $date = date('Ymd', $date);
@@ -1900,7 +1900,7 @@ class ConsoleController extends MyController
             $href = 'https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=' . $date . '&htv=l';
             $responseCurl = General::crawler($href);
             $arrData = json_decode($responseCurl, true);
-            
+
 //            if($i == 0){
 //
 //                continue;
