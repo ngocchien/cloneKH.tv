@@ -53,7 +53,7 @@ class SearchController extends MyController
 
             //get 50 keyword gần giống nhất
             $instanceSearchKeyword = new \My\Search\Keyword();
-            $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => $key_name], 1, $intLimit, ['_score' => ['order' => 'desc']]);
+            $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => $key_name], $intPage, 40, ['_score' => ['order' => 'desc']]);
 
             return [
                 'paging' => $paging,
@@ -117,7 +117,7 @@ class SearchController extends MyController
             /*
              * get 20 keyword tương tự
              */
-            $arrKeywordList = $instanceSearch->getListLimit(['full_text_keyname' => $arrKeyDetail['key_name'], 'not_key_id' => $key_id], 1, $intLimit, ['_score' => ['order' => 'desc']]);
+            $arrKeywordList = $instanceSearch->getListLimit(['full_text_keyname' => $arrKeyDetail['key_name'], 'not_key_id' => $key_id], $intPage, 40, ['_score' => ['order' => 'desc']]);
 
             return array(
                 'params' => $params,

@@ -8,7 +8,7 @@
     "filp/whoops": "1.1.3",
     "ruflin/Elastica": "dev-master",
     "intervention/image": "^2.3",
-    "google/apiclient": "1.0.*@beta",
+    "google/apiclient": "^2.0",
     "facebook/php-sdk-v4": "~5.0",
     "phpunit/phpunit": "4.8.*",
     "sunra/php-simple-html-dom-parser": "v1.5.0",

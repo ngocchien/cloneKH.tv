@@ -49,6 +49,112 @@ class IndexController extends MyController
     public function indexAction()
     {
         return;
+        $google_config = General::$google_config;
+        $client = new \Google_Client();
+//        $client = new Google_Client();
+        $client->setDeveloperKey($google_config['key']);
+
+        // Define an object that will be used to make all API requests.
+        $youtube = new \Google_Service_YouTube($client);
+//        echo '<pre>';
+//        print_r($youtube);
+//        echo '</pre>';
+//        die();
+//        $youtube = new Google_Service_YouTube($client);
+        //UCL0dxOYvGs_bdEQHA1ljN-g
+        //https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UUbW18JZRgko_mOGm5er8Yzg&key={YOUR_API_KEY}
+
+//        $url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=UCL0dxOYvGs_bdEQHA1ljN-g&key='.$google_config['key'];
+//        order=date&maxResults=20
+//        PLjexdUemvcPRsLMPqftkcJw-922krc2zb
+        try {
+//            $searchResponse = $youtube->channels->listChannels("id,snippet,contentDetails", array(
+////                'order' => 'date',
+//                'maxResults' => 20,
+//                'id' => 'UCq6ApdQI0roaprMAY1gZTgw'
+//            ));
+
+//            $searchResponse = $youtube->channels->listChannels("brandingSettings,localizations,snippet", array(
+//                'id' => 'UCq6ApdQI0roaprMAY1gZTgw'
+//            ));
+
+//            $searchResponse = $youtube->channels->listChannels('contentDetails', array(
+//                'mine' => 'true',
+//            ));
+
+//            $searchResponse = $youtube->playlists->listPlaylists("snippet,localizations", array(
+//                'id' => 'PLjexdUemvcPRsLMPqftkcJw-922krc2zb',
+//                'maxResults' => 50,
+//            ));
+
+//            $videos = $youtube->videos->listVideos("snippet,localizations", array(
+//                'id' => $videoId
+////            ));
+//            $searchResponse = $youtube->search->listSearch('id,snippet', array(
+////                'playlistId' => 'UCL0dxOYvGs_bdEQHA1ljN-g',
+//                'q' => 'Hai huoc',
+//                'maxResults' => 50,
+//            ));
+
+            //PLjexdUemvcPRsLMPqftkcJw-922krc2zb
+            $searchResponse = $youtube->playlistItems->listPlaylistItems('snippet', array(
+                'playlistId' => 'PLjexdUemvcPRsLMPqftkcJw-922krc2zbs',
+                'maxResults' => 50
+            ));
+
+//            $searchResponse = $youtube->search->listSearch('id,snippet', array(
+////                'playlistId' => 'UCL0dxOYvGs_bdEQHA1ljN-g',
+//                'q' => 'Hai huoc',
+//                'maxResults' => 50,
+//            ));
+        } catch (\Exception $exc) {
+            echo '<pre>';
+            print_r($exc->getMessage());
+            echo '</pre>';
+            die();
+        }
+
+        echo '<pre>';
+        print_r($searchResponse);
+        echo '</pre>';
+        die();
+
+        return;
+        $arr_cate_yahoo = [
+            '28' => [
+                'https://vn.answers.yahoo.com/dir/index?sid=396545401',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545469',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545433',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545015',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545016',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545013',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545451',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545394',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545327',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545018',
+                'https://vn.answers.yahoo.com/dir/index?sid=396546046',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545213',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545444',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545439',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545019',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545454',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545012',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545443',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545144'
+            ],
+            '27' => [
+                'https://vn.answers.yahoo.com/dir/index?sid=396545122',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545301',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545660',
+            ]
+        ];
+
+        $arr_cate_no = [
+            'https://www.thegioididong.com/hoi-dap',
+            ''
+        ];
+
+        return;
         $current_date = date('Y-m-d');
         $instanceSearchKeyWord = new \My\Search\Keyword();
         for ($i = 0; $i <= 10000; $i++) {

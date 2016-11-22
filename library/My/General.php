@@ -66,6 +66,12 @@ class General
         'huyentrang_token' => 'EAAJTaWjIMUkBAFKaLbZCZCLsumShAeFAZB9pQC5QcfFqUayyE9bn29jzJ2Ii6lZBFyWOQjYarCeZBLEERGB8JI0c6iy72BZBDNCmnAa4zFkQzdvX02VJrAq12wJjMVUQqnHbBqlk2oNfqLYGrQ4PDnEbCjZAKyaIgMZD'
     ];
 
+    static $google_config = [
+        'key' => 'AIzaSyAnYeFvlnYcIzBLorhkM5NVQNHpJP53neA',
+        'client_id' => '390243298500-8gqq0naegrpjh5g6rjqsoqirjukgppm6.apps.googleusercontent.com',
+        'client_secret' => 'I3BtfYGvIjFJnZVylWFz_EOA'
+    ];
+
     public static function getSlug($string, $maxLength = 255, $separator = '-')
     {
         $arrCharFrom = array("ạ", "á", "à", "ả", "ã", "Ạ", "Á", "À", "Ả", "Ã", "â", "ậ", "ấ", "ầ", "ẩ", "ẫ", "Â", "Ậ", "Ấ", "Ầ", "Ẩ", "Ẫ", "ă", "ặ", "ắ", "ằ", "ẳ", "ẵ", "ẫ", "Ă", "Ắ", "Ằ", "Ẳ", "Ẵ", "Ặ", "Ẵ", "ê", "ẹ", "é", "è", "ẻ", "ẽ", "Ê", "Ẹ", "É", "È", "Ẻ", "Ẽ", "ế", "ề", "ể", "ễ", "ệ", "Ế", "Ề", "Ể", "Ễ", "Ệ", "ọ", "ộ", "ổ", "ỗ", "ố", "ồ", "Ọ", "Ộ", "Ổ", "Ỗ", "Ố", "Ồ", "Ô", "ô", "ó", "ò", "ỏ", "õ", "Ó", "Ò", "Ỏ", "Õ", "ơ", "ợ", "ớ", "ờ", "ở", "ỡ", "Ơ", "Ợ", "Ớ", "Ờ", "Ở", "Ỡ", "ụ", "ư", "ứ", "ừ", "ử", "ữ", "ự", "Ụ", "Ư", "Ứ", "Ừ", "Ử", "Ữ", "Ự", "ú", "ù", "ủ", "ũ", "Ú", "Ù", "Ủ", "Ũ", "ị", "í", "ì", "ỉ", "ĩ", "Ị", "Í", "Ì", "Ỉ", "Ĩ", "ỵ", "ý", "ỳ", "ỷ", "ỹ", "Ỵ", "Ý", "Ỳ", "Ỷ", "Ỹ", "đ", "Đ");

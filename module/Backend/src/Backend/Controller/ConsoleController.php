@@ -1151,7 +1151,7 @@ class ConsoleController extends MyController
                 if (empty($category['cate_crawler_url'])) {
                     continue;
                 }
-                for ($i = 1; $i >= 1; $i--) {
+                for ($i = 3; $i >= 1; $i--) {
                     $source_url = $category['cate_crawler_url'] . '?p=' . $i;
 
                     if (in_array($source_url, $arr_pass_cate)) {
@@ -1325,7 +1325,7 @@ class ConsoleController extends MyController
 
                         if ($id) {
                             $arr_data_content['cont_id'] = $id;
-                            $this->postToFb($arr_data_content);
+                            //$this->postToFb($arr_data_content);
                             echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
                         } else {
                             echo \My\General::getColoredString("Can not insert content db", 'red');

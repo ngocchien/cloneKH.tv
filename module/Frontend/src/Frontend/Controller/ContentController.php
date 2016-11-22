@@ -44,7 +44,7 @@ class ContentController extends MyController
             $arrContent = $instanceSearchContent->getDetail($arrConditionContent);
 
             if (empty($arrContent)) {
-                return $this->redirect()->toRoute('404',[]);
+                return $this->redirect()->toRoute('404', []);
             }
 
             if ($cont_slug != $arrContent['cont_slug']) {
@@ -59,7 +59,7 @@ class ContentController extends MyController
              render meta
             */
             $metaTitle = $arrContent['meta_title'] ? $arrContent['meta_title'] : $arrContent['cont_title'];
-            $metaKeyword = $arrContent['meta_keyword'] ? $arrContent['meta_keyword'] : $arrContent['cont_title'];
+            $metaKeyword = $arrContent['meta_keyword'] ? $arrContent['meta_keyword'] . ',' . $arrContent['cont_title'] : $arrContent['cont_title'];
             $metaDescription = $arrContent['cont_description'] ? $arrContent['cont_description'] : $arrContent['cont_title'];
 
             /*

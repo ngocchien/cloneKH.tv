@@ -84,7 +84,7 @@ class CategoryController extends MyController
 
         //50 KEYWORD :)
         $instanceSearchKeyword = new \My\Search\Keyword();
-        $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => $arrCategoryDetail['cate_name']], 1, 50, ['_score' => ['order' => 'desc']]);
+        $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => $arrCategoryDetail['cate_name']], $intPage, 40, ['_score' => ['order' => 'desc']]);
 
         return array(
             'params' => $params,
