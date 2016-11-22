@@ -49,6 +49,55 @@ class IndexController extends MyController
     public function indexAction()
     {
         return;
+        $arr_cate_yahoo = [
+            '28' => [
+                'https://vn.answers.yahoo.com/dir/index?sid=396545401',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545469',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545433',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545015',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545016',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545013',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545451',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545394',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545327',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545018',
+                'https://vn.answers.yahoo.com/dir/index?sid=396546046',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545213',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545444',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545439',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545019',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545454',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545012',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545443',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545144'
+            ],
+            '27' => [
+                'https://vn.answers.yahoo.com/dir/index?sid=396545122',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545301',
+                'https://vn.answers.yahoo.com/dir/index?sid=396545660',
+            ]
+        ];
+
+        $arr_cate_no = [
+            'https://www.thegioididong.com/hoi-dap',
+            ''
+        ];
+
+        foreach ($arr_cate_yahoo as $key => $data){
+            foreach ($data as $url){
+                $response = General::crawler($url);
+                echo '<pre>';
+                print_r($response);
+                echo '</pre>';
+                die();
+            }
+            echo '<pre>';
+            print_r($data);
+            echo '</pre>';
+            die();
+        }
+
+        return;
         $google_config = General::$google_config;
         $client = new \Google_Client();
 //        $client = new Google_Client();

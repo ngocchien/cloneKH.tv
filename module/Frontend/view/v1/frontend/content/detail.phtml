@@ -57,22 +57,17 @@
     </div>
 
     <div class="content-detail">
-<!--        <div id="adsarticletop" class="adbox">-->
-<!--            <!-- khampha content -->
-<!--            <ins class="adsbygoogle"-->
-<!--                 style="display:inline-block;width:728px;height:90px"-->
-<!--                 data-ad-client="ca-pub-4608570842050780"-->
-<!--                 data-ad-slot="5752635152"></ins>-->
-<!--            <script>-->
-<!--                (adsbygoogle = window.adsbygoogle || []).push({});-->
-<!--            </script>-->
-<!--        </div>-->
+        <!--        <div id="adsarticletop" class="adbox">-->
+        <!--            <!-- khampha content -->
+        <!--            <ins class="adsbygoogle"-->
+        <!--                 style="display:inline-block;width:728px;height:90px"-->
+        <!--                 data-ad-client="ca-pub-4608570842050780"-->
+        <!--                 data-ad-slot="5752635152"></ins>-->
+        <!--            <script>-->
+        <!--                (adsbygoogle = window.adsbygoogle || []).push({});-->
+        <!--            </script>-->
+        <!--        </div>-->
         <?php echo $this->arrContent['cont_detail']; ?>
-        <script>
-            if (location.hostname.toLowerCase().indexOf("khampha.tech") < 0) {
-                location.href = "http://khampha.tv/";
-            }
-        </script>
     </div>
     <div class="author-info clearfix">
         <span class="date">Cập nhật: <?php echo date('d/m/Y', $this->arrContent['updated_date']) ?></span>
@@ -109,15 +104,15 @@
         </ul>
     </div>
 
-<!--    <div id="adsarticlebottom" class="adbox">-->
-<!--        <ins class="adsbygoogle"-->
-<!--             style="display:inline-block;width:728px;height:90px"-->
-<!--             data-ad-client="ca-pub-4608570842050780"-->
-<!--             data-ad-slot="5752635152"></ins>-->
-<!--        <script>-->
-<!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
-<!--        </script>-->
-<!--    </div>-->
+    <!--    <div id="adsarticlebottom" class="adbox">-->
+    <!--        <ins class="adsbygoogle"-->
+    <!--             style="display:inline-block;width:728px;height:90px"-->
+    <!--             data-ad-client="ca-pub-4608570842050780"-->
+    <!--             data-ad-slot="5752635152"></ins>-->
+    <!--        <script>-->
+    <!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
+    <!--        </script>-->
+    <!--    </div>-->
     <div class="socialbox bottom clearfix">
         <ul>
             <li class="share">
@@ -133,16 +128,8 @@
                     </div>
                 </div>
             </li>
-            <!--            <li class="raty">-->
-            <!--                <span class="rating" data-rating="4" data-id="40490"></span>-->
-            <!--                <span class="rating-info">4</span><span class="rating-votes">14</span>-->
-            <!--            </li>-->
-            <!--            <li class="views">-->
-            <?php //echo number_format($this->arrContent['cont_views'] + 1, 0, ",", "."); ?><!--</li>-->
         </ul>
     </div>
-
-
     <p>
         <a href="<?php echo \My\General::SOCIAL_FACEBOOK_URL; ?>" target="_blank" rel="nofollow">Theo dõi cộng đồng
             <?php echo \My\General::SITE_AUTH; ?> trên
@@ -157,15 +144,15 @@
              data-num-posts="3"
              data-width="640"></div>
     </div>
-<!--    <div id="suggestion" class="adbox">-->
-<!--        <ins class="adsbygoogle"-->
-<!--             style="display:inline-block;width:728px;height:90px"-->
-<!--             data-ad-client="ca-pub-4608570842050780"-->
-<!--             data-ad-slot="5752635152"></ins>-->
-<!--        <script>-->
-<!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
-<!--        </script>-->
-<!--    </div>-->
+    <!--    <div id="suggestion" class="adbox">-->
+    <!--        <ins class="adsbygoogle"-->
+    <!--             style="display:inline-block;width:728px;height:90px"-->
+    <!--             data-ad-client="ca-pub-4608570842050780"-->
+    <!--             data-ad-slot="5752635152"></ins>-->
+    <!--        <script>-->
+    <!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
+    <!--        </script>-->
+    <!--    </div>-->
 
     <div class="more-news latest">
         <div class="list-title">Bài viết mới nhất</div>
@@ -210,3 +197,42 @@
            class="viewmore">Xem thêm</a>
     </div>
 </div>
+<script type="application/ld+json">
+    {
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage":{
+    "@type":"WebPage",
+    "@id":"<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $this->arrContent['cont_slug'], 'contentId' => $this->arrContent['cont_id']]) ?>"
+    },
+    "headline": "<?php echo $this->metaTitle; ?>",
+    "image": {
+    "@type": "ImageObject",
+    "url": "<?php echo $this->arrContent['cont_main_image'] ?>",
+    "height": 800,
+    "width": 800
+    },
+    "datePublished": "<?php echo date('Y/m/d', $this->arrContent['created_date']); ?>",
+    "dateModified": "<?php echo date('Y/m/d', $this->arrContent['created_date']); ?>",
+    "author": {
+    "@type": "Person",
+    "name": "General"
+    },
+    "publisher": {
+    "@type": "Organization",
+    "name": "<?php echo $this->metaTitle; ?>",
+    "logo": {
+    "@type": "ImageObject",
+    "url": "<?php echo $this->arrContent['cont_main_image'] ?>",
+    "width": 600,
+    "height": 60
+    }
+    },
+    "description": "<?php echo $this->metaDescription ?>"
+    }
+
+
+
+
+
+</script>

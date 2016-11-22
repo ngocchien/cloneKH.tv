@@ -32,7 +32,7 @@
     <div class="listview">
         <ul>
             <?php
-            foreach ($this->arrContentList as $key => $arrContent):
+            foreach ($this->arrContentList as $arrContent):
                 ?>
                 <li class="listitem clearfix">
                     <a class="title"
@@ -40,7 +40,7 @@
                         <?php echo $arrContent['cont_title']; ?>
                     </a>
                     <a class="thumb"
-                       href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $arrContent['cont_id']]) ?>">
+                       href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arrContent['cont_slug'], 'contentId' => $arrContent['cont_id']]) ?>" rel="nofollow">
                         <img src="<?php echo $arrContent['cont_main_image']; ?>"
                              alt="<?php echo $arrContent['cont_title']; ?>"/>
                     </a>

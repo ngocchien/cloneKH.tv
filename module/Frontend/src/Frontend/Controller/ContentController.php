@@ -104,7 +104,6 @@ class ContentController extends MyController
             unset($instanceSearchContent);
             unset($instanceSearchKeyword);
             unset($arrConditionContent);
-
             return array(
                 'params' => $params,
                 'arrContent' => $arrContent,
@@ -113,7 +112,9 @@ class ContentController extends MyController
                 'arrContentLastedList' => $arrContentLastedList,
                 'arrContentNews' => $arrContentNews,
                 'arrKeywordList' => $arrKeywordList,
-                'arrCategoryParent' => $arrCategoryParent
+                'arrCategoryParent' => $arrCategoryParent,
+                'metaTitle' => $metaTitle,
+                'metaDescription' => $metaDescription
             );
         } catch (\Exception $exc) {
             return $this->redirect()->toRoute('404', array());
