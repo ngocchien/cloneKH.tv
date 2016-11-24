@@ -110,9 +110,10 @@ class Module implements AutoloaderProviderInterface
                 $word = implode('-', $word);
             }
         }
+        
         $search = new \My\Search\Content();
         $arr_content = $search->getDetail([
-            'cont_slug' => $word
+            'cont_slug' => strtolower($word)
         ]);
         if (empty($arr_content)) {
             $url = $e->getRouter()->assemble([], array('name' => '404'));
