@@ -16,8 +16,8 @@ class ErrorController extends MyController {
 
     public function indexAction() {
     }
-    
-    
+
+
     public function e404Action() {
         $this->layout('layout/empty');
     }
