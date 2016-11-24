@@ -79,8 +79,8 @@ class CategoryController extends MyController
         $this->renderer->headMeta()->appendName('keywords', html_entity_decode($metaKeyword));
         $this->renderer->headMeta()->appendName('description', html_entity_decode($metaDescription));
         $this->renderer->headMeta()->setProperty('og:description', html_entity_decode($metaDescription));
-        $this->renderer->headLink(array('rel' => 'amphtml', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId'], 'page' => $intPage))));
-        $this->renderer->headLink(array('rel' => 'canonical', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId'], 'page' => $intPage))));
+        $this->renderer->headLink(array('rel' => 'amphtml', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId']))));
+        $this->renderer->headLink(array('rel' => 'canonical', 'href' => \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('category', array('cateSlug' => $params['cateSlug'], 'cateId' => $params['cateId']))));
 
         //50 KEYWORD :)
         $instanceSearchKeyword = new \My\Search\Keyword();

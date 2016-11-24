@@ -47,18 +47,18 @@
 <!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
 <!--        </script>-->
 <!--    </div>-->
-    <div class="listitems">
-        <div class="title">Xu hướng Từ khoá</div>
-        <ul><?php
-            foreach (unserialize(ARR_KEYWORD_ALL_PAGE) as $arr_key):
-                ?>
-                <li>
-                    <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $arr_key['key_slug'], 'keyId' => $arr_key['key_id'])) ?>">
-                        <?php echo $arr_key['key_name']; ?>
-                    </a>
-                </li>
-            <?php endforeach;
-            ?>
-        </ul>
-    </div>
+<!--    <div class="listitems">-->
+<!--        <div class="title">Xu hướng Từ khoá</div>-->
+<!--        <ul>--><?php
+//            foreach (unserialize(ARR_KEYWORD_ALL_PAGE) as $arr_key):
+//                ?>
+<!--                <li>-->
+<!--                    <a href="--><?php //echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $arr_key['key_slug'], 'keyId' => $arr_key['key_id'])) ?><!--">-->
+<!--                        --><?php //echo $arr_key['key_name']; ?>
+<!--                    </a>-->
+<!--                </li>-->
+<!--            --><?php //endforeach;
+//            ?>
+<!--        </ul>-->
+<!--    </div>-->
 </div>

@@ -49,55 +49,55 @@ class IndexController extends MyController
     public function indexAction()
     {
         return;
-        $arr_cate_yahoo = [
-            '28' => [
-                'https://vn.answers.yahoo.com/dir/index?sid=396545401',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545469',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545433',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545015',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545016',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545013',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545451',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545394',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545327',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545018',
-                'https://vn.answers.yahoo.com/dir/index?sid=396546046',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545213',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545444',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545439',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545019',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545454',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545012',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545443',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545144'
-            ],
-            '27' => [
-                'https://vn.answers.yahoo.com/dir/index?sid=396545122',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545301',
-                'https://vn.answers.yahoo.com/dir/index?sid=396545660',
-            ]
-        ];
-
-        $arr_cate_no = [
-            'https://www.thegioididong.com/hoi-dap',
-            ''
-        ];
-
-        foreach ($arr_cate_yahoo as $key => $data){
-            foreach ($data as $url){
-                $response = General::crawler($url);
-                echo '<pre>';
-                print_r($response);
-                echo '</pre>';
-                die();
-            }
-            echo '<pre>';
-            print_r($data);
-            echo '</pre>';
-            die();
-        }
-
-        return;
+//        $arr_cate_yahoo = [
+//            '28' => [
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545401',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545469',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545433',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545015',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545016',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545013',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545451',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545394',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545327',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545018',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396546046',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545213',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545444',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545439',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545019',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545454',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545012',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545443',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545144'
+//            ],
+//            '27' => [
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545122',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545301',
+//                'https://vn.answers.yahoo.com/dir/index?sid=396545660',
+//            ]
+//        ];
+//
+//        $arr_cate_no = [
+//            'https://www.thegioididong.com/hoi-dap',
+//            ''
+//        ];
+//
+//        foreach ($arr_cate_yahoo as $key => $data){
+//            foreach ($data as $url){
+//                $response = General::crawler($url);
+//                echo '<pre>';
+//                print_r($response);
+//                echo '</pre>';
+//                die();
+//            }
+//            echo '<pre>';
+//            print_r($data);
+//            echo '</pre>';
+//            die();
+//        }
+//
+//        return;
         $google_config = General::$google_config;
         $client = new \Google_Client();
 //        $client = new Google_Client();
@@ -117,6 +117,7 @@ class IndexController extends MyController
 //        order=date&maxResults=20
 //        PLjexdUemvcPRsLMPqftkcJw-922krc2zb
         try {
+            // https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=OneDirectionVEVO&key={YOUR_API_KEY}
 //            $searchResponse = $youtube->channels->listChannels("id,snippet,contentDetails", array(
 ////                'order' => 'date',
 //                'maxResults' => 20,
@@ -145,11 +146,57 @@ class IndexController extends MyController
 //                'maxResults' => 50,
 //            ));
 
-            //PLjexdUemvcPRsLMPqftkcJw-922krc2zb
+//            $searchResponse = $youtube->channels->listChannels("contentDetails", array(
+//                'id' => 'UC2l8G7UE41Vaby59Dfg6r3w',
+//                'maxResults' => 50
+//            ));
+
+//            https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&maxResults=25&key=API_KEY
+
+            //UU2l8G7UE41Vaby59Dfg6r3w
             $searchResponse = $youtube->playlistItems->listPlaylistItems('snippet', array(
-                'playlistId' => 'PLjexdUemvcPRsLMPqftkcJw-922krc2zbs',
-                'maxResults' => 50
+                'playlistId' => 'UU2l8G7UE41Vaby59Dfg6r3w',
+                'maxResults' => 5,
+                'pageToken' => 'CAoQAA'
             ));
+
+            if (!empty($searchResponse->getItems())) {
+                foreach ($searchResponse->getItems() as $item){
+                    $id = $title = $item->getSnippet()->getresourceId()->getVideoId();
+                    $title = $item->getSnippet()->getTitle();
+                    $description = $item->getSnippet()->getDescription();
+                    $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
+                    echo '<pre>';
+                    print_r([
+                        '$id' => $id,
+                        '$title' => $title,
+                        '$description' => $description,
+                        '$main_image' => $main_image
+                    ]);
+                    echo '</pre>';
+                    die();
+                }
+            }
+//            echo '<pre>';
+//            print_r($searchResponse);
+//            echo '</pre>';
+//            die();
+            echo '<pre>';
+            print_r($searchResponse->getItems());
+            echo '</pre>';
+            die();
+
+            //CAoQAA
+            //CAUQAA
+
+            //https://www.googleapis.com/youtube/v3/search?pageToken=CBkQAA&part=snippet&maxResults=25&order=relevance&q=site%3Ayoutube.com&topicId=%2Fm%2F02vx4&key={YOUR_API_KEY}
+
+//            $url = 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=ClashWithAsh1&maxResults=25&order=date&key='.$google_config['key'];
+//            $result = General::crawler($url);
+//            echo '<pre>';
+//            print_r($result);
+//            echo '</pre>';
+//            die();
 
 //            $searchResponse = $youtube->search->listSearch('id,snippet', array(
 ////                'playlistId' => 'UCL0dxOYvGs_bdEQHA1ljN-g',
