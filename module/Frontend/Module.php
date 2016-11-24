@@ -104,11 +104,12 @@ class Module implements AutoloaderProviderInterface
         if (strpos($word, '_')) {
             $word = end(explode('_', $word));
         } else {
-            $word = explode('-', $word);
-            array_pop($word);
-            $word = implode('-', $word);
+            if (strpos($word, '-')) {
+                $word = explode('-', $word);
+                array_pop($word);
+                $word = implode('-', $word);
+            }
         }
-
         $search = new \My\Search\Content();
         $arr_content = $search->getDetail([
             'cont_slug' => $word
@@ -116,14 +117,14 @@ class Module implements AutoloaderProviderInterface
         if (empty($arr_content)) {
             $url = $e->getRouter()->assemble([], array('name' => '404'));
             $response = $e->getResponse();
-            $response->setStatusCode(200);
+            $response->setStatusCode(302);
             $response->getHeaders()->addHeaderLine('Location', $url);
             $e->stopPropagation();
             return;
         } else {
             $url = $e->getRouter()->assemble(['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']], array('name' => 'view-content'));
             $response = $e->getResponse();
-            $response->setStatusCode(200);
+            $response->setStatusCode(302);
             $response->getHeaders()->addHeaderLine('Location', $url);
             $e->stopPropagation();
             return;
