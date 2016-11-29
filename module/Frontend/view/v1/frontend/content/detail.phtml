@@ -177,7 +177,7 @@
                 </li>
             <?php endforeach; ?>
         </ul>
-        <?php !empty($this->arrCategoryParent):?>
+        <?php if(!empty($this->arrCategoryParent)):?>
         <a href="<?php echo $this->serverUrl() . $this->Url('category', ['cateSlug' => $this->arrCategoryParent['cate_slug'], 'cateId' => $this->arrCategoryParent['cate_id']]) ?>"
            class="viewmore"><b>Xem thêm</b> <?php echo $this->arrCategoryParent['cate_name']; ?></a>
         <?php endif; ?>
