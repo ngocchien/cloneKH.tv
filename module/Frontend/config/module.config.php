@@ -104,7 +104,7 @@ return array(
                         'module' => 'frontend',
                         'controller' => 'search',
                         'action' => 'keyword',
-                        'keyId' => 1,
+                        'keyId' => 0,
                         'keySlug' => '',
                         'page' => 1
                     ),

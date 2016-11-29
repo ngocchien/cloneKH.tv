@@ -151,6 +151,16 @@ return array(
                             'action' => 'hot-trend'
                         ),
                     ),
+                ),
+                'videos' => array(
+                    'options' => array(
+                        'route' => 'videos-youtube',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'videos-youtube'
+                        ),
+                    ),
                 )
             )
         )

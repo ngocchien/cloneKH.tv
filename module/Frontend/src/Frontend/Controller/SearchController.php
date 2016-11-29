@@ -80,6 +80,8 @@ class SearchController extends MyController
             $params = array_merge($this->params()->fromRoute(), $this->params()->fromQuery());
             $key_id = (int)$params['keyId'];
             $key_slug = $params['keySlug'];
+            $intPage = is_numeric($params['page']) ? $params['page'] : 1;
+            $intLimit = 20;
 
             if (empty($key_id)) {
                 return $this->redirect()->toRoute('404', array());
@@ -87,13 +89,15 @@ class SearchController extends MyController
 
             $instanceSearch = new \My\Search\Keyword();
             $arrKeyDetail = $instanceSearch->getDetail(['key_id' => $key_id]);
+
             if (empty($arrKeyDetail)) {
                 return $this->redirect()->toRoute('404', array());
             }
 
-            $intPage = is_numeric($params['page']) ? $params['page'] : 1;
-            $intLimit = 20;
-
+            if ($arrKeyDetail['key_slug'] != $key_slug) {
+                return $this->redirect()->toRoute('keyword', ['keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage]);
+            }
+            
             $instanceSearchContent = new \My\Search\Content();
             $arrContentList = $instanceSearchContent->getListLimit(['full_text_title' => $arrKeyDetail['key_name']], $intPage, $intLimit, ['_score' => ['order' => 'desc']]);
             $intTotal = $instanceSearchContent->getTotal(['full_text_title' => $arrKeyDetail['key_name']]);
