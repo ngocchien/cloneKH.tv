@@ -161,6 +161,16 @@ return array(
                             'action' => 'videos-youtube'
                         ),
                     ),
+                ),
+                'update-keyword' => array(
+                    'options' => array(
+                        'route' => 'update-keyword',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'update-keyword'
+                        ),
+                    ),
                 )
             )
         )

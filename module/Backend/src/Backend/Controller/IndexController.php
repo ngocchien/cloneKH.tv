@@ -877,9 +877,9 @@ class IndexController extends MyController
                 foreach ($data['trendsList'] as $data1) {
                     $arr_key[] = $data1['title'];
                     if (!empty($data1['relatedSearchesList'])) {
-                        foreach ($data1['relatedSearchesList'] as $arr_temp){
-                            if(!empty($arr_temp['query'])){
-                                array_push($arr_key,$arr_temp['query']);
+                        foreach ($data1['relatedSearchesList'] as $arr_temp) {
+                            if (!empty($arr_temp['query'])) {
+                                array_push($arr_key, $arr_temp['query']);
                             }
                         }
                     }
