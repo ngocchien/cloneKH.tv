@@ -48,6 +48,7 @@ class IndexController extends MyController
 
     public function indexAction()
     {
+        return;
         $this->__khoahocTV();
         return;
         try {
