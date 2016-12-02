@@ -11,14 +11,17 @@ use Elastica\Query\QueryString,
     My\Search\SearchAbstract,
     My\General;
 
-class Content extends SearchAbstract {
+class Content extends SearchAbstract
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setSearchIndex(SEARCH_PREFIX . 'content');
         $this->setSearchType('contentList');
     }
 
-    public function createIndex() {
+    public function createIndex()
+    {
         $strIndexName = SEARCH_PREFIX . 'content';
 
         $searchClient = General::getSearchConfig();
@@ -59,7 +62,7 @@ class Content extends SearchAbstract {
                     'max_gram' => 30,
                 ]
             ],
-                ], true);
+        ], true);
 
         //set search type
         $searchType = $searchIndex->getType('contentList');
@@ -89,7 +92,8 @@ class Content extends SearchAbstract {
         $mapping->send();
     }
 
-    public function add($arrDocument) {
+    public function add($arrDocument)
+    {
         try {
             if (empty($arrDocument) && !$arrDocument instanceof \Elastica\Document) {
                 throw new \Exception('Document cannot be blank or must be instance of \Elastica\Document class');
@@ -106,7 +110,8 @@ class Content extends SearchAbstract {
         }
     }
 
-    public function edit($document) {
+    public function edit($document)
+    {
         $respond = $this->getSearchType()->updateDocument($document);
         $this->getSearchType()->getIndex()->refresh();
         if ($respond->isOk()) {
@@ -115,7 +120,8 @@ class Content extends SearchAbstract {
         return false;
     }
 
-    public function getDetail($params, $arrFields = []) {
+    public function getDetail($params, $arrFields = [])
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($params, $boolQuery);
         $query = new ESQuery();
@@ -125,8 +131,8 @@ class Content extends SearchAbstract {
         }
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->search($query);
+            ->addType($this->getSearchType())
+            ->search($query);
         $this->setResultSet($resultSet);
         return current($this->toArray());
     }
@@ -134,20 +140,24 @@ class Content extends SearchAbstract {
     /**
      * Get List Limit
      */
-    public function getListLimit($params = array(), $intPage = 1, $intLimit = 15, $sort = ['created_date' => ['order' => 'desc']]) {
+    public function getListLimit($params = array(), $intPage = 1, $intLimit = 15, $sort = ['created_date' => ['order' => 'desc']], $arrFields = [])
+    {
         try {
             $intFrom = $intLimit * ($intPage - 1);
             $boolQuery = new Bool();
             $boolQuery = $this->__buildWhere($params, $boolQuery);
             $query = new ESQuery();
             $query->setFrom($intFrom)
-                    ->setSize($intLimit)
-                    ->setSort($sort);
+                ->setSize($intLimit)
+                ->setSort($sort);
             $query->setQuery($boolQuery);
+            if ($arrFields && is_array($arrFields)) {
+                $query->setSource($arrFields);
+            }
             $instanceSearch = new Search(General::getSearchConfig());
             $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                    ->addType($this->getSearchType())
-                    ->search($query);
+                ->addType($this->getSearchType())
+                ->search($query);
             $this->setResultSet($resultSet);
             return $this->toArray();
         } catch (\Exception $exc) {
@@ -159,7 +169,8 @@ class Content extends SearchAbstract {
     /**
      * Get List
      */
-    public function getList($params, $sort = [], $arrFields = []) {
+    public function getList($params, $sort = [], $arrFields = [])
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($params, $boolQuery);
         $query = new ESQuery();
@@ -171,7 +182,7 @@ class Content extends SearchAbstract {
         }
 
         $query->setSize($total)
-                ->setSort($sort);
+            ->setSort($sort);
         $query->setQuery($boolQuery);
         if ($arrFields && is_array($arrFields)) {
             $query->setSource($arrFields);
@@ -179,8 +190,8 @@ class Content extends SearchAbstract {
 
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->search($query);
+            ->addType($this->getSearchType())
+            ->search($query);
         $this->setResultSet($resultSet);
         return $this->toArray();
     }
@@ -190,7 +201,8 @@ class Content extends SearchAbstract {
      * @param array $arrConditions
      * @return integer
      */
-    public function getTotal($arrConditions = array()) {
+    public function getTotal($arrConditions = array())
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($arrConditions, $boolQuery);
 
@@ -198,17 +210,19 @@ class Content extends SearchAbstract {
         $query->setQuery($boolQuery);
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->count($query);
+            ->addType($this->getSearchType())
+            ->count($query);
         return $resultSet;
     }
 
-    private function setSort($params) {
+    private function setSort($params)
+    {
         //copy
         return ['cont_id' => ['order' => 'desc']];
     }
 
-    public function removeAllDoc() {
+    public function removeAllDoc()
+    {
         $respond = $this->getSearchType()->deleteByQuery('_type:customerList');
         $this->getSearchType()->getIndex()->refresh();
         if ($respond->isOk()) {
@@ -217,7 +231,8 @@ class Content extends SearchAbstract {
         return false;
     }
 
-    public function setHighLight(\Elastica\Query $query) {
+    public function setHighLight(\Elastica\Query $query)
+    {
         if (!$this->isHighlight()) {
             return $query;
         }
@@ -238,7 +253,8 @@ class Content extends SearchAbstract {
         return $query;
     }
 
-    public function __buildWhere($params, $boolQuery) {
+    public function __buildWhere($params, $boolQuery)
+    {
 
         if (empty($params)) {
             return $boolQuery;
@@ -319,9 +335,9 @@ class Content extends SearchAbstract {
             $strKeyword = trim($params['keyword']);
             $titleQueryString = new QueryString();
             $titleQueryString->setDefaultField('cont_title')
-                    ->setQuery($strKeyword)
-                    ->setAllowLeadingWildcard(1)
-                    ->setDefaultOperator('AND');
+                ->setQuery($strKeyword)
+                ->setAllowLeadingWildcard(1)
+                ->setDefaultOperator('AND');
             $bool->addShould($titleQueryString);
             $boolQuery->addMust($bool);
         }
@@ -386,7 +402,7 @@ class Content extends SearchAbstract {
             $math->setParam('cont_title', trim($params['full_text_title']));
             $boolQuery->addMust($math);
         }
-        
+
         if (isset($params['more_created_date'])) {
             $addQuery = new ESQuery\Range();
             $addQuery->addField('created_date', array('gte' => $params['more_created_date']));

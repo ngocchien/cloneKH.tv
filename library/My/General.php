@@ -555,6 +555,8 @@ class General
             curl_setopt($crawler, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0');
             curl_setopt($crawler, CURLOPT_RETURNTRANSFER, TRUE);
             $arrData ? curl_setopt($crawler, CURLOPT_POSTFIELDS, $arrData) : '';
+            curl_setopt($crawler, CURLOPT_SSL_VERIFYPEER, FALSE);
+
             $data = curl_exec($crawler);
             curl_close($crawler);
             return $data;

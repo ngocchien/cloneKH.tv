@@ -23,7 +23,19 @@ class IndexController extends MyController
             $intLimit = 20;
 
             $instanceSearchContent = new \My\Search\Content();
-            $arrContentList = $instanceSearchContent->getListLimit(['cont_status' => 1], $intPage, $intLimit, ['created_date' => ['order' => 'desc']]);
+            $arrContentList = $instanceSearchContent->getListLimit(
+                ['cont_status' => 1],
+                $intPage,
+                $intLimit,
+                ['created_date' => ['order' => 'desc']],
+                [
+                    'cont_title',
+                    'cont_slug',
+                    'cont_main_image',
+                    'cont_description',
+                    'cont_id'
+                ]
+            );
             return [
                 'arrContentList' => $arrContentList,
                 'intPage' => $intPage,

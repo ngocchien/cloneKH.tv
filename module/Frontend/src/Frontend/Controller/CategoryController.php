@@ -60,7 +60,19 @@ class CategoryController extends MyController
         }
 
         $instanceSearchContent = new \My\Search\Content();
-        $arrContentList = $instanceSearchContent->getListLimit($arrCondition, $intPage, $intLimit, ['created_date' => ['order' => 'desc']]);
+        $arrContentList = $instanceSearchContent->getListLimit(
+            $arrCondition,
+            $intPage,
+            $intLimit,
+            ['created_date' => ['order' => 'desc']],
+            [
+                'cont_title',
+                'cont_slug',
+                'cont_main_image',
+                'cont_description',
+                'cont_id'
+            ]
+        );
 
         $intTotal = $instanceSearchContent->getTotal($arrCondition);
         $helper = $this->serviceLocator->get('viewhelpermanager')->get('Paging');
@@ -84,7 +96,17 @@ class CategoryController extends MyController
 
         //50 KEYWORD :)
         $instanceSearchKeyword = new \My\Search\Keyword();
-        $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => $arrCategoryDetail['cate_name']], $intPage, 40, ['_score' => ['order' => 'desc']]);
+        $arrKeywordList = $instanceSearchKeyword->getListLimit(
+            ['full_text_keyname' => $arrCategoryDetail['cate_name']],
+            $intPage,
+            40,
+            ['_score' => ['order' => 'desc']],
+            [
+                'key_id',
+                'key_name',
+                'key_slug'
+            ]
+        );
 
         return array(
             'params' => $params,

@@ -31,7 +31,19 @@ class SearchController extends MyController
             ];
 
             $instanceSearchContent = new \My\Search\Content();
-            $arrContentList = $instanceSearchContent->getListLimit($arr_condition_content, $intPage, $intLimit, ['_score' => ['order' => 'desc']]);
+            $arrContentList = $instanceSearchContent->getListLimit(
+                $arr_condition_content,
+                $intPage,
+                $intLimit,
+                ['_score' => ['order' => 'desc']],
+                [
+                    'cont_title',
+                    'cont_slug',
+                    'cont_main_image',
+                    'cont_description',
+                    'cont_id'
+                ]
+            );
 
             //phân trang
             $intTotal = $instanceSearchContent->getTotal($arr_condition_content);
@@ -53,7 +65,17 @@ class SearchController extends MyController
 
             //get 50 keyword gần giống nhất
             $instanceSearchKeyword = new \My\Search\Keyword();
-            $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => $key_name], $intPage, 40, ['_score' => ['order' => 'desc']]);
+            $arrKeywordList = $instanceSearchKeyword->getListLimit(
+                ['full_text_keyname' => $key_name],
+                $intPage,
+                40,
+                ['_score' => ['order' => 'desc']],
+                [
+                    'key_id',
+                    'key_name',
+                    'key_slug'
+                ]
+            );
 
             return [
                 'paging' => $paging,
@@ -97,9 +119,21 @@ class SearchController extends MyController
             if ($arrKeyDetail['key_slug'] != $key_slug) {
                 return $this->redirect()->toRoute('keyword', ['keySlug' => $arrKeyDetail['key_slug'], 'keyId' => $arrKeyDetail['key_id'], 'page' => $intPage]);
             }
-            
+
             $instanceSearchContent = new \My\Search\Content();
-            $arrContentList = $instanceSearchContent->getListLimit(['full_text_title' => $arrKeyDetail['key_name']], $intPage, $intLimit, ['_score' => ['order' => 'desc']]);
+            $arrContentList = $instanceSearchContent->getListLimit(
+                ['full_text_title' => $arrKeyDetail['key_name']],
+                $intPage,
+                $intLimit,
+                ['_score' => ['order' => 'desc']],
+                [
+                    'cont_title',
+                    'cont_slug',
+                    'cont_main_image',
+                    'cont_description',
+                    'cont_id'
+                ]
+            );
             $intTotal = $instanceSearchContent->getTotal(['full_text_title' => $arrKeyDetail['key_name']]);
             $helper = $this->serviceLocator->get('viewhelpermanager')->get('Paging');
             $paging = $helper($params['module'], $params['__CONTROLLER__'], $params['action'], $intTotal, $intPage, $intLimit, 'keyword', $params);
@@ -121,7 +155,19 @@ class SearchController extends MyController
             /*
              * get 20 keyword tương tự
              */
-            $arrKeywordList = $instanceSearch->getListLimit(['full_text_keyname' => $arrKeyDetail['key_name'], 'not_key_id' => $key_id], $intPage, 40, ['_score' => ['order' => 'desc']]);
+            $arrKeywordList = $instanceSearch->getListLimit(
+                [
+                    'full_text_keyname' => $arrKeyDetail['key_name'],
+                    'not_key_id' => $key_id],
+                $intPage,
+                40,
+                ['_score' => ['order' => 'desc']],
+                [
+                    'key_id',
+                    'key_name',
+                    'key_slug'
+                ]
+            );
 
             return array(
                 'params' => $params,
@@ -156,7 +202,17 @@ class SearchController extends MyController
             $arrCondition = array(
                 'word_id_less' => round((time() - 1465036100) / 4)
             );
-            $arrKeywordList = $instanceSearch->getListLimit($arrCondition, $intPage, $intLimit, ['key_id' => ['order' => 'desc']]);
+            $arrKeywordList = $instanceSearch->getListLimit(
+                $arrCondition,
+                $intPage,
+                $intLimit,
+                ['key_id' => ['order' => 'desc']],
+                [
+                    'key_id',
+                    'key_name',
+                    'key_slug'
+                ]
+            );
             $intTotal = $instanceSearch->getTotal($arrCondition);
             $helper = $this->serviceLocator->get('viewhelpermanager')->get('Paging');
             $paging = $helper($params['module'], $params['__CONTROLLER__'], $params['action'], $intTotal, $intPage, $intLimit, 'list-keyword', $params);

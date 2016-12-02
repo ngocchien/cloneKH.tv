@@ -69,7 +69,7 @@
     <div class="author-info clearfix">
         <span class="date">Cập nhật: <?php echo date('d/m/Y', $this->arrContent['updated_date']) ?></span>
         <span class="author" style="float: right">
-        <?php echo in_array($this->arrContent['cate_id'], \My\General::$cate_videos) ? 'YouTube' : 'Tổng hợp' ?>
+        <?php echo in_array($this->arrContent['cate_id'], \My\General::$cate_videos) ? 'YouTube' : (empty($this->arrContent['cont_detail_text']) ? 'Tổng hợp' : $this->arrContent['cont_detail_text']) ?>
         </span>
     </div>
     <div id="adsarticletop" class="adbox">
@@ -227,7 +227,7 @@
     "dateModified": "<?php echo date('Y/m/d', $this->arrContent['created_date']); ?>",
     "author": {
     "@type": "Person",
-    "name": "General"
+    "name": "<?php echo in_array($this->arrContent['cate_id'], \My\General::$cate_videos) ? 'YouTube' : (empty($this->arrContent['cont_detail_text']) ? 'Tổng hợp' : $this->arrContent['cont_detail_text']) ?>"
     },
     "publisher": {
     "@type": "Organization",
@@ -241,6 +241,21 @@
     },
     "description": "<?php echo $this->metaDescription ?>"
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

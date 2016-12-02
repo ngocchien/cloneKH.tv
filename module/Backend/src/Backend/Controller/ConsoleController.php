@@ -1137,6 +1137,7 @@ class ConsoleController extends MyController
         $arr_category = $instanceSearchCategory->getList(['cate_status' => 1], [], ['cate_sort' => ['order' => 'asc'], 'cate_id' => ['order' => 'asc']]);
         unset($instanceSearchCategory);
         $instanceSearchContent = new \My\Search\Content();
+        $instanceSearchKeyword = new \My\Search\Keyword();
 
         $arr_pass = [
             'http://khoahoc.tv/chua-du-co-so-de-xac-dinh-nien-dai-thoc-thanh-den-29433',
@@ -1237,6 +1238,48 @@ class ConsoleController extends MyController
                         //crawler nội dung bài đọc
                         $content_detail_page_dom = HtmlDomParser::str_get_html(General::crawler($item_content_source));
 
+                        $keyword_kh = $content_detail_page_dom->find('meta[name=keywords]', 0)->content;
+
+                        //add keyword vao table keyword
+                        if (!empty($keyword_kh)) {
+                            $arr_keyword_kh = explode(',', $keyword_kh);
+                            foreach ($arr_keyword_kh as $strkey) {
+                                $exits_key = $instanceSearchKeyword->getDetail([
+                                    'key_slug' => General::getSlug($strkey)
+                                ]);
+                                if (empty($exits_key)) {
+                                    //search vào gg
+                                    $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($strkey));
+                                    $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
+                                    $key_description = '';
+                                    foreach ($gg_rp_dom->find('.srg .st') as $item) {
+                                        empty($key_description) ?
+                                            $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
+                                            $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
+                                    }
+                                    $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                                    $id_key = $serviceKeyword->add([
+                                        'key_name' => $strkey,
+                                        'key_slug' => General::getSlug($strkey),
+                                        'is_crawler' => 0,
+                                        'created_date' => time(),
+                                        'key_description' => $key_description
+                                    ]);
+                                    if ($id_key) {
+                                        echo \My\General::getColoredString("Insert to tbl_keyword success key_name =  {$strkey} \n", 'green');
+                                    } else {
+                                        echo \My\General::getColoredString("Insert to tbl_keyword ERROR key_name =  {$strkey} \n", 'red');
+                                    }
+                                    unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
+                                    $this->flush();
+                                }
+                            }
+                            unset($arr_keyword_kh);
+                        }
+
+                        //lấy tác giả
+                        $auth = strip_tags($content_detail_page_dom->find('.author', 0)->outertext);
+
                         try {
                             $script = $content_detail_page_dom->find('script');
                         } catch (\Exception $exc) {
@@ -1311,8 +1354,9 @@ class ConsoleController extends MyController
                         $arr_data_content['cont_views'] = rand(1, rand(100, 1000));
                         $arr_data_content['method'] = 'crawler';
                         $arr_data_content['from_source'] = $item_content_source;
-                        $arr_data_content['meta_keyword'] = str_replace(' ', ',', $arr_data_content['cont_title']);
+                        $arr_data_content['meta_keyword'] = empty($keyword_kh) ? str_replace(' ', ', ', $arr_data_content['cont_title']) : $keyword_kh . ', ' . str_replace(' ', ',', $arr_data_content['cont_title']);
                         $arr_data_content['updated_date'] = time();
+                        $arr_data_content['cont_detail_text'] = $auth;
                         unset($content_detail_outertext);
                         unset($img_all);
                         unset($img_avatar_url);
@@ -1415,6 +1459,21 @@ class ConsoleController extends MyController
 
     public function testAction()
     {
+        $arr_placement = [10382, 10383, 10384, 10385, 26022];
+        $arr_section = [514181472, 514826887, 514827195, 515096309, 515140417, 532105802, 529061526, 529212731, 529213251, 529061495, 529061552, 529515534, 529756475, 532105754, 532414285, 532421665, 532946680, 532956492, 551371156, 553313533, 554024644, 554028480, 554033130, 554104756, 554125195, 554213016, 554419256, 555095429, 553837246, 555418807, 553809662, 553812798, 553834951, 562962942, 574064833, 554022973, 554133836, 555205267, 563024446, 553743904, 554107838, 554134809, 554182134, 554182915, 554204180, 554214350, 555219616, 562701666, 563028221, 574163696, 553766757, 554026757, 554214739, 579418752, 579422871, 579645515, 579664936, 579666100, 579096210, 579726675, 578393882, 578880990];
+        $arr_zone = [532277731, 532277731, 532277731, 532357730, 532357730, 532357730, 515096418, 515096418, 515096418, 529995660, 529995660, 529995660, 532285046, 532285046, 532285046, 575941935, 575941935, 575941935, 532277731, 532277731, 532277731, 532947197, 532947197, 532947197, 532947358, 532947358, 532947358, 551371586, 551371586, 551371586, 573548309, 573548309, 573548309, 579665020, 579665020, 579665020, 574444513, 574444513, 574444513, 574445306, 574445306, 574445306, 512030204, 512030204, 512030204, 512036067, 512036067, 512036067, 574444513, 574444513, 574444513, 574445306, 574445306, 574445306, 574444513, 574444513, 574444513, 574445306, 574445306, 574445306, 529491882, 529491882, 529491882, 514827335, 514827335, 514827335, 532277731, 532277731, 532277731, 515096418, 515096418, 515096418, 529995660, 529995660, 529995660, 532285046, 532285046, 532285046, 577397178, 577397178, 577397178, 574170945, 574170945, 574170945, 574172699, 574172699, 574172699, 532947197, 532947197, 532947197, 532947235, 532947235, 532947235, 532947358, 532947358, 532947358, 574615503, 574615503, 574615503, 551371586, 551371586, 551371586, 579666110, 579666110, 579666110, 515096418, 515096418, 515096418, 529995660, 529995660, 529995660, 532285046, 532285046, 532285046, 532956533, 532956533, 532956533, 577397178, 577397178, 577397178, 514827335, 514827335, 514827335, 532277731, 532277731, 532277731, 577397178, 577397178, 577397178, 529756493, 529756493, 529756493, 532293189, 532293189, 532293189, 532294414, 532294414, 532294414, 532322414, 532322414, 532322414, 532421673, 532421673, 532421673, 532422491, 532422491, 532422491, 532956533, 532956533, 532956533, 575945792, 575945792, 575945792, 514827335, 514827335, 514827335, 532956533, 532956533, 532956533, 515096418, 515096418, 515096418, 514827335, 514827335, 514827335, 577397178, 577397178, 577397178, 532947235, 532947235, 532947235, 532956533, 532956533, 532956533, 548505600, 548505600, 548505600, 578353749, 578353749, 578353749, 579770685, 579770685, 579770685, 579781246, 579781246, 579781246, 579781246, 579781246, 579781246, 579781246, 579781246, 579781246, 532349724, 532349724, 532349724];
+        foreach ($arr_placement as $placement) {
+            foreach ($arr_section as $section) {
+                foreach ($arr_zone as $zone) {
+                    for ($i = 0; $i <= 10000; $i++) {
+                        $time = time();
+                        $url = 'http://t.ants.vn/a1/ti/?bc=d2b0198d62,1480479474177,' . $time . ',2956615155,1,' . $zone . ',529488170,' . $section . ',' . $placement . ',1,532559937,530091929,2,0_1&t_s=&t_z=&t_tp=&t_itr=&t_imk=&t_rm=&c_tp=73:0.19838,36:0.05263,50:0.04453&c_itr=32:0.05,5:0.03,36:0.11&c_imk=-1:-1&c_rm=&timestamp=1480479493608&url=http%3A%2F%2Fwww.24h.com.vn%2Fbong-da-c48.html&urlref=http%3A%2F%2Fwww.24h.com.vn%2F&hostname=www.24h.com.vn&format=12&template=0&res=1440x900&pos=11&resfl=1482:1762_640:920&gd=3&loc=29-1-vn&t2t=18590';
+                        print_r($url);
+                        die();
+                    }
+                }
+            }
+        }
         $current_date = '2016-03-01';
         for ($i = 0; $i <= 10000; $i++) {
             $date = strtotime('-' . $i . ' day', strtotime($current_date));
@@ -1893,7 +1952,7 @@ class ConsoleController extends MyController
     {
         $current_date = date('Y-m-d');
         $instanceSearchKeyWord = new \My\Search\Keyword();
-        for ($i = 0; $i <= 1000; $i++) {
+        for ($i = 0; $i <= 2; $i++) {
             $date = strtotime('-' . $i . ' days', strtotime($current_date));
             $date = date('Ymd', $date);
             echo \My\General::getColoredString("Date = {$date}", 'cyan');
@@ -1901,24 +1960,15 @@ class ConsoleController extends MyController
             $responseCurl = General::crawler($href);
             $arrData = json_decode($responseCurl, true);
 
-//            if($i == 0){
-//
-//                continue;
-//            }
-//            print_r($arrData);
-//            die();
             foreach ($arrData['trendsByDateList'] as $data) {
                 foreach ($data['trendsList'] as $data1) {
                     $arr_key[] = $data1['title'];
                     if (!empty($data1['relatedSearchesList'])) {
-                        $arr_key = array_merge($arr_key, $data1['relatedSearchesList']);
-                    }
-                    $strDescription = '';
-                    if (!empty($data1['newsArticlesList'])) {
-                        foreach ($data1['newsArticlesList'] as $val) {
-                            $strDescription .= $val['snippet'] . ',';
+                        foreach ($data1['relatedSearchesList'] as $arr_temp) {
+                            if (!empty($arr_temp['query'])) {
+                                array_push($arr_key, $arr_temp['query']);
+                            }
                         }
-
                     }
 
                     foreach ($arr_key as $val) {
@@ -1929,19 +1979,29 @@ class ConsoleController extends MyController
                             continue;
                         }
 
-                        $arr_data = [
+                        //search vào gg
+                        $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($val));
+                        $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
+                        $key_description = '';
+                        foreach ($gg_rp_dom->find('.srg .st') as $item) {
+                            empty($key_description) ?
+                                $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
+                                $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
+                        }
+                        $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                        $id_key = $serviceKeyword->add([
                             'key_name' => $val,
                             'key_slug' => General::getSlug($val),
                             'is_crawler' => 0,
-                            'created_date' => time()
-                        ];
-
-                        $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
-                        $int_result = $serviceKeyword->add($arr_data);
-                        unset($serviceKeyword);
-                        if ($int_result) {
-                            echo \My\General::getColoredString("Insert success 1 row with id = {$int_result} key name = {$arr_data['key_slug']}", 'yellow');
+                            'created_date' => time(),
+                            'key_description' => $key_description
+                        ]);
+                        if ($id_key) {
+                            echo \My\General::getColoredString("Insert to tbl_keyword success key_name =  {$val} \n", 'green');
+                        } else {
+                            echo \My\General::getColoredString("Insert to tbl_keyword ERROR key_name =  {$val} \n", 'red');
                         }
+                        unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
                         $this->flush();
                     }
                     $this->flush();
@@ -1950,7 +2010,7 @@ class ConsoleController extends MyController
             }
             $this->flush();
         }
-        die('eee');
+        die('done');
     }
 
     public function videosYoutubeAction()

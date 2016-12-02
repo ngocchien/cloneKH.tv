@@ -11,14 +11,17 @@ use Elastica\Query\QueryString,
     My\Search\SearchAbstract,
     My\General;
 
-class Keyword extends SearchAbstract {
+class Keyword extends SearchAbstract
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setSearchIndex(SEARCH_PREFIX . 'keyword');
         $this->setSearchType('keywordList');
     }
 
-    public function createIndex() {
+    public function createIndex()
+    {
         $strIndexName = SEARCH_PREFIX . 'keyword';
 
         $searchClient = General::getSearchConfig();
@@ -59,7 +62,7 @@ class Keyword extends SearchAbstract {
                     'max_gram' => 30,
                 ]
             ],
-                ], true);
+        ], true);
 
         //set search type
         $searchType = $searchIndex->getType('keywordList');
@@ -70,12 +73,14 @@ class Keyword extends SearchAbstract {
             'key_name' => ['type' => 'string', 'store' => 'yes', 'analyzer' => 'translation_index_analyzer', 'search_analyzer' => 'translation_search_analyzer', 'term_vector' => 'with_positions_offsets'],
             'key_slug' => ['type' => 'string', 'index' => 'not_analyzed'],
             'created_date' => ['type' => 'long', 'index' => 'not_analyzed'],
-            'updated_date' => ['type' => 'long', 'index' => 'not_analyzed']
+            'updated_date' => ['type' => 'long', 'index' => 'not_analyzed'],
+            'key_description' => ['type' => 'string', 'index' => 'not_analyzed']
         ]);
         $mapping->send();
     }
 
-    public function add($arrDocument) {
+    public function add($arrDocument)
+    {
         try {
             if (empty($arrDocument) && !$arrDocument instanceof \Elastica\Document) {
                 throw new \Exception('Document cannot be blank or must be instance of \Elastica\Document class');
@@ -92,7 +97,8 @@ class Keyword extends SearchAbstract {
         }
     }
 
-    public function edit($document) {
+    public function edit($document)
+    {
         $respond = $this->getSearchType()->updateDocument($document);
         $this->getSearchType()->getIndex()->refresh();
         if ($respond->isOk()) {
@@ -101,7 +107,8 @@ class Keyword extends SearchAbstract {
         return false;
     }
 
-    public function getDetail($params, $arrFields = []) {
+    public function getDetail($params, $arrFields = [])
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($params, $boolQuery);
         $query = new ESQuery();
@@ -111,8 +118,8 @@ class Keyword extends SearchAbstract {
         }
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->search($query);
+            ->addType($this->getSearchType())
+            ->search($query);
         $this->setResultSet($resultSet);
         return current($this->toArray());
     }
@@ -120,20 +127,24 @@ class Keyword extends SearchAbstract {
     /**
      * Get List Limit
      */
-    public function getListLimit($params = array(), $intPage = 1, $intLimit = 15, $sort = ['created_date' => ['order' => 'desc']]) {
+    public function getListLimit($params = array(), $intPage = 1, $intLimit = 15, $sort = ['created_date' => ['order' => 'desc']], $arrFields = [])
+    {
         try {
             $intFrom = $intLimit * ($intPage - 1);
             $boolQuery = new Bool();
             $boolQuery = $this->__buildWhere($params, $boolQuery);
             $query = new ESQuery();
             $query->setFrom($intFrom)
-                    ->setSize($intLimit)
-                    ->setSort($sort);
+                ->setSize($intLimit)
+                ->setSort($sort);
             $query->setQuery($boolQuery);
+            if ($arrFields && is_array($arrFields)) {
+                $query->setSource($arrFields);
+            }
             $instanceSearch = new Search(General::getSearchConfig());
             $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                    ->addType($this->getSearchType())
-                    ->search($query);
+                ->addType($this->getSearchType())
+                ->search($query);
             $this->setResultSet($resultSet);
             return $this->toArray();
         } catch (\Exception $exc) {
@@ -145,7 +156,8 @@ class Keyword extends SearchAbstract {
     /**
      * Get List
      */
-    public function getList($params, $sort = [], $arrFields = []) {
+    public function getList($params, $sort = [], $arrFields = [])
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($params, $boolQuery);
         $query = new ESQuery();
@@ -157,7 +169,7 @@ class Keyword extends SearchAbstract {
         }
 
         $query->setSize($total)
-                ->setSort($sort);
+            ->setSort($sort);
         $query->setQuery($boolQuery);
         if ($arrFields && is_array($arrFields)) {
             $query->setSource($arrFields);
@@ -165,8 +177,8 @@ class Keyword extends SearchAbstract {
 
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->search($query);
+            ->addType($this->getSearchType())
+            ->search($query);
         $this->setResultSet($resultSet);
         return $this->toArray();
     }
@@ -176,7 +188,8 @@ class Keyword extends SearchAbstract {
      * @param array $arrConditions
      * @return integer
      */
-    public function getTotal($arrConditions = array()) {
+    public function getTotal($arrConditions = array())
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($arrConditions, $boolQuery);
 
@@ -184,17 +197,19 @@ class Keyword extends SearchAbstract {
         $query->setQuery($boolQuery);
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->count($query);
+            ->addType($this->getSearchType())
+            ->count($query);
         return $resultSet;
     }
 
-    private function setSort($params) {
+    private function setSort($params)
+    {
         //copy
         return ['key_id' => ['order' => 'desc']];
     }
 
-    public function removeAllDoc() {
+    public function removeAllDoc()
+    {
         $respond = $this->getSearchType()->deleteByQuery('_type:keywordList');
         $this->getSearchType()->getIndex()->refresh();
         if ($respond->isOk()) {
@@ -203,7 +218,8 @@ class Keyword extends SearchAbstract {
         return false;
     }
 
-    public function __buildWhere($params, $boolQuery) {
+    public function __buildWhere($params, $boolQuery)
+    {
 
         if (empty($params)) {
             return $boolQuery;
@@ -220,13 +236,13 @@ class Keyword extends SearchAbstract {
             $addQuery->setTerm('is_crawler', $params['is_crawler']);
             $boolQuery->addMust($addQuery);
         }
-        
+
         if (isset($params['full_text_keyname'])) {
             $math = new ESQuery\Match();
             $math->setParam('key_name', trim($params['full_text_keyname']));
             $boolQuery->addMust($math);
         }
-        
+
         if (isset($params['key_id'])) {
             $addQuery = new ESQuery\Term();
             $addQuery->setTerm('key_id', $params['key_id']);
@@ -262,6 +278,12 @@ class Keyword extends SearchAbstract {
             $wordNameQueryString->setDefaultField('key_name')
                 ->setQuery('*');
             $boolQuery->addMust($wordNameQueryString);
+        }
+
+        if (isset($params['missing_key_description'])) {
+            $missing = new ESQuery\Missing();
+            $missing->setField('key_description');
+            $boolQuery->addMust($missing);
         }
 
         return $boolQuery;

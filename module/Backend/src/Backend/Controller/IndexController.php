@@ -48,6 +48,7 @@ class IndexController extends MyController
 
     public function indexAction()
     {
+        $this->__khoahocTV();
         return;
         try {
             $google_config = General::$google_config;
@@ -859,4 +860,68 @@ class IndexController extends MyController
         flush();
     }
 
+    public function __khoahocTV()
+    {
+        $current_date = date('Y-m-d');
+        $instanceSearchKeyWord = new \My\Search\Keyword();
+        for ($i = 0; $i <= 2; $i++) {
+            $date = strtotime('-' . $i . ' days', strtotime($current_date));
+            $date = date('Ymd', $date);
+            echo \My\General::getColoredString("Date = {$date}", 'cyan');
+            $href = 'https://www.google.com/trends/hottrends/hotItems?ajax=1&pn=p28&htd=' . $date . '&htv=l';
+            $responseCurl = General::crawler($href);
+            $arrData = json_decode($responseCurl, true);
+
+            foreach ($arrData['trendsByDateList'] as $data) {
+                foreach ($data['trendsList'] as $data1) {
+                    $arr_key[] = $data1['title'];
+                    if (!empty($data1['relatedSearchesList'])) {
+                        foreach ($data1['relatedSearchesList'] as $arr_temp){
+                            if(!empty($arr_temp['query'])){
+                                array_push($arr_key,$arr_temp['query']);
+                            }
+                        }
+                    }
+
+                    foreach ($arr_key as $val) {
+                        $is_exits = $instanceSearchKeyWord->getDetail(['key_slug' => trim(General::getSlug($val))]);
+
+                        if ($is_exits) {
+                            echo \My\General::getColoredString("exist {$val}", 'red') . '<br/>';
+                            continue;
+                        }
+
+                        //search vào gg
+                        $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($val));
+                        $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
+                        $key_description = '';
+                        foreach ($gg_rp_dom->find('.srg .st') as $item) {
+                            empty($key_description) ?
+                                $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
+                                $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
+                        }
+                        $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                        $id_key = $serviceKeyword->add([
+                            'key_name' => $val,
+                            'key_slug' => General::getSlug($val),
+                            'is_crawler' => 0,
+                            'created_date' => time(),
+                            'key_description' => $key_description
+                        ]);
+                        if ($id_key) {
+                            echo \My\General::getColoredString("Insert to tbl_keyword success key_name =  {$val} \n", 'green');
+                        } else {
+                            echo \My\General::getColoredString("Insert to tbl_keyword ERROR key_name =  {$val} \n", 'red');
+                        }
+                        unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
+                        $this->flush();
+                    }
+                    $this->flush();
+                }
+                $this->flush();
+            }
+            $this->flush();
+        }
+        die('eee');
+    }
 }

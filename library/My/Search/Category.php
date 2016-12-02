@@ -11,14 +11,17 @@ use Elastica\Query\QueryString,
     My\Search\SearchAbstract,
     My\General;
 
-class Category extends SearchAbstract {
+class Category extends SearchAbstract
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setSearchIndex(SEARCH_PREFIX . 'category');
         $this->setSearchType('categoryList');
     }
 
-    public function createIndex() {
+    public function createIndex()
+    {
         $strIndexName = SEARCH_PREFIX . 'category';
 
         $searchClient = General::getSearchConfig();
@@ -59,7 +62,7 @@ class Category extends SearchAbstract {
                     'max_gram' => 30,
                 ]
             ],
-                ], true);
+        ], true);
 
         //set search type
         $searchType = $searchIndex->getType('categoryList');
@@ -88,7 +91,8 @@ class Category extends SearchAbstract {
         $mapping->send();
     }
 
-    public function add($arrDocument) {
+    public function add($arrDocument)
+    {
         try {
             if (empty($arrDocument) && !$arrDocument instanceof \Elastica\Document) {
                 throw new \Exception('Document cannot be blank or must be instance of \Elastica\Document class');
@@ -105,7 +109,8 @@ class Category extends SearchAbstract {
         }
     }
 
-    public function edit($document) {
+    public function edit($document)
+    {
         $respond = $this->getSearchType()->updateDocument($document);
         $this->getSearchType()->getIndex()->refresh();
         if ($respond->isOk()) {
@@ -114,7 +119,8 @@ class Category extends SearchAbstract {
         return false;
     }
 
-    public function getDetail($params, $arrFields = []) {
+    public function getDetail($params, $arrFields = [])
+    {
         try {
             $boolQuery = new Bool();
             $boolQuery = $this->__buildWhere($params, $boolQuery);
@@ -127,8 +133,8 @@ class Category extends SearchAbstract {
 
             $instanceSearch = new Search(General::getSearchConfig());
             $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                    ->addType($this->getSearchType())
-                    ->search($query);
+                ->addType($this->getSearchType())
+                ->search($query);
             $this->setResultSet($resultSet);
             return current($this->toArray());
         } catch (\Exception $exc) {
@@ -142,20 +148,24 @@ class Category extends SearchAbstract {
     /**
      * Get List Limit
      */
-    public function getListLimit($params = array(), $intPage = 1, $intLimit = 15, $sort = ['updated_date' => ['order' => 'desc']]) {
+    public function getListLimit($params = array(), $intPage = 1, $intLimit = 15, $sort = ['updated_date' => ['order' => 'desc']], $arrFields = [])
+    {
         try {
             $intFrom = $intLimit * ($intPage - 1);
             $boolQuery = new Bool();
             $boolQuery = $this->__buildWhere($params, $boolQuery);
             $query = new ESQuery();
             $query->setFrom($intFrom)
-                    ->setSize($intLimit)
-                    ->setSort($sort);
+                ->setSize($intLimit)
+                ->setSort($sort);
             $query->setQuery($boolQuery);
+            if ($arrFields && is_array($arrFields)) {
+                $query->setSource($arrFields);
+            }
             $instanceSearch = new Search(General::getSearchConfig());
             $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                    ->addType($this->getSearchType())
-                    ->search($query);
+                ->addType($this->getSearchType())
+                ->search($query);
             $this->setResultSet($resultSet);
             return $this->toArray();
         } catch (\Exception $exc) {
@@ -167,7 +177,8 @@ class Category extends SearchAbstract {
     /**
      * Get List
      */
-    public function getList($params, $arrFields = [], $sort = ['cate_id' => ['order' => 'asc']]) {
+    public function getList($params, $arrFields = [], $sort = ['cate_id' => ['order' => 'asc']])
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($params, $boolQuery);
         $query = new ESQuery();
@@ -177,16 +188,16 @@ class Category extends SearchAbstract {
             $sort = $this->setSort($params);
         }
         $query->setSize($total)
-                ->setSort($sort);
+            ->setSort($sort);
         $query->setQuery($boolQuery);
         if ($arrFields && is_array($arrFields)) {
             $query->setSource($arrFields);
         }
-        
+
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->search($query);
+            ->addType($this->getSearchType())
+            ->search($query);
         $this->setResultSet($resultSet);
         return $this->toArray();
     }
@@ -196,24 +207,27 @@ class Category extends SearchAbstract {
      * @param array $arrConditions
      * @return integer
      */
-    public function getTotal($arrConditions = array()) {
+    public function getTotal($arrConditions = array())
+    {
         $boolQuery = new Bool();
         $boolQuery = $this->__buildWhere($arrConditions, $boolQuery);
         $query = new ESQuery();
         $query->setQuery($boolQuery);
         $instanceSearch = new Search(General::getSearchConfig());
         $resultSet = $instanceSearch->addIndex($this->getSearchIndex())
-                ->addType($this->getSearchType())
-                ->count($query);
+            ->addType($this->getSearchType())
+            ->count($query);
         return $resultSet;
     }
 
-    private function setSort($params) {
+    private function setSort($params)
+    {
         //copy
         return ['updated_date' => ['order' => 'desc']];
     }
 
-    public function removeAllDoc() {
+    public function removeAllDoc()
+    {
         $respond = $this->getSearchType()->deleteByQuery('_type:categoryList');
         $this->getSearchType()->getIndex()->refresh();
         if ($respond->isOk()) {
@@ -222,7 +236,8 @@ class Category extends SearchAbstract {
         return false;
     }
 
-    public function __buildWhere($params, $boolQuery) {
+    public function __buildWhere($params, $boolQuery)
+    {
 
         if (empty($params)) {
             return $boolQuery;
@@ -233,7 +248,7 @@ class Category extends SearchAbstract {
             $addQuery->setTerm('cate_id', $params['cate_id']);
             $boolQuery->addMust($addQuery);
         }
-        
+
         if (!empty($params['in_cate_id'])) {
             $addQuery = new ESQuery\Terms();
             $addQuery->setTerms('cate_id', $params['in_cate_id']);
@@ -263,19 +278,19 @@ class Category extends SearchAbstract {
             $addQuery->setTerm('cate_id', $params['not_cate_id']);
             $boolQuery->addMustNot($addQuery);
         }
-        
+
         if (isset($params['parent_id'])) {
             $addQuery = new ESQuery\Term();
             $addQuery->setTerm('parent_id', $params['parent_id']);
             $boolQuery->addMust($addQuery);
         }
-        
+
         if (isset($params['cate_slug'])) {
             $addQuery = new ESQuery\Term();
             $addQuery->setTerm('cate_slug', $params['cate_slug']);
             $boolQuery->addMust($addQuery);
         }
-        
+
         return $boolQuery;
     }
 

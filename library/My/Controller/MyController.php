@@ -6,7 +6,8 @@ use Zend\Mvc\MvcEvent,
     Zend\Mvc\Controller\AbstractActionController,
     My\General;
 
-class MyController extends AbstractActionController {
+class MyController extends AbstractActionController
+{
     /* @var $groupService \My\Models\Group */
     /* @var $serviceUser \My\Models\User */
     /* @var $serviceTemplate \My\Models\Template */
@@ -20,10 +21,11 @@ class MyController extends AbstractActionController {
     private $resource;
     private $renderer;
 
-    public function onDispatch(MvcEvent $e) {
+    public function onDispatch(MvcEvent $e)
+    {
         if (php_sapi_name() != 'cli') {
             $this->serverUrl = $this->request->getUri()->getScheme() . '://' . $this->request->getUri()->getHost();
-            $this->params = array_merge($this->params()->fromRoute(),$this->params()->fromQuery());
+            $this->params = array_merge($this->params()->fromRoute(), $this->params()->fromQuery());
             $this->params['module'] = strtolower($this->params['module']);
             $this->params['controller'] = strtolower($this->params['__CONTROLLER__']);
             $this->params['action'] = strtolower($this->params['action']);
@@ -43,24 +45,25 @@ class MyController extends AbstractActionController {
 
             $instanceStaticManager = new \My\StaticManager\StaticManager($this->resource, $this->serviceLocator);
             $instanceStaticManager
-                    ->setJS(array('defaultJS' => $this->defaultJS))
-                    ->setJS(array('externalJS' => $this->externalJS))
-                    ->setCSS(array('defaultCSS' => $this->defaultCSS))
-                    ->setCSS(array('externalCSS' => $this->externalCSS))
-                    ->render(2.1);
+                ->setJS(array('defaultJS' => $this->defaultJS))
+                ->setJS(array('externalJS' => $this->externalJS))
+                ->setCSS(array('defaultCSS' => $this->defaultCSS))
+                ->setCSS(array('externalCSS' => $this->externalCSS))
+                ->render(2.1);
             $this->setMeta($this->params);
         }
         return parent::onDispatch($e);
     }
 
-    private function setMeta($arrData) {
+    private function setMeta($arrData)
+    {
         switch ($this->resource) {
             case 'frontend:index:index':
-                $this->renderer->headTitle(\My\General::SITE_DOMAIN . ' - ' .General::SITE_SLOGAN);
+                $this->renderer->headTitle(\My\General::SITE_DOMAIN . ' - ' . General::SITE_SLOGAN);
                 $this->renderer->headMeta()->setProperty('url', \My\General::SITE_DOMAIN_FULL);
                 $this->renderer->headMeta()->setProperty('og:url', General::SITE_DOMAIN_FULL);
-                $this->renderer->headMeta()->appendName('title', html_entity_decode(\My\General::SITE_DOMAIN . ' -'.General::SITE_SLOGAN));
-                $this->renderer->headMeta()->setProperty('og:title', html_entity_decode(\My\General::SITE_DOMAIN . ' -'.General::SITE_SLOGAN));
+                $this->renderer->headMeta()->appendName('title', html_entity_decode(\My\General::SITE_DOMAIN . ' -' . General::SITE_SLOGAN));
+                $this->renderer->headMeta()->setProperty('og:title', html_entity_decode(\My\General::SITE_DOMAIN . ' -' . General::SITE_SLOGAN));
                 $this->renderer->headMeta()->setProperty('og:description', html_entity_decode(General::DESCRIPTION_DEFAULT));
                 $this->renderer->headMeta()->appendName('keywords', General::KEYWORD_DEFAULT);
                 $this->renderer->headMeta()->appendName('description', General::DESCRIPTION_DEFAULT);
@@ -71,11 +74,12 @@ class MyController extends AbstractActionController {
                 break;
         }
         if ($arrData['module'] === 'backend') {
-            $this->renderer->headTitle('Administrator - '.General::SITE_AUTH);
+            $this->renderer->headTitle('Administrator - ' . General::SITE_AUTH);
         }
     }
 
-    private function permission($params) {
+    private function permission($params)
+    {
 
         //check can access CPanel
         if (IS_ACP != 1) {
@@ -121,14 +125,16 @@ class MyController extends AbstractActionController {
         return $serviceACL->checkPermission($params['module'], $strControllerName, $strActionName);
     }
 
-    protected function getAuthService() {
+    protected function getAuthService()
+    {
         if (!$this->authservice) {
             $this->authservice = $this->getServiceLocator()->get('AuthService');
         }
         return $this->authservice;
     }
 
-    private function authenticate($arrData) {
+    private function authenticate($arrData)
+    {
         $arrUserData = $this->getAuthService()->getIdentity();
         if ($arrData['module'] === 'backend') {
 
@@ -136,13 +142,13 @@ class MyController extends AbstractActionController {
                 return $this->redirect()->toRoute('backend', array('controller' => 'auth', 'action' => 'login'));
             }
 
-            define('UID', (int) $arrUserData['user_id']);
+            define('UID', (int)$arrUserData['user_id']);
             define('MODULE', $arrData['module']);
             define('CONTROLLER', $arrData['controller']);
             define('FULLNAME', $arrUserData['user_fullname']);
             define('USERNAME', $arrUserData['user_name']);
             define('EMAIL', $arrUserData['user_email']);
-            define('GROU_ID', $arrUserData['group_id'] ? (int) $arrUserData['group_id'] : 0);
+            define('GROU_ID', $arrUserData['group_id'] ? (int)$arrUserData['group_id'] : 0);
             define('IS_ACP', (empty($arrUserData['group_id']) ? 0 : $arrUserData['is_acp']));
             define('PERMISSION', json_encode($arrUserData['permission']));
             define('FULL_ACCESS', empty($arrUserData['is_full_access']) ? 0 : 1);
@@ -150,7 +156,23 @@ class MyController extends AbstractActionController {
 
         if ($arrData['module'] === 'frontend') {
             $instanceSearchCategory = new \My\Search\Category();
-            $arrCategoryList = $instanceSearchCategory->getList(['cate_status' => 1], [], ['cate_sort' => ['order' => 'asc'], 'cate_id' => ['order' => 'asc']]);
+            $arrCategoryList = $instanceSearchCategory->getList(
+                ['cate_status' => 1],
+                [
+                    'cate_id',
+                    'cate_name',
+                    'cate_slug',
+                    'cate_sort',
+                    'cate_meta_title',
+                    'cate_meta_keyword',
+                    'cate_meta_description',
+                    'cate_description',
+                    'parent_id',
+                    'cate_img_url'
+                ],
+                ['cate_sort' => ['order' => 'asc'], 'cate_id' => ['order' => 'asc']]
+
+            );
             $arrCategoryParentList = [];
             $arrCategoryByParent = [];
             $arrCategoryFormat = [];
@@ -171,14 +193,20 @@ class MyController extends AbstractActionController {
 
             //get list content hot
             $instanceSearchContent = new \My\Search\Content();
-            $arr_content_hot = $instanceSearchContent->getListLimit(['cont_status' => 1], 1, 10, ['cont_views' => ['order' => 'desc']]);
+            $arr_content_hot = $instanceSearchContent->getListLimit(
+                ['cont_status' => 1],
+                1,
+                10,
+                ['cont_views' => ['order' => 'desc']],
+                [
+                    'cont_title',
+                    'cont_slug',
+                    'cont_main_image',
+                    'cont_description',
+                    'cont_id'
+                ]
+            );
             define('ARR_CONTENT_HOT_LIST', serialize($arr_content_hot));
-
-            //50 KEYWORD :)
-            $instanceSearchKeyword = new \My\Search\Keyword();
-//            $arrKeywordList = $instanceSearchKeyword->getListLimit(['full_text_keyname' => 'khám phá'], 1, 50, ['_score' => ['order' => 'desc']]);
-            $arrKeywordList = $instanceSearchKeyword->getListLimit(['is_crawler' => 1], 1, 50, ['key_id' => ['order' => 'asc']]);
-            define('ARR_KEYWORD_ALL_PAGE', serialize($arrKeywordList));
 
             define('KEYWORD_SEARCH', !empty($arrData['keyword']) && $arrData['action'] == 'index' && $arrData['controller'] == 'search' ? $arrData['keyword'] : NULL);
 

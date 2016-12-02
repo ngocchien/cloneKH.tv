@@ -61,6 +61,11 @@ $arr_key_id = array_keys($this->arrKeywordList);
                             <?php endif; ?>
                         </div>
                     </li>
+                    <?php if ($key == 0 && !empty($this->arrKeyDetail['key_description'])): ?>
+                    <div class="content-detail">
+                        <?php echo $this->arrKeyDetail['key_description']; ?>
+                    </div>
+                <?php endif; ?>
                     <?php if ($key == 2): ?>
                     <div id="adindexcenter" class="adbox" style="margin-bottom:20px">
                         <!-- khampha -->
