@@ -1272,6 +1272,8 @@ class ConsoleController extends MyController
                                     }
                                     unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
                                     $this->flush();
+                                    //random sleep
+                                    sleep(rand(4, 10));
                                 }
                             }
                             unset($arr_keyword_kh);
@@ -2225,7 +2227,7 @@ class ConsoleController extends MyController
             for ($i = 1; $i < 100000; $i++) {
                 $arrKeyword = $instanceSearch->getListLimit(
                     [
-                        'key_id_greater' => 3311
+                        'key_id_greater' => 1970
                     ],
                     $i,
                     50,
@@ -2254,7 +2256,12 @@ class ConsoleController extends MyController
                     }
 
                     //search vào gg
-                    $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($arr['key_name']));
+                    //https://www.google.com.vn/search?q=chien+nguyen&rlz=1C1CHBF_enVN720VN720&oq=chien+nguyen&aqs=chrome.0.69i59l2j0l4.5779j0j4&sourceid=chrome&ie=UTF-8
+                    //https://www.google.com.vn/webhp?sourceid=chrome-instant&rlz=1C1CHBF_enVN720VN720&ion=1&espv=2&ie=UTF-8#q=nguy%E1%BB%85n%20ng%E1%BB%8Dc%20chi%E1%BA%BFn
+                    //$url_gg = 'https://www.google.com.vn/webhp?sourceid=chrome-instant&rlz=1C1CHBF_enVN720VN720&ion=1&espv=2&ie=UTF-8#q='.rawurlencode($arr['key_name']);
+                    $url_gg = 'https://www.google.com.vn/search?sclient=psy-ab&biw=1366&bih=212&espv=2&q=' . rawurlencode($arr['key_name']) . '&oq=' . rawurlencode($arr['key_name']);
+
+                    $gg_rp = General::crawler($url_gg);
                     $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
                     $key_description = '';
                     foreach ($gg_rp_dom->find('.srg .st') as $item) {
@@ -2262,6 +2269,7 @@ class ConsoleController extends MyController
                             $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
                             $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
                     }
+
                     $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
                     $rs = $serviceKeyword->edit(['key_description' => $key_description], $arr['key_id']);
                     if ($rs) {
@@ -2273,8 +2281,11 @@ class ConsoleController extends MyController
                         echo \My\General::getColoredString("UPDATE KEY ID =  " . $arr['key_id'] . " ERROR \n", 'red');
                         continue;
                     }
-                    unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
+                    unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id,$url_gg);
                     $this->flush();
+
+                    //random sleep
+                    sleep(rand(4, 10));
                 }
                 $this->flush();
                 unset($arrKeyword);

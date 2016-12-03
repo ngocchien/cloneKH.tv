@@ -552,7 +552,7 @@ class General
             curl_setopt($crawler, CURLOPT_DNS_CACHE_TIMEOUT, 0);
             curl_setopt($crawler, CURLOPT_MAXREDIRS, 5);
             curl_setopt($crawler, CURLOPT_FRESH_CONNECT, TRUE);
-            curl_setopt($crawler, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:32.0) Gecko/20100101 Firefox/32.0');
+            curl_setopt($crawler, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36');
             curl_setopt($crawler, CURLOPT_RETURNTRANSFER, TRUE);
             $arrData ? curl_setopt($crawler, CURLOPT_POSTFIELDS, $arrData) : '';
             curl_setopt($crawler, CURLOPT_SSL_VERIFYPEER, FALSE);
