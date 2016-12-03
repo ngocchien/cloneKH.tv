@@ -282,7 +282,7 @@ class Keyword extends SearchAbstract
 
         if (isset($params['missing_key_description'])) {
             $missing = new ESQuery\Missing();
-            $missing->setField('key_description');
+            $missing->setField('key_descriptionkey_description');
             $boolQuery->addMust($missing);
         }
 

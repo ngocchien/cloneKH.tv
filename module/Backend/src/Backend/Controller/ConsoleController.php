@@ -2222,56 +2222,72 @@ class ConsoleController extends MyController
         $file = '/var/www/khampha/html/logs/updateKW.txt';
 
         $instanceSearch = new \My\Search\Keyword();
-        $arrKeyword = $instanceSearch->getListLimit(
-            [
-                'missing_key_description' => true
-            ],
-            1,
-            50,
-            [
-                'key_id' => [
-                    'order' => 'asc'
+        for ($i = 1; $i < 1000000; $i++) {
+            $arrKeyword = $instanceSearch->getListLimit(
+                [
+                ],
+                $i,
+                50,
+                [
+                    'key_id' => [
+                        'order' => 'asc'
+                    ]
+                ],
+                [
+                    'key_id',
+                    'key_name',
+                    'key_description'
                 ]
-            ],
-            [
-                'key_id',
-                'key_name'
-            ]
-        );
+            );
 
-        if (empty($arrKeyword)) {
-            echo General::getColoredString("UPDATE KEYWORD SUCCESS", 'blue', 'cyan');
-            return true;
+            if (empty($arrKeyword)) {
+                echo General::getColoredString("UPDATE KEYWORD SUCCESS", 'blue', 'cyan');
+                return true;
+            }
+
+            foreach ($arrKeyword as $arr) {
+                if (empty($arr['key_id']) || !empty($arr['key_description'])) {
+                    continue;
+                }
+
+                //search vào gg
+                $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($arr['key_name']));
+                $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
+                $key_description = '';
+                foreach ($gg_rp_dom->find('.srg .st') as $item) {
+                    empty($key_description) ?
+                        $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
+                        $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
+                }
+                $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                $rs = $serviceKeyword->edit(['key_description' => $key_description], $arr['key_id']);
+                if ($rs) {
+                    file_put_contents($file, $arr['key_id'] . PHP_EOL, FILE_APPEND);
+                    echo \My\General::getColoredString("UPDATE KEY ID =  " . $arr['key_id'] . " SUCCESS \n", 'green');
+                } else {
+                    echo \My\General::getColoredString("UPDATE KEY ID =  " . $arr['key_id'] . " ERROR \n", 'red');
+                }
+                unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
+                $this->flush();
+            }
+
+            unset($instanceSearch, $arrKeyword);
         }
 
-        foreach ($arrKeyword as $arr) {
-            if (empty($arr['key_id'])) {
-                continue;
-            }
-            //search vào gg
-            $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($arr['key_name']));
-            $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
-            $key_description = '';
-            foreach ($gg_rp_dom->find('.srg .st') as $item) {
-                empty($key_description) ?
-                    $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
-                    $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
-            }
-            $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
-            $rs = $serviceKeyword->edit(['key_description' => $key_description], $arr['key_id']);
-            if ($rs) {
-                file_put_contents($file, $arr['key_id'].PHP_EOL, FILE_APPEND);
-                echo \My\General::getColoredString("UPDATE KEY ID =  " . $arr['key_id'] . " SUCCESS \n", 'green');
-            } else {
-                echo \My\General::getColoredString("UPDATE KEY ID =  " . $arr['key_id'] . " ERROR \n", 'red');
-            }
-            unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
-            $this->flush();
-        }
-
-        unset($instanceSearch, $arrKeyword);
-
-        $this->__updateKW();
+        return true;
+//
+//        echo '<pre>';
+//        print_r($arrKeyword);
+//        echo '</pre>';
+//        die();
+//        if (empty($arrKeyword)) {
+//            echo General::getColoredString("UPDATE KEYWORD SUCCESS", 'blue', 'cyan');
+//            return true;
+//        }
+//
+//
+//
+//        $this->__updateKW();
     }
 
 }
