@@ -2331,7 +2331,7 @@ class ConsoleController extends MyController
                     'key_id_greater' => $id_begin
                 ],
                 1,
-                2,
+                50,
                 [
                     'key_id' => [
                         'order' => 'asc'
