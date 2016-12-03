@@ -171,6 +171,16 @@ return array(
                             'action' => 'update-keyword'
                         ),
                     ),
+                ),
+                'update-new-key' => array(
+                    'options' => array(
+                        'route' => 'update-new-key [--id=] [--pid=]',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'update-new-key'
+                        ),
+                    ),
                 )
             )
         )

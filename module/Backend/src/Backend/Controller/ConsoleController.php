@@ -2281,7 +2281,7 @@ class ConsoleController extends MyController
                         echo \My\General::getColoredString("UPDATE KEY ID =  " . $arr['key_id'] . " ERROR \n", 'red');
                         continue;
                     }
-                    unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id,$url_gg);
+                    unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id, $url_gg);
                     $this->flush();
 
                     //random sleep
@@ -2308,6 +2308,90 @@ class ConsoleController extends MyController
 //
 //
 //        $this->__updateKW();
+    }
+
+    public function updateNewKeyAction()
+    {
+        $params = $this->request->getParams();
+        $id_begin = $last_id = $params['id'];
+        $PID = $params['pid'];
+        if (!empty($PID)) {
+            shell_exec('kill -9 ' . $PID);
+        }
+
+        if (empty($id_begin)) {
+            return true;
+        }
+
+        $file = '/var/www/khampha/html/logs/updateKW.txt';
+        try {
+            $instanceSearch = new \My\Search\Keyword();
+            $arrKeyword = $instanceSearch->getListLimit(
+                [
+                    'key_id_greater' => $id_begin
+                ],
+                1,
+                2,
+                [
+                    'key_id' => [
+                        'order' => 'asc'
+                    ]
+                ],
+                [
+                    'key_id',
+                    'key_name',
+                    'key_description'
+                ]
+            );
+
+            if (empty($arrKeyword)) {
+                return true;
+            }
+            foreach ($arrKeyword as $arr) {
+                if (empty($arr['key_id']) || !empty($arr['key_description'])) {
+                    continue;
+                }
+                $last_id = $arr['key_id'];
+
+                //search vào gg
+                //https://www.google.com.vn/search?q=chien+nguyen&rlz=1C1CHBF_enVN720VN720&oq=chien+nguyen&aqs=chrome.0.69i59l2j0l4.5779j0j4&sourceid=chrome&ie=UTF-8
+                //https://www.google.com.vn/webhp?sourceid=chrome-instant&rlz=1C1CHBF_enVN720VN720&ion=1&espv=2&ie=UTF-8#q=nguy%E1%BB%85n%20ng%E1%BB%8Dc%20chi%E1%BA%BFn
+                //$url_gg = 'https://www.google.com.vn/webhp?sourceid=chrome-instant&rlz=1C1CHBF_enVN720VN720&ion=1&espv=2&ie=UTF-8#q='.rawurlencode($arr['key_name']);
+                $url_gg = 'https://www.google.com.vn/search?sclient=psy-ab&biw=1366&bih=212&espv=2&q=' . rawurlencode($arr['key_name']) . '&oq=' . rawurlencode($arr['key_name']);
+
+                $gg_rp = General::crawler($url_gg);
+                $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
+                $key_description = '';
+                foreach ($gg_rp_dom->find('.srg .st') as $item) {
+                    empty($key_description) ?
+                        $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
+                        $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
+                }
+
+                $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                $rs = $serviceKeyword->edit(['key_description' => $key_description], $arr['key_id']);
+                if ($rs) {
+                    file_put_contents($file, $arr['key_id'] . PHP_EOL, FILE_APPEND);
+                } else {
+                    file_put_contents($file, 'ERROR ID = ' . $arr['key_id'] . PHP_EOL, FILE_APPEND);
+                    continue;
+                }
+                unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id, $url_gg);
+                $this->flush();
+
+                //random sleep
+                sleep(rand(4, 10));
+            }
+            $this->flush();
+            unset($arrKeyword);
+            exec("ps -ef | grep -v grep | grep update-new-key | awk '{ print $2 }'", $PID);
+
+            return shell_exec('php ' . PUBLIC_PATH . '/index.php update-new-key --id=' . $last_id . ' --pid=' . current($PID));
+
+        } catch (\Exception $exc) {
+            file_put_contents($file, $exc->getCode() . ' => ' . $exc->getMessage() . PHP_EOL, FILE_APPEND);
+            return true;
+        }
     }
 
 }

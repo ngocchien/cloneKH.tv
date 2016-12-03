@@ -6,11 +6,13 @@ use My\Controller\MyController,
     My\Validator\Validate,
     My\General;
 
-class ContentController extends MyController {
+class ContentController extends MyController
+{
     /* @var $serviceCategory \My\Models\Category */
     /* @var $serviceContent \My\Models\Content */
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->externalCSS = [
             STATIC_URL . '/b/css/??bootstrap-wysihtml5.css'
@@ -22,7 +24,8 @@ class ContentController extends MyController {
         ];
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $params = array_merge($this->params()->fromQuery(), $this->params()->fromRoute());
         $intPage = $this->params()->fromRoute('page', 1);
         $intLimit = 15;
@@ -31,7 +34,22 @@ class ContentController extends MyController {
         );
 
         $instanceSearchContent = new \My\Search\Content();
-        $arrContentList = $instanceSearchContent->getListLimit($arrCondition, $intPage, $intLimit, ['cont_id' => ['order' => 'desc']]);
+        $arrContentList = $instanceSearchContent->getListLimit(
+            $arrCondition,
+            $intPage,
+            $intLimit,
+            ['cont_id' => ['order' => 'desc']],
+            [
+                'cont_title',
+                'cont_slug',
+                'created_date',
+                'user_created',
+                'cate_id',
+                'cont_status',
+                'updated_date',
+                'cont_id'
+            ]
+        );
 
         $route = 'backend';
         $intTotal = $instanceSearchContent->getTotal($arrCondition);
@@ -54,11 +72,25 @@ class ContentController extends MyController {
 
             if (!empty($arrUserIdList)) {
                 $instanceSearchUser = new \My\Search\User();
-                $arrUserListTemp = $instanceSearchUser->getList(['in_user_id' => $arrUserIdList]);
+                $arrUserListTemp = $instanceSearchUser->getList(
+                    ['in_user_id' => $arrUserIdList],
+                    [
+                        'user_id',
+                        'user_name',
+                        'user_email'
+                    ]
+                );
             }
             if (!empty($arrCategoryIdList)) {
                 $instanceSearchCategory = new \My\Search\Category();
-                $arrCategoryListTemp = $instanceSearchCategory->getList(['in_cate_id' => $arrCategoryIdList]);
+                $arrCategoryListTemp = $instanceSearchCategory->getList(
+                    ['in_cate_id' => $arrCategoryIdList],
+                    [
+                        'cate_id',
+                        'cate_name',
+                        'cate_slug'
+                    ]
+                );
             }
 
             //format lại 2 array
@@ -83,7 +115,8 @@ class ContentController extends MyController {
         );
     }
 
-    public function addAction() {
+    public function addAction()
+    {
         $params = $this->params()->fromRoute();
         $serviceCategory = $this->serviceLocator->get('My\Models\Category');
         $arrConditionCategory = array(
@@ -97,7 +130,7 @@ class ContentController extends MyController {
             $params = $this->params()->fromPost();
             $contName = trim($params['cont_name']);
             $contContent = trim($params['cont_content']);
-            $contSort = (int) trim($params['cont_sort']);
+            $contSort = (int)trim($params['cont_sort']);
             $contDescription = trim($params['cont_description']);
             $contMetaTitle = trim($params['cont_meta_title']);
             $contMetaDescription = trim($params['cont_meta_description']);
@@ -181,30 +214,38 @@ class ContentController extends MyController {
         );
     }
 
-    public function editAction() {
+    public function editAction()
+    {
         $params = $this->params()->fromRoute();
         if (empty($params['id'])) {
             $this->redirect()->toRoute('backend', array('controller' => 'content', 'action' => 'index'));
         }
-        $intContentId = (int) $params['id'];
+        $intContentId = (int)$params['id'];
 
         //get content detail
         $arrConditionContent = array(
             'cont_id' => $intContentId
         );
-        $serviceContent = $this->serviceLocator->get('My\Models\Content');
-        $arrContent = $serviceContent->getDetail($arrConditionContent);
+
+        $instanceSearchContent = new \My\Search\Content();
+        $arrContent = $instanceSearchContent->getDetail($arrConditionContent);
 
         if (empty($arrContent)) {
             $this->redirect()->toRoute('backend', array('controller' => 'content', 'action' => 'index'));
         }
 
         //get list category
-        $serviceCategory = $this->serviceLocator->get('My\Models\Category');
-        $arrConditionCategory = array(
-            'not_cate_status' => -1
+        $instanceSearchCategory = new \My\Search\Category();
+        $arrCategoryList = $instanceSearchCategory->getList(
+            [
+                'not_cate_status' => -1
+            ],
+            [
+                'cate_id',
+                'cate_name',
+                'parent_id'
+            ]
         );
-        $arrCategoryList = $serviceCategory->getList($arrConditionCategory);
 
         $errors = array();
 
@@ -212,7 +253,7 @@ class ContentController extends MyController {
             $params = $this->params()->fromPost();
             $contName = trim($params['cont_name']);
             $contContent = trim($params['cont_content']);
-            $contSort = (int) trim($params['cont_sort']);
+            $contSort = (int)trim($params['cont_sort']);
             $contDescription = trim($params['cont_description']);
             $contMetaTitle = trim($params['cont_meta_title']);
             $contMetaDescription = trim($params['cont_meta_description']);
@@ -255,7 +296,7 @@ class ContentController extends MyController {
                     'cate_id' => $cateId,
                     'not_cont_id' => $intContentId
                 );
-                $arrResult = $serviceContent->getList($arrCondition);
+                $arrResult = $instanceSearchContent->getList($arrCondition);
 
                 if ($arrResult) {
                     $errors[] = 'Tiêu đề bài đăng này đã tồn tại trong danh mục này!';
@@ -277,6 +318,7 @@ class ContentController extends MyController {
                         'user_updated' => UID
                     );
 
+                    $serviceContent = $this->serviceLocator->get('My\Models\Content');
                     $intResult = $serviceContent->edit($arrParams, $intContentId);
 
                     if ($intResult) {
@@ -296,7 +338,8 @@ class ContentController extends MyController {
         );
     }
 
-    public function deleteAction() {
+    public function deleteAction()
+    {
         $paramsRoute = $this->params()->fromRoute();
         if ($this->request->isPost()) {
             $params = $this->params()->fromPost();
@@ -306,10 +349,18 @@ class ContentController extends MyController {
 
             //find Content in system
             $instanceSearchContent = new \My\Search\Content();
-            $content = $instanceSearchContent->getDetail(['cont_id' => $params['cont_id'], 'not_cont_status' => -1]);
+            $content = $instanceSearchContent->getDetail(
+                [
+                    'cont_id' => $params['cont_id'],
+                    'not_cont_status' => -1
+                ],
+                [
+                    'cont_id'
+                ]
+            );
 
             if (empty($content)) {
-                return $this->getResponse()->setContent(json_encode(array('st' => -1, 'ms' => 'Rao vặt này không tồn tại trong hệ thống!')));
+                return $this->getResponse()->setContent(json_encode(array('st' => -1, 'ms' => 'Tin này không tồn tại trong hệ thống!')));
             }
 
             $serviceContent = $this->serviceLocator->get('My\Models\Content');
@@ -319,13 +370,14 @@ class ContentController extends MyController {
                 $serviceLogs = $this->serviceLocator->get('My\Models\Logs');
                 $arrLog = General::createLogs($paramsRoute, $params, $content['cont_id']);
                 $serviceLogs->add($arrLog);
-                return $this->getResponse()->setContent(json_encode(array('st' => 1, 'ms' => 'Xóa tin rao vặt thành công!')));
+                return $this->getResponse()->setContent(json_encode(array('st' => 1, 'ms' => 'Xoá tin thành công!')));
             }
             return $this->getResponse()->setContent(json_encode(array('st' => -1, 'ms' => 'Xảy ra lỗi trong quá trình xử lý ! Vui lòng thử lại!')));
         }
     }
 
-    public function upvipAction() {
+    public function upvipAction()
+    {
         $params_route = $this->params()->fromRoute();
         if ($this->request->isPost()) {
             $params = $this->params()->fromPost();
@@ -344,7 +396,7 @@ class ContentController extends MyController {
             $data = [
                 'is_vip' => 1,
                 'vip_type' => $params['type_vip'],
-                'expired_time' => time() + ((int) $params['num_date'] * 60 * 60 * 24),
+                'expired_time' => time() + ((int)$params['num_date'] * 60 * 60 * 24),
                 'updated_date' => time(),
                 'user_updated' => UID
             ];
@@ -364,7 +416,8 @@ class ContentController extends MyController {
         }
     }
 
-    public function testAction() {
+    public function testAction()
+    {
         echo 'Thành cmn công rồi nhé!';
         die();
     }

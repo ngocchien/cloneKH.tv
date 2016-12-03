@@ -38,7 +38,7 @@ var Content = {
             });
 
             $('button[name=deal-vip]').on('click', function () {
-                var cont_id = $('input[name=cont_id').val();
+                var cont_id = $('input[name=cont_id]').val();
                 var num_date = $('input[name=numdate]').val();
                 var type_vip = $('input[name=typevip]:checked').val();
                 if (!num_date || num_date < 1) {
