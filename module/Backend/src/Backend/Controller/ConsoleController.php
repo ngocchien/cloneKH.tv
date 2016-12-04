@@ -2394,4 +2394,29 @@ class ConsoleController extends MyController
         }
     }
 
+    public function checkProcessAction()
+    {
+        $params = $this->request->getParams();
+        $process_name = $params['name'];
+        if (empty($process_name)) {
+            return true;
+        }
+
+        exec("ps -ef | grep -v grep | grep '.$process_name.' | awk '{ print $2 }'", $PID);
+        exec("ps -ef | grep -v grep | grep update-new-key | awk '{ print $2 }'", $current_PID);
+
+        if (empty($PID)) {
+            switch ($process_name) {
+                case 'update-new-key':
+                    //find last id
+                    //$file = '/var/www/khampha/html/logs/updateKW.txt';
+                    $last_id = exec('tail -n 1 /var/www/khampha/html/logs/updateKW.txt');
+                    shell_exec('php ' . PUBLIC_PATH . '/index.php update-new-key --id=' . $last_id . ' --pid=' . current($current_PID));
+                    break;
+            }
+        }
+
+        return true;
+    }
+
 }

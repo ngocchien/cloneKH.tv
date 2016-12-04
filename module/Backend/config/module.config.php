@@ -181,6 +181,16 @@ return array(
                             'action' => 'update-new-key'
                         ),
                     ),
+                ),
+                'check-process' => array(
+                    'options' => array(
+                        'route' => 'check-process [--name=]',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'check-process'
+                        ),
+                    ),
                 )
             )
         )
