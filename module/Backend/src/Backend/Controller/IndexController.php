@@ -17,29 +17,25 @@ class IndexController extends MyController
 
     public function test($arrParams)
     {
-        $config_fb = General::$config_fb;
-//        bai-viet/sai-lam-chien-luoc-khi-san-nguoi-ngoai-hanh-tinh-59339.html
-        $url_content = 'http://khampha.tech/bai-viet/' . $arrParams['cont_slug'] . '-' . $arrParams['cont_id'] . '.html';
-        $data = array(
-            "access_token" => $config_fb['access_token'],
-            "message" => $arrParams['cont_title'],
-            "link" => $url_content,
-            "picture" => $arrParams['cont_main_image'],
-            "name" => $arrParams['cont_title'],
-            "caption" => "khampha.tech",
-            "description" => $arrParams['cont_description']
-        );
-        $post_url = 'https://graph.facebook.com/' . $config_fb['fb_id'] . '/feed';
         try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $post_url);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            //$return = curl_exec($ch);
-            curl_close($ch);
-            echo \My\General::getColoredString("Post 1 content to facebook success cont_id = {$arrParams['cont_id']}", 'green');
-            return true;
+            $config_fb = General::$config_fb;
+            try {
+                $fb = new \Facebook\Facebook([
+                    'app_id' => $config_fb['appId'],
+                    'app_secret' => $config_fb['secret']
+                ]);
+                $fb->setDefaultAccessToken($arrParams['access_token']);
+                $rp = $fb->post('/me/feed', ['link' => 'https://web.facebook.com/khampha.tech/posts/' . $arrParams['post_id']]);
+                echo \My\General::getColoredString(json_decode($rp->getBody(), true), 'green');
+                echo \My\General::getColoredString('Share post id ' . $arrParams['post_id'] . ' to facebook ' . $arrParams['name'] . ' SUCCESS', 'green');
+                unset($data, $return, $arrParams, $rp, $config_fb);
+                return true;
+            } catch (\Exception $exc) {
+                echo \My\General::getColoredString($exc->getMessage(), 'red');
+                echo \My\General::getColoredString('Share post id ' . $arrParams['post_id'] . ' to facebook ' . $arrParams['name'] . ' ERROR', 'red');
+                return true;
+            }
+
         } catch (Exception $e) {
             echo \My\General::getColoredString($e->getMessage(), 'red');
             return true;
