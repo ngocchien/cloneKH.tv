@@ -57,7 +57,7 @@ class SearchController extends MyController
             $this->renderer->headMeta()->appendName('og:url', \My\General::SITE_DOMAIN_FULL . $this->url()->fromRoute('search', ['keyword' => $params['keyword'], 'page' => $intPage]));
             $this->renderer->headMeta()->appendName('title', html_entity_decode('Tìm kiếm - ' . $params['keyword'] . General::TITLE_META));
             $this->renderer->headMeta()->setProperty('og:title', html_entity_decode('Tìm kiếm - ' . $params['keyword'] . General::TITLE_META));
-            $this->renderer->headMeta()->appendName('keywords', html_entity_decode($params['keyword']));
+            $this->renderer->headMeta()->appendName('keywords', html_entity_decode($params['keyword'],str_replace('')));
             $this->renderer->headMeta()->appendName('description', html_entity_decode($params['keyword']));
             $this->renderer->headMeta()->setProperty('og:description', html_entity_decode($params['keyword']));
 

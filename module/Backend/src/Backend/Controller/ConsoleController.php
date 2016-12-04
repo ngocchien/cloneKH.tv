@@ -2021,26 +2021,10 @@ class ConsoleController extends MyController
         $client = new \Google_Client();
         $client->setDeveloperKey($google_config['key']);
 
-        $videoPath = '/var/source/video/my_file.mp4';
-
         // Define an object that will be used to make all API requests.
         $youtube = new \Google_Service_YouTube($client);
 
         try {
-//            https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&maxResults=25&key=API_KEY
-            //get channel of user
-//            $searchResponse = $youtube->channels->listChannels(
-//                'snippet', array(
-//                    'forUsername' => 'HongAnEntertainment',
-//                    'maxResults' => 50
-//                )
-//            );
-
-//                                $youtube->playlistItems->listPlaylistItems('snippet', array(
-//                                'channelId' => $channel_id,
-//                                'maxResults' => 50
-//                            ));
-
             $arr_channel = [
                 '28' => [ //Videos Hài Hước
                     'UCwmurIyZ6FHyVPtKppe_2_A', //https://www.youtube.com/channel/UCwmurIyZ6FHyVPtKppe_2_A/videos -- DIEN QUAN Comedy / Hài
