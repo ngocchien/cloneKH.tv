@@ -2099,6 +2099,9 @@ class ConsoleController extends MyController
                 ]
             ];
             foreach ($arr_channel as $cate_id => $channels) {
+                if ($cate_id < 30) {
+                    continue;
+                }
                 foreach ($channels as $channel_id) {
                     $token_page = null;
                     for ($i = 0; $i <= 1000; $i++) {
@@ -2129,8 +2132,21 @@ class ConsoleController extends MyController
                         $token_page = $searchResponse->getNextPageToken();
 
                         foreach ($searchResponse->getItems() as $item) {
+                            if (empty($item) || empty($item->getSnippet())) {
+                                continue;
+                            }
                             $id = $item->getId()->getVideoId();
+
+                            if (empty($id)) {
+                                continue;
+                            }
+
                             $title = $item->getSnippet()->getTitle();
+
+                            if (empty($title)) {
+                                continue;
+                            }
+
                             $description = $item->getSnippet()->getDescription();
                             $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
 

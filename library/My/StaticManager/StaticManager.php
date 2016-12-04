@@ -26,7 +26,7 @@ class StaticManager {
         switch ($strModule) {
             case 'frontend':
                 $this->arrData['css']['defaultCSS'] = STATIC_URL . '/f/' . FRONTEND_TEMPLATE . '/css/??theme.min.css';
-                $this->arrData['js']['defaultJS'] = STATIC_URL . '/f/' . FRONTEND_TEMPLATE . '/js/library/??jquery.min.js,jquery.validate.min.js,jquery.validate.unobtrusive.min.js,jquery.raty.min.js,jquery.waypoints.min.js,jquery.sticky.min.js,jquery.bxslider.min.js,main.min.js';
+                $this->arrData['js']['defaultJS'] = STATIC_URL . '/f/' . FRONTEND_TEMPLATE . '/js/library/??jquery.min.js,jquery.sticky.min.js,jquery.bxslider.min.js,main.min.js';
                 break;
             case 'backend':
                 $this->arrData['css']['defaultCSS'] = STATIC_URL . '/b/css/??bootstrap.min.css,bootstrap-reset.css,font-awesome.css,style.css,style-responsive.css,datepicker.css';
