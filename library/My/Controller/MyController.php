@@ -187,6 +187,7 @@ class MyController extends AbstractActionController
                     $arrCategoryFormat[$arrCategory['cate_id']] = $arrCategory;
                 }
             }
+            ksort($arrCategoryByParent);
             define('ARR_CATEGORY_PARENT', serialize($arrCategoryParentList));
             define('ARR_CATEGORY_BY_PARENT', serialize($arrCategoryByParent));
             define('ARR_CATEGORY', serialize($arrCategoryFormat));

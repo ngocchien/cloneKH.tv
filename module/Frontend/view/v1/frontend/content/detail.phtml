@@ -61,7 +61,7 @@
         </div>
         <?php echo in_array($this->arrContent['cate_id'], \My\General::$cate_videos) ? '<p>' . $this->arrContent['cont_detail'] . '</p>' : $this->arrContent['cont_detail']; ?>
         <?php if (in_array($this->arrContent['cate_id'], \My\General::$cate_videos)): ?>
-            <iframe width="854" height="480"
+            <iframe width="700" height="400"
                     src="https://www.youtube.com/embed/<?php echo $this->arrContent['from_source'] ?>" frameborder="0"
                     allowfullscreen></iframe>
         <?php endif; ?>
@@ -103,8 +103,11 @@
                     <li>
                         <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>">
                             <?php echo $arr_content['cont_title']; ?>
-                            <span><?php echo number_format($arr_content['cont_views'], 0, ",", "."); ?>
-                                người xem</span>
+                            <span>
+                                <?php echo number_format($arr_content['cont_views'], 0, ",", "."); ?>
+                                người xem
+                            </span>
+                            <?php echo in_array($arr_content['cate_id'], \My\General::$cate_videos) ? '<img src ="' . STATIC_URL . '/f/v1/images/video_icon-sm.png" title="videos"/>' : '' ?>
                         </a>
                     </li>
                 <?php endforeach;
@@ -166,7 +169,8 @@
     <div class="more-news latest">
         <div class="list-title">Bài viết mới nhất</div>
         <ul class="clearfix">
-            <?php foreach ($this->arrContentNews as $arr_content): ?>
+            <?php foreach ($this->arrContentNews as $arr_content):
+                ?>
                 <li>
                     <a href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>">
                         <span class="thumb-detail">
@@ -174,6 +178,7 @@
                                  alt="<?php echo $arr_content['cont_title'] ?>"/>
                         </span>
                         <span><?php echo $arr_content['cont_title'] ?></span>
+                        <?php echo in_array($arr_content['cate_id'], \My\General::$cate_videos) ? '<img src ="' . STATIC_URL . '/f/v1/images/video_icon-sm.png" title="videos"/>' : '' ?>
                     </a>
                 </li>
             <?php endforeach; ?>
@@ -198,6 +203,7 @@
                                  alt="<?php echo $arr_content['cont_title'] ?>"/>
                         </span>
                             <span><?php echo $arr_content['cont_title'] ?></span>
+                            <?php echo in_array($arr_content['cate_id'], \My\General::$cate_videos) ? '<img src ="' . STATIC_URL . '/f/v1/images/video_icon-sm.png" title="videos"/>' : '' ?>
                         </a>
                     </li>
                 <?php endforeach;
@@ -241,6 +247,20 @@
     },
     "description": "<?php echo $this->metaDescription ?>"
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

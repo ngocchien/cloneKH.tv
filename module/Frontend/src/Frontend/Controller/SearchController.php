@@ -41,7 +41,8 @@ class SearchController extends MyController
                     'cont_slug',
                     'cont_main_image',
                     'cont_description',
-                    'cont_id'
+                    'cont_id',
+                    'cate_id'
                 ]
             );
 
@@ -131,7 +132,8 @@ class SearchController extends MyController
                     'cont_slug',
                     'cont_main_image',
                     'cont_description',
-                    'cont_id'
+                    'cont_id',
+                    'cate_id'
                 ]
             );
             $intTotal = $instanceSearchContent->getTotal(['full_text_title' => $arrKeyDetail['key_name']]);

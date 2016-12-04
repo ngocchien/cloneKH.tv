@@ -33,7 +33,8 @@ class IndexController extends MyController
                     'cont_slug',
                     'cont_main_image',
                     'cont_description',
-                    'cont_id'
+                    'cont_id',
+                    'cate_id'
                 ]
             );
             return [

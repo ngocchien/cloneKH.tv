@@ -37,6 +37,7 @@ $arr_key_id = array_keys($this->arrKeywordList);
                         <a class="title"
                            href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>">
                             <?php echo $arr_content['cont_title']; ?>
+                            <?php echo in_array($arr_content['cate_id'], \My\General::$cate_videos) ? '<img src ="' . STATIC_URL . '/f/v1/images/video_icon-sm.png" title="videos"/>' : '' ?>
                         </a>
                         <a class="thumb"
                            href="<?php echo $this->serverUrl() . $this->Url('view-content', ['contentSlug' => $arr_content['cont_slug'], 'contentId' => $arr_content['cont_id']]) ?>"
@@ -44,7 +45,8 @@ $arr_key_id = array_keys($this->arrKeywordList);
                             <img src="<?php echo $arr_content['cont_main_image'] ?>"
                                  alt="<?php echo $arr_content['cont_title'] ?>"/>
                         </a>
-                        <div class="desc"><?php echo $arr_content['cont_description'] ?>
+                        <div
+                            class="desc"><?php echo $arr_content['cont_description'] ? $arr_content['cont_description'] : $arr_content['cont_title']; ?>
                             <?php if (in_array($key_temp, $arr_key_id)): ?>
                                 <div class="link">
                                     <a href="<?php echo $this->serverUrl() . $this->Url('keyword', array('keySlug' => $this->arrKeywordList[$key_temp]['key_slug'], 'keyId' => $this->arrKeywordList[$key_temp]['key_id'])) ?>"
@@ -80,28 +82,8 @@ $arr_key_id = array_keys($this->arrKeywordList);
                     </div>
                 <?php endif; ?>
                 <?php endforeach; ?>
-                <!--        </ul>-->
-                <!--    </div>-->
-                <!--    <div id="adindexcenter" class="adbox" style="margin-bottom:20px">-->
-                <!--        <!-- KhoaHoc Cat Resp -->
-                <!--        <script>-->
-                <!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
-                <!--        </script>-->
-                <!--    </div>-->
-                <!--    <div class="listview">-->
-                <!--        <ul>-->
             </ul>
         </div>
     <?php endif; ?>
-    <!--    <div id="adindexcenter" class="adbox" style="margin-bottom:20px">-->
-    <!--        <!-- khampha content -->
-    <!--        <ins class="adsbygoogle"-->
-    <!--             style="display:inline-block;width:728px;height:90px"-->
-    <!--             data-ad-client="ca-pub-4608570842050780"-->
-    <!--             data-ad-slot="5752635152"></ins>-->
-    <!--        <script>-->
-    <!--            (adsbygoogle = window.adsbygoogle || []).push({});-->
-    <!--        </script>-->
-    <!--    </div>-->
     <?php echo $this->paging ?>
 </div>

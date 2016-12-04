@@ -2021,8 +2021,11 @@ class ConsoleController extends MyController
         $client = new \Google_Client();
         $client->setDeveloperKey($google_config['key']);
 
+        $videoPath = '/var/source/video/my_file.mp4';
+
         // Define an object that will be used to make all API requests.
         $youtube = new \Google_Service_YouTube($client);
+
         try {
 //            https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&maxResults=25&key=API_KEY
             //get channel of user
@@ -2032,6 +2035,11 @@ class ConsoleController extends MyController
 //                    'maxResults' => 50
 //                )
 //            );
+
+//                                $youtube->playlistItems->listPlaylistItems('snippet', array(
+//                                'channelId' => $channel_id,
+//                                'maxResults' => 50
+//                            ));
 
             $arr_channel = [
                 '28' => [ //Videos Hài Hước
@@ -2102,15 +2110,14 @@ class ConsoleController extends MyController
                     'UCXVmFKJdknhsl-Co6gUAhOA', //https://www.youtube.com/channel/UCXVmFKJdknhsl-Co6gUAhOA -- Captain Football VN
                     'UCZNoTFTsrWXA-dXElRm90bA' //https://www.youtube.com/channel/UCZNoTFTsrWXA-dXElRm90bA -- Hài Bóng Đá
                 ],
-//                '27' => [//gamming
-//                    'UU2l8G7UE41Vaby59Dfg6r3w' //gamming
-//                ]
+                '27' => [//gamming
+                    'UU2l8G7UE41Vaby59Dfg6r3w' //gamming
+                ]
             ];
             foreach ($arr_channel as $cate_id => $channels) {
                 foreach ($channels as $channel_id) {
                     $token_page = null;
                     for ($i = 0; $i <= 1000; $i++) {
-                        echo \My\General::getColoredString("Start channel Id = {$channel_id} page {$i} , token page {$token_page} \n", 'green');
                         if ($i == 0) {
                             $searchResponse = $youtube->search->listSearch(
                                 'snippet', array(
@@ -2129,11 +2136,6 @@ class ConsoleController extends MyController
                                     'pageToken' => $token_page
                                 )
                             );
-//                                $youtube->playlistItems->listPlaylistItems('snippet', array(
-//                                'playlistId' => $channel_id,
-//                                'maxResults' => 50,
-//                                'pageToken' => $token_page
-//                            ));
                         }
 
                         if (empty($searchResponse) || empty($searchResponse->getItems())) {
@@ -2142,32 +2144,30 @@ class ConsoleController extends MyController
 
                         $token_page = $searchResponse->getNextPageToken();
 
-                        foreach ($searchResponse->getItems() as $key => $item) {
-                            try {
-                                $id = $item->getId()->getVideoId();
-                                if (empty($id)) {
-                                    continue;
-                                }
-                                $title = $item->getSnippet()->getTitle();
-                                $description = $item->getSnippet()->getDescription();
-
-                                if (empty($item->getSnippet()->getThumbnails())) {
-                                    continue;
-                                }
-
-                                $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
-                            } catch (\Exception $exc) {
-                                echo \My\General::getColoredString("ERRRORR :    {$key}", 'red');
-                            }
+                        foreach ($searchResponse->getItems() as $item) {
+                            $id = $item->getId()->getVideoId();
+                            $title = $item->getSnippet()->getTitle();
+                            $description = $item->getSnippet()->getDescription();
+                            $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
 
                             //
                             $is_exits = $instanceSearchContent->getDetail([
                                 'cont_slug' => General::getSlug($title),
                                 'status' => 1
                             ]);
+
                             if (!empty($is_exits)) {
                                 echo \My\General::getColoredString("content title = {$title} is exits \n", 'red');
                                 continue;
+                            }
+
+                            //crawler avatar
+
+                            if (!empty($main_image)) {
+                                $extension = end(explode('.', end(explode('/', $main_image))));
+                                $name = General::getSlug($title) . '.' . $extension;
+                                file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($main_image));
+                                $main_image = STATIC_URL . '/uploads/content/' . $name;
                             }
 
                             $arr_data_content = [
@@ -2178,7 +2178,7 @@ class ConsoleController extends MyController
                                 'created_date' => time(),
                                 'user_created' => 1,
                                 'cate_id' => $cate_id,
-                                'cont_description' => $title,
+                                'cont_description' => $description ? $description : $title,
                                 'cont_status' => 1,
                                 'cont_views' => 0,
                                 'method' => 'crawler',

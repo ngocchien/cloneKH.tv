@@ -49,74 +49,6 @@ class IndexController extends MyController
     public function indexAction()
     {
         return;
-        $this->__khoahocTV();
-        return;
-        try {
-            $google_config = General::$google_config;
-            $client = new \Google_Client();
-            $client->setDeveloperKey($google_config['key']);
-
-            $videoPath = '/var/source/video/my_file.mp4';
-
-            // Define an object that will be used to make all API requests.
-            $youtube = new \Google_Service_YouTube($client);
-            $snippet = new \Google_Service_YouTube_VideoSnippet();
-            $snippet->setTitle("Test title");
-            $snippet->setDescription("Test description");
-            $snippet->setTags(array("tag1", "tag2"));
-            $snippet->setCategoryId("22");
-
-            //status
-            $status = new \Google_Service_YouTube_VideoStatus();
-            $status->privacyStatus = "public";
-
-            //videos
-            $video = new \Google_Service_YouTube_Video();
-            $video->setSnippet($snippet);
-            $video->setStatus($status);
-
-            $chunkSizeBytes = 1 * 1024 * 1024;
-            $client->setDefer(true);
-
-            $insertRequest = $youtube->videos->insert("status,snippet", $video);
-
-            // Create a MediaFileUpload object for resumable uploads.
-            $media = new \Google_Http_MediaFileUpload(
-                $client,
-                $insertRequest,
-                'video/*',
-                null,
-                true,
-                $chunkSizeBytes
-            );
-            $media->setFileSize(filesize($videoPath));
-
-            $status = false;
-            $handle = fopen($videoPath, "rb");
-            while (!$status && !feof($handle)) {
-                $chunk = fread($handle, $chunkSizeBytes);
-                $status = $media->nextChunk($chunk);
-            }
-
-            fclose($handle);
-
-            // If you want to make other calls after the file upload, set setDefer back to false
-            $client->setDefer(false);
-
-            echo '<pre>';
-            print_r($status);
-            echo '</pre>';
-            die();
-        } catch (\Exception $exc) {
-            echo '<pre>';
-            print_r([
-                'code' => $exc->getCode(),
-                'message' => $exc->getMessage()
-            ]);
-            echo '</pre>';
-            die();
-        }
-//        return;
 //        $arr_cate_yahoo = [
 //            '28' => [
 //                'https://vn.answers.yahoo.com/dir/index?sid=396545401',
@@ -175,53 +107,6 @@ class IndexController extends MyController
 
         // Define an object that will be used to make all API requests.
         $youtube = new \Google_Service_YouTube($client);
-        $snippet = new \Google_Service_YouTube_VideoSnippet();
-        $snippet->setTitle("Test title");
-        $snippet->setDescription("Test description");
-        $snippet->setTags(array("tag1", "tag2"));
-        $snippet->setCategoryId("22");
-
-        //status
-        $status = new \Google_Service_YouTube_VideoStatus();
-        $status->privacyStatus = "public";
-
-        //videos
-        $video = new \Google_Service_YouTube_Video();
-        $video->setSnippet($snippet);
-        $video->setStatus($status);
-
-        $chunkSizeBytes = 1 * 1024 * 1024;
-        $client->setDefer(true);
-
-        $insertRequest = $youtube->videos->insert("status,snippet", $video);
-
-        // Create a MediaFileUpload object for resumable uploads.
-        $media = new Google_Http_MediaFileUpload(
-            $client,
-            $insertRequest,
-            'video/*',
-            null,
-            true,
-            $chunkSizeBytes
-        );
-        $media->setFileSize(filesize($videoPath));
-
-        $status = false;
-        $handle = fopen($videoPath, "rb");
-        while (!$status && !feof($handle)) {
-            $chunk = fread($handle, $chunkSizeBytes);
-            $status = $media->nextChunk($chunk);
-        }
-
-        fclose($handle);
-
-        // If you want to make other calls after the file upload, set setDefer back to false
-        $client->setDefer(false);
-
-        echo '<pre>';
-        print_r($status);
-        echo '</pre>';
-        die();
 
         try {
 //            https://www.googleapis.com/youtube/v3/videos?part=contentDetails&chart=mostPopular&regionCode=IN&maxResults=25&key=API_KEY
@@ -232,6 +117,11 @@ class IndexController extends MyController
 //                    'maxResults' => 50
 //                )
 //            );
+
+//                                $youtube->playlistItems->listPlaylistItems('snippet', array(
+//                                'channelId' => $channel_id,
+//                                'maxResults' => 50
+//                            ));
 
             $arr_channel = [
                 '28' => [ //Videos Hài Hước
@@ -302,56 +192,34 @@ class IndexController extends MyController
                     'UCXVmFKJdknhsl-Co6gUAhOA', //https://www.youtube.com/channel/UCXVmFKJdknhsl-Co6gUAhOA -- Captain Football VN
                     'UCZNoTFTsrWXA-dXElRm90bA' //https://www.youtube.com/channel/UCZNoTFTsrWXA-dXElRm90bA -- Hài Bóng Đá
                 ],
-//                '27' => [//gamming
-//                    'UU2l8G7UE41Vaby59Dfg6r3w' //gamming
-//                ]
+                '27' => [//gamming
+                    'UU2l8G7UE41Vaby59Dfg6r3w' //gamming
+                ]
             ];
             foreach ($arr_channel as $cate_id => $channels) {
                 foreach ($channels as $channel_id) {
-//                    $channel_info = $youtube->search->listSearch(
-//                        'snippet', array(
-//                            'channelId' => 'UCM4srUfoYLk0n21HqAa5bCA',
-//                            'maxResults' => 50
-//                        )
-//                    );
-//                    echo '<pre>';
-//                    print_r($channel_info);
-//                    echo '</pre>';
-//                    die();
                     $token_page = null;
                     for ($i = 0; $i <= 1000; $i++) {
                         if ($i == 0) {
                             $searchResponse = $youtube->search->listSearch(
                                 'snippet', array(
-                                    'channelId' => 'UCM4srUfoYLk0n21HqAa5bCA',
+                                    'channelId' => $channel_id,
                                     'maxResults' => 50
                                 )
                             );
-//                                $youtube->playlistItems->listPlaylistItems('snippet', array(
-//                                'channelId' => $channel_id,
-//                                'maxResults' => 50
-//                            ));
                         } else {
                             if (empty($token_page)) {
                                 break;
                             }
                             $searchResponse = $youtube->search->listSearch(
                                 'snippet', array(
-                                    'channelId' => 'UCM4srUfoYLk0n21HqAa5bCA',
+                                    'channelId' => $channel_id,
                                     'maxResults' => 50,
                                     'pageToken' => $token_page
                                 )
                             );
-//                                $youtube->playlistItems->listPlaylistItems('snippet', array(
-//                                'playlistId' => $channel_id,
-//                                'maxResults' => 50,
-//                                'pageToken' => $token_page
-//                            ));
                         }
-                        echo '<pre>';
-                        print_r($searchResponse);
-                        echo '</pre>';
-                        die();
+
                         if (empty($searchResponse) || empty($searchResponse->getItems())) {
                             break;
                         }
@@ -363,14 +231,25 @@ class IndexController extends MyController
                             $title = $item->getSnippet()->getTitle();
                             $description = $item->getSnippet()->getDescription();
                             $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
+
                             //
                             $is_exits = $instanceSearchContent->getDetail([
                                 'cont_slug' => General::getSlug($title),
                                 'status' => 1
                             ]);
+
                             if (!empty($is_exits)) {
                                 echo \My\General::getColoredString("content title = {$title} is exits \n", 'red');
                                 continue;
+                            }
+
+                            //crawler avatar
+
+                            if (!empty($main_image)) {
+                                $extension = end(explode('.', end(explode('/', $main_image))));
+                                $name = General::getSlug($title) . '.' . $extension;
+                                file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($main_image));
+                                $main_image = STATIC_URL . '/uploads/content/' . $name;
                             }
 
                             $arr_data_content = [
@@ -381,7 +260,7 @@ class IndexController extends MyController
                                 'created_date' => time(),
                                 'user_created' => 1,
                                 'cate_id' => $cate_id,
-                                'cont_description' => $title,
+                                'cont_description' => $description ? $description : $title,
                                 'cont_status' => 1,
                                 'cont_views' => 0,
                                 'method' => 'crawler',
@@ -924,5 +803,74 @@ class IndexController extends MyController
             $this->flush();
         }
         die('eee');
+    }
+
+    public function uploadVideoAction()
+    {
+        try {
+            $google_config = General::$google_config;
+            $client = new \Google_Client();
+            $client->setDeveloperKey($google_config['key']);
+
+            $videoPath = '/var/source/video/my_file.mp4';
+
+            // Define an object that will be used to make all API requests.
+            $youtube = new \Google_Service_YouTube($client);
+            $snippet = new \Google_Service_YouTube_VideoSnippet();
+            $snippet->setTitle("Test title");
+            $snippet->setDescription("Test description");
+            $snippet->setTags(array("tag1", "tag2"));
+            $snippet->setCategoryId("22");
+
+            //status
+            $status = new \Google_Service_YouTube_VideoStatus();
+            $status->privacyStatus = "public";
+
+            //videos
+            $video = new \Google_Service_YouTube_Video();
+            $video->setSnippet($snippet);
+            $video->setStatus($status);
+
+            $chunkSizeBytes = 1 * 1024 * 1024;
+            $client->setDefer(true);
+
+            $insertRequest = $youtube->videos->insert("status,snippet", $video);
+
+            // Create a MediaFileUpload object for resumable uploads.
+            $media = new \Google_Http_MediaFileUpload(
+                $client,
+                $insertRequest,
+                'video/*',
+                null,
+                true,
+                $chunkSizeBytes
+            );
+            $media->setFileSize(filesize($videoPath));
+
+            $status = false;
+            $handle = fopen($videoPath, "rb");
+            while (!$status && !feof($handle)) {
+                $chunk = fread($handle, $chunkSizeBytes);
+                $status = $media->nextChunk($chunk);
+            }
+
+            fclose($handle);
+
+            // If you want to make other calls after the file upload, set setDefer back to false
+            $client->setDefer(false);
+
+            echo '<pre>';
+            print_r($status);
+            echo '</pre>';
+            die();
+        } catch (\Exception $exc) {
+            echo '<pre>';
+            print_r([
+                'code' => $exc->getCode(),
+                'message' => $exc->getMessage()
+            ]);
+            echo '</pre>';
+            die();
+        }
     }
 }
