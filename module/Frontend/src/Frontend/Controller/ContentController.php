@@ -123,7 +123,8 @@ class ContentController extends MyController
                     'cont_main_image',
                     'cont_description',
                     'cont_id',
-                    'cate_id'
+                    'cate_id',
+                    'cont_views'
                 ]
             );
 
