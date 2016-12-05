@@ -2174,7 +2174,7 @@ class ConsoleController extends MyController
                         $id = $serviceContent->add($arr_data_content);
                         if ($id) {
                             $arr_data_content['cont_id'] = $id;
-                            //$this->postToFb($arr_data_content);
+                            $this->postToFb($arr_data_content);
                             echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
                         } else {
                             echo \My\General::getColoredString("Can not insert content db", 'red');
