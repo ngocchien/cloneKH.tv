@@ -2099,14 +2099,12 @@ class ConsoleController extends MyController
                 ]
             ];
             foreach ($arr_channel as $cate_id => $channels) {
-                if ($cate_id < 30) {
-                    continue;
-                }
                 foreach ($channels as $channel_id) {
                     $searchResponse = $youtube->search->listSearch(
                         'snippet', array(
                             'channelId' => $channel_id,
-                            'maxResults' => 50
+                            'maxResults' => 50,
+                            'order' => 'date'
                         )
                     );
 
@@ -2114,7 +2112,8 @@ class ConsoleController extends MyController
                         continue;
                     }
 
-                    foreach ($searchResponse->getItems() as $item) {
+                    foreach ($searchResponse->getItems() as $key => $item) {
+
                         if (empty($item) || empty($item->getSnippet())) {
                             continue;
                         }
