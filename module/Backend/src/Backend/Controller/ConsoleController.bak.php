@@ -2103,97 +2103,115 @@ class ConsoleController extends MyController
                     continue;
                 }
                 foreach ($channels as $channel_id) {
-                    $searchResponse = $youtube->search->listSearch(
-                        'snippet', array(
-                            'channelId' => $channel_id,
-                            'maxResults' => 50
-                        )
-                    );
-
-                    if (empty($searchResponse) || empty($searchResponse->getItems())) {
-                        continue;
-                    }
-
-                    foreach ($searchResponse->getItems() as $item) {
-                        if (empty($item) || empty($item->getSnippet())) {
-                            continue;
-                        }
-                        $id = $item->getId()->getVideoId();
-
-                        if (empty($id)) {
-                            continue;
-                        }
-
-                        $title = $item->getSnippet()->getTitle();
-
-                        if (empty($title)) {
-                            continue;
-                        }
-
-                        $description = $item->getSnippet()->getDescription();
-                        $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
-
-                        //
-                        $is_exits = $instanceSearchContent->getDetail([
-                            'cont_slug' => General::getSlug($title),
-                            'status' => 1
-                        ]);
-
-                        if (!empty($is_exits)) {
-                            echo \My\General::getColoredString("content title = {$title} is exits \n", 'red');
-                            continue;
-                        }
-
-                        //crawler avatar
-
-                        if (!empty($main_image)) {
-                            $extension = end(explode('.', end(explode('/', $main_image))));
-                            $name = General::getSlug($title) . '.' . $extension;
-                            file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($main_image));
-                            $main_image = STATIC_URL . '/uploads/content/' . $name;
-                        }
-
-                        $arr_data_content = [
-                            'cont_title' => $title,
-                            'cont_slug' => General::getSlug($title),
-                            'cont_main_image' => $main_image,
-                            'cont_detail' => html_entity_decode($description),
-                            'created_date' => time(),
-                            'user_created' => 1,
-                            'cate_id' => $cate_id,
-                            'cont_description' => $description ? $description : $title,
-                            'cont_status' => 1,
-                            'cont_views' => 0,
-                            'method' => 'crawler',
-                            'from_source' => $id,
-                            'meta_keyword' => str_replace(' ', ',', $title),
-                            'updated_date' => time()
-                        ];
-
-                        $serviceContent = $this->serviceLocator->get('My\Models\Content');
-                        $id = $serviceContent->add($arr_data_content);
-                        if ($id) {
-                            $arr_data_content['cont_id'] = $id;
-                            //$this->postToFb($arr_data_content);
-                            echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
+                    $token_page = null;
+                    for ($i = 0; $i <= 1000; $i++) {
+                        if ($i == 0) {
+                            $searchResponse = $youtube->search->listSearch(
+                                'snippet', array(
+                                    'channelId' => $channel_id,
+                                    'maxResults' => 50
+                                )
+                            );
                         } else {
-                            echo \My\General::getColoredString("Can not insert content db", 'red');
+                            if (empty($token_page)) {
+                                break;
+                            }
+                            $searchResponse = $youtube->search->listSearch(
+                                'snippet', array(
+                                    'channelId' => $channel_id,
+                                    'maxResults' => 50,
+                                    'pageToken' => $token_page
+                                )
+                            );
                         }
-                        unset($serviceContent);
-                        unset($arr_data_content);
-                        $this->flush();
-                        continue;
+
+                        if (empty($searchResponse) || empty($searchResponse->getItems())) {
+                            break;
+                        }
+
+                        $token_page = $searchResponse->getNextPageToken();
+
+                        foreach ($searchResponse->getItems() as $item) {
+                            if (empty($item) || empty($item->getSnippet())) {
+                                continue;
+                            }
+                            $id = $item->getId()->getVideoId();
+
+                            if (empty($id)) {
+                                continue;
+                            }
+
+                            $title = $item->getSnippet()->getTitle();
+
+                            if (empty($title)) {
+                                continue;
+                            }
+
+                            $description = $item->getSnippet()->getDescription();
+                            $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
+
+                            //
+                            $is_exits = $instanceSearchContent->getDetail([
+                                'cont_slug' => General::getSlug($title),
+                                'status' => 1
+                            ]);
+
+                            if (!empty($is_exits)) {
+                                echo \My\General::getColoredString("content title = {$title} is exits \n", 'red');
+                                continue;
+                            }
+
+                            //crawler avatar
+
+                            if (!empty($main_image)) {
+                                $extension = end(explode('.', end(explode('/', $main_image))));
+                                $name = General::getSlug($title) . '.' . $extension;
+                                file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($main_image));
+                                $main_image = STATIC_URL . '/uploads/content/' . $name;
+                            }
+
+                            $arr_data_content = [
+                                'cont_title' => $title,
+                                'cont_slug' => General::getSlug($title),
+                                'cont_main_image' => $main_image,
+                                'cont_detail' => html_entity_decode($description),
+                                'created_date' => time(),
+                                'user_created' => 1,
+                                'cate_id' => $cate_id,
+                                'cont_description' => $description ? $description : $title,
+                                'cont_status' => 1,
+                                'cont_views' => 0,
+                                'method' => 'crawler',
+                                'from_source' => $id,
+                                'meta_keyword' => str_replace(' ', ',', $title),
+                                'updated_date' => time()
+                            ];
+
+                            $serviceContent = $this->serviceLocator->get('My\Models\Content');
+                            $id = $serviceContent->add($arr_data_content);
+                            if ($id) {
+                                $arr_data_content['cont_id'] = $id;
+                                //$this->postToFb($arr_data_content);
+                                echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
+                            } else {
+                                echo \My\General::getColoredString("Can not insert content db", 'red');
+                            }
+                            unset($serviceContent);
+                            unset($arr_data_content);
+                            $this->flush();
+                            continue;
+                        }
                     }
                 }
             }
-            return true;
+
         } catch (\Exception $exc) {
             echo '<pre>';
             print_r($exc->getMessage());
             echo '</pre>';
             die();
         }
-        return true;
+        die('DONE');
     }
 
     public function updateKeywordAction()
