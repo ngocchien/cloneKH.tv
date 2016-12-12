@@ -1219,7 +1219,7 @@ class ConsoleController extends MyController
                             echo \My\General::getColoredString("Exception image title = {$item_content_title} \n", 'red');
 //                            continue;
                         }
-
+                        sleep(5);
                         $arr_detail = $instanceSearchContent->getDetail(['cont_slug' => $arr_data_content['cont_slug'], 'not_cont_status' => -1]);
 
                         if (!empty($arr_detail)) {
@@ -2135,6 +2135,7 @@ class ConsoleController extends MyController
                         $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
 
                         //
+                        sleep(5);
                         $is_exits = $instanceSearchContent->getDetail([
                             'cont_slug' => General::getSlug($title),
                             'status' => 1
@@ -2175,7 +2176,11 @@ class ConsoleController extends MyController
                         $id = $serviceContent->add($arr_data_content);
                         if ($id) {
                             $arr_data_content['cont_id'] = $id;
-                            $this->postToFb($arr_data_content);
+
+                            //giảm lượng chia sẻ lên facebook
+                            if ($id % 20 == 0) {
+                                $this->postToFb($arr_data_content);
+                            }
                             echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
                         } else {
                             echo \My\General::getColoredString("Can not insert content db", 'red');
@@ -2334,7 +2339,7 @@ class ConsoleController extends MyController
                 if (empty($arr['key_id']) || !empty($arr['key_description'])) {
                     continue;
                 }
-                if($arr['key_id'] == 79375){
+                if ($arr['key_id'] == 79375) {
                     continue;
                 }
                 $last_id = $arr['key_id'];
@@ -2350,7 +2355,7 @@ class ConsoleController extends MyController
 
                 $gg_rp_dom = new Query($gg_rp);
                 $results = $gg_rp_dom->execute('.st');
-                if(!count($results)){
+                if (!count($results)) {
                     continue;
                 }
 
@@ -2370,7 +2375,7 @@ class ConsoleController extends MyController
                     file_put_contents($file, 'ERROR ID = ' . $arr['key_id'] . PHP_EOL, FILE_APPEND);
                     continue;
                 }
-                unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id, $url_gg,$results);
+                unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id, $url_gg, $results);
                 $this->flush();
 
                 //random sleep
