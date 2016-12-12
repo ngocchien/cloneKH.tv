@@ -58,6 +58,7 @@ $arrCategoryList = $this->arrCategoryList;
                         <tr>
                             <th class="text-center"><i class="icon-list"></i> ID</th>
                             <th class="text-center"><i class="icon-file-alt"></i> Tiêu đề bài viết</th>
+                            <th class="text-center"><i class="icon-file-alt"></i> Views</th>
                             <th class="text-center"><i class="icon-sort-by-alphabet"></i> Thuộc danh mục</th>
                             <th class="text-center"><i class="icon-calendar"></i> Ngày tạo</th>
                             <th class="text-center"><i class="icon-user"></i> Người tạo</th>
@@ -78,14 +79,9 @@ $arrCategoryList = $this->arrCategoryList;
                                         <a href="<?php echo $this->serverUrl() . $this->Url('backend', array('controller' => 'content', 'action' => 'edit', 'id' => $arrContent['cont_id'])); ?>">
                                             <b><?php echo $arrContent['cont_title']; ?></b>
                                         </a>
-                                        <?php
-                                        if ($arrContent['is_vip']):
-                                            $image = $arrContent['vip_type'] == \My\General::VIP_ALL_PAGE ? STATIC_URL . '/f/v1/images/s-vip.gif' : STATIC_URL . '/f/v1/images/vip2.gif';
-                                            $expired = ($arrContent['expired_time'] - time());
-                                            ?>
-                                            <img src="<?php echo $image; ?>">
-                                            <b><?php echo date('d/m/Y', $arrContent['expired_time']); ?></b>
-                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php echo number_format($arrContent['cont_views']); ?>
                                     </td>
                                     <td class="text-center">
                                         <?php echo $arrCategoryList[$arrContent['cate_id']]['cate_name']; ?>

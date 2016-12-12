@@ -4,7 +4,8 @@ namespace Backend\Controller;
 
 use My\General,
     My\Controller\MyController,
-    Sunra\PhpSimple\HtmlDomParser;
+    Sunra\PhpSimple\HtmlDomParser,
+    Zend\Dom\Query;
 
 class ConsoleController extends MyController
 {
@@ -2099,12 +2100,14 @@ class ConsoleController extends MyController
                 ]
             ];
             foreach ($arr_channel as $cate_id => $channels) {
+                if ($cate_id < 30) {
+                    continue;
+                }
                 foreach ($channels as $channel_id) {
                     $searchResponse = $youtube->search->listSearch(
                         'snippet', array(
                             'channelId' => $channel_id,
-                            'maxResults' => 50,
-                            'order' => 'date'
+                            'maxResults' => 50
                         )
                     );
 
@@ -2112,8 +2115,7 @@ class ConsoleController extends MyController
                         continue;
                     }
 
-                    foreach ($searchResponse->getItems() as $key => $item) {
-
+                    foreach ($searchResponse->getItems() as $item) {
                         if (empty($item) || empty($item->getSnippet())) {
                             continue;
                         }
@@ -2332,6 +2334,9 @@ class ConsoleController extends MyController
                 if (empty($arr['key_id']) || !empty($arr['key_description'])) {
                     continue;
                 }
+                if($arr['key_id'] == 79375){
+                    continue;
+                }
                 $last_id = $arr['key_id'];
 
                 //search vào gg
@@ -2341,12 +2346,20 @@ class ConsoleController extends MyController
                 $url_gg = 'https://www.google.com.vn/search?sclient=psy-ab&biw=1366&bih=212&espv=2&q=' . rawurlencode($arr['key_name']) . '&oq=' . rawurlencode($arr['key_name']);
 
                 $gg_rp = General::crawler($url_gg);
-                $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
+
+
+                $gg_rp_dom = new Query($gg_rp);
+                $results = $gg_rp_dom->execute('.st');
+                if(!count($results)){
+                    continue;
+                }
+
                 $key_description = '';
-                foreach ($gg_rp_dom->find('.srg .st') as $item) {
+
+                foreach ($results as $item) {
                     empty($key_description) ?
-                        $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
-                        $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
+                        $key_description .= '<p><strong>' . strip_tags($item->textContent) . '</strong></p>' :
+                        $key_description .= '<p>' . strip_tags($item->textContent) . '</p>';
                 }
 
                 $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
@@ -2357,7 +2370,7 @@ class ConsoleController extends MyController
                     file_put_contents($file, 'ERROR ID = ' . $arr['key_id'] . PHP_EOL, FILE_APPEND);
                     continue;
                 }
-                unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id, $url_gg);
+                unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id, $url_gg,$results);
                 $this->flush();
 
                 //random sleep

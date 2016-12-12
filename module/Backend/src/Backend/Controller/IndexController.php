@@ -45,6 +45,148 @@ class IndexController extends MyController
     public function indexAction()
     {
         return;
+        try {
+            $hr = 'http://www.youtube.com/get_video_info?&video_id=kjOyslGKq0A&asv=3&el=detailpage&hl=en_US';
+
+            $rp = General::crawler($hr);
+            $thumbnail_url = $title = $url_encoded_fmt_stream_map = $type = $url = '';
+            parse_str($rp);
+            $my_formats_array = explode(',', $url_encoded_fmt_stream_map);
+//            if(empty($url_encoded_fmt_stream_map)) {
+//
+//            }
+
+            $avail_formats[] = '';
+            $i = 0;
+            $ipbits = $ip = $itag = $sig = $quality = '';
+            $expire = time();
+            foreach ($my_formats_array as $format) {
+                parse_str($format);
+                $avail_formats[$i]['itag'] = $itag;
+                $avail_formats[$i]['quality'] = $quality;
+                $type = explode(';', $type);
+                $avail_formats[$i]['type'] = $type[0];
+                $avail_formats[$i]['url'] = urldecode($url) . '&signature=' . $sig;
+                parse_str(urldecode($url));
+                $avail_formats[$i]['expires'] = date("G:i:s T", $expire);
+                $avail_formats[$i]['ipbits'] = $ipbits;
+                $avail_formats[$i]['ip'] = $ip;
+                $i++;
+            }
+            echo '<pre>';
+            print_r($avail_formats);
+            echo '</pre>';
+            die();
+
+            $channel_id = 'UCxqZzTt5waSiUo2Huh_9MLQ';
+            $google_config = \My\General::$google_config;
+            $client = new \Google_Client();
+            $client->setDeveloperKey($google_config['key']);
+
+            // Define an object that will be used to make all API requests.
+            $youtube = new \Google_Service_YouTube($client);
+            $searchResponse = $youtube->search->listSearch(
+                'snippet', array(
+                    'channelId' => $channel_id,
+                    'maxResults' => 50,
+                    'order' => 'date'
+                )
+            );
+
+            if (empty($searchResponse) || empty($searchResponse->getItems())) {
+                return;
+            }
+
+            foreach ($searchResponse->getItems() as $key => $item) {
+                if (empty($item) || empty($item->getSnippet())) {
+                    continue;
+                }
+                $id = $item->getId()->getVideoId();
+
+//                get source
+                $url = 'http://www.youtube.com/get_video_info?&video_id=kjOyslGKq0A&asv=3&el=detailpage&hl=en_US';
+                echo '<pre>';
+                print_r($id);
+                echo '</pre>';
+                die();
+
+
+                if (empty($id)) {
+                    continue;
+                }
+
+                $title = $item->getSnippet()->getTitle();
+
+                if (empty($title)) {
+                    continue;
+                }
+
+                $description = $item->getSnippet()->getDescription();
+                $main_image = $item->getSnippet()->getThumbnails()->getMedium()->getUrl();
+
+                //
+                $is_exits = $instanceSearchContent->getDetail([
+                    'cont_slug' => General::getSlug($title),
+                    'status' => 1
+                ]);
+
+                if (!empty($is_exits)) {
+                    echo \My\General::getColoredString("content title = {$title} is exits \n", 'red');
+                    continue;
+                }
+
+                //crawler avatar
+
+                if (!empty($main_image)) {
+                    $extension = end(explode('.', end(explode('/', $main_image))));
+                    $name = General::getSlug($title) . '.' . $extension;
+                    file_put_contents(STATIC_PATH . '/uploads/content/' . $name, General::crawler($main_image));
+                    $main_image = STATIC_URL . '/uploads/content/' . $name;
+                }
+
+                $arr_data_content = [
+                    'cont_title' => $title,
+                    'cont_slug' => General::getSlug($title),
+                    'cont_main_image' => $main_image,
+                    'cont_detail' => html_entity_decode($description),
+                    'created_date' => time(),
+                    'user_created' => 1,
+                    'cate_id' => $cate_id,
+                    'cont_description' => $description ? $description : $title,
+                    'cont_status' => 1,
+                    'cont_views' => 0,
+                    'method' => 'crawler',
+                    'from_source' => $id,
+                    'meta_keyword' => str_replace(' ', ',', $title),
+                    'updated_date' => time()
+                ];
+
+                $serviceContent = $this->serviceLocator->get('My\Models\Content');
+                $id = $serviceContent->add($arr_data_content);
+                if ($id) {
+                    $arr_data_content['cont_id'] = $id;
+                    $this->postToFb($arr_data_content);
+                    echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
+                } else {
+                    echo \My\General::getColoredString("Can not insert content db", 'red');
+                }
+                unset($serviceContent);
+                unset($arr_data_content);
+                $this->flush();
+                slep(1);
+                continue;
+            }
+            echo '<pre>';
+            print_r($searchResponse);
+            echo '</pre>';
+            die();
+
+            Utils::writeLog($fileNameSuccess, $arrParam);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+
+        return;
 //        $arr_cate_yahoo = [
 //            '28' => [
 //                'https://vn.answers.yahoo.com/dir/index?sid=396545401',

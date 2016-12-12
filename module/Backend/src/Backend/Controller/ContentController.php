@@ -47,7 +47,8 @@ class ContentController extends MyController
                 'cate_id',
                 'cont_status',
                 'updated_date',
-                'cont_id'
+                'cont_id',
+                'cont_views'
             ]
         );
 
