@@ -1193,7 +1193,6 @@ class ConsoleController extends MyController
                             continue;
                         }
 
-
                         echo \My\General::getColoredString("get url = {$item_content_source} \n", 'green');
 
                         try {
@@ -1206,24 +1205,22 @@ class ConsoleController extends MyController
                         $arr_data_content['cont_title'] = html_entity_decode($item_content_title);
                         $arr_data_content['cont_slug'] = General::getSlug(html_entity_decode($item_content_title));
 
+                        $arr_detail = $instanceSearchContent->getDetail(['cont_slug' => $arr_data_content['cont_slug'], 'not_cont_status' => -1]);
+
+                        if (!empty($arr_detail)) {
+                            continue;
+                        }
+
                         try {
                             $item_content_description = html_entity_decode(trim($item_content_dom->find('.desc', 0)->plaintext));
                         } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Exception cannot get description", 'red');
-//                            continue;
                         }
 
                         try {
                             $img_avatar_url = $item_content_dom->find('img', 0)->src;
                         } catch (\Exception $exc) {
                             echo \My\General::getColoredString("Exception image title = {$item_content_title} \n", 'red');
-//                            continue;
-                        }
-                        sleep(5);
-                        $arr_detail = $instanceSearchContent->getDetail(['cont_slug' => $arr_data_content['cont_slug'], 'not_cont_status' => -1]);
-
-                        if (!empty($arr_detail)) {
-                            continue;
                         }
 
                         //lấy hình đại diện
@@ -1338,7 +1335,6 @@ class ConsoleController extends MyController
                         } catch (\Exception $exc) {
                             $img_all = [];
                             echo \My\General::getColoredString("Empty images", 'red');
-//                            continue;
                         }
 
                         //lấy hình ảnh trong bài
@@ -1914,23 +1910,6 @@ class ConsoleController extends MyController
             'Marimo là gì'
         ];
 
-//        $instanceSearchKeyWord = new \My\Search\Keyword();
-//        //remove all doc
-////        $rm = $instanceSearchKeyWord->removeAllDoc();
-////        echo '<pre>';
-////        print_r($rm);
-////        echo '</pre>';
-////        die();
-//
-////        $arr_keyword = $instanceSearchKeyWord->getList(['is_crawler' => 1, 'key_id_greater' => 1077764]);
-//        foreach ($arr_key as $arr_key) {
-//            $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
-//            $serviceKeyword->edit(['is_crawler' => 0], $arr_key['key_id']);
-//            unset($serviceKeyword);
-//        }
-//        echo General::getColoredString("update all keyword complete", 'yellow', 'cyan');
-//        return true;
-
         $instanceSearchKeyWord = new \My\Search\Keyword();
         foreach ($arr_key as $name) {
             $isexist = $instanceSearchKeyWord->getDetail(['key_slug' => General::getSlug($name)]);
@@ -1989,8 +1968,9 @@ class ConsoleController extends MyController
                             continue;
                         }
 
-                        //search vào gg
-                        $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($val));
+                        $url_gg = 'https://www.google.com.vn/search?sclient=psy-ab&biw=1366&bih=212&espv=2&q=' . rawurlencode($val) . '&oq=' . rawurlencode($val);
+
+                        $gg_rp = General::crawler($url_gg);
                         $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
                         $key_description = '';
                         foreach ($gg_rp_dom->find('.srg .st') as $item) {
@@ -1998,6 +1978,7 @@ class ConsoleController extends MyController
                                 $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
                                 $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
                         }
+
                         $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
                         $id_key = $serviceKeyword->add([
                             'key_name' => $val,
@@ -2013,6 +1994,9 @@ class ConsoleController extends MyController
                         }
                         unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
                         $this->flush();
+
+                        //random sleep
+                        sleep(rand(4, 10));
                     }
                     $this->flush();
                 }
@@ -2360,7 +2344,6 @@ class ConsoleController extends MyController
 
                 $gg_rp = General::crawler($url_gg);
 
-
                 $gg_rp_dom = new Query($gg_rp);
                 $results = $gg_rp_dom->execute('.st');
                 if (!count($results)) {
@@ -2421,6 +2404,23 @@ class ConsoleController extends MyController
                     shell_exec('php ' . PUBLIC_PATH . '/index.php update-new-key --id=' . $last_id . ' --pid=' . current($current_PID));
                     break;
             }
+        }
+
+        return true;
+    }
+
+    public function controlWorkerAction()
+    {
+        //check crawler khoahoctv
+        exec("ps -ef | grep -v grep | grep --type=khoahocTV | awk '{ print $2 }'", $PID);
+        if (empty($PID)) {
+            shell_exec('php ' . PUBLIC_PATH . '/index.php crawler --type=khoahocTV');
+        }
+
+        //check crawler from youtube
+        exec("ps -ef | grep -v grep | grep videos-youtube | awk '{ print $2 }'", $PID);
+        if (empty($PID)) {
+            shell_exec('php ' . PUBLIC_PATH . '/index.php videos-youtube');
         }
 
         return true;

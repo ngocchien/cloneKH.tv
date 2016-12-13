@@ -191,6 +191,16 @@ return array(
                             'action' => 'check-process'
                         ),
                     ),
+                ),
+                'control-worker' => array(
+                    'options' => array(
+                        'route' => 'control-worker',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Backend\Controller',
+                            'controller' => 'console',
+                            'action' => 'control-worker'
+                        ),
+                    ),
                 )
             )
         )
