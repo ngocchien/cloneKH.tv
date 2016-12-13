@@ -1250,29 +1250,37 @@ class ConsoleController extends MyController
                                 ]);
                                 if (empty($exits_key)) {
                                     //search vào gg
-                                    $gg_rp = General::crawler('https://www.google.com.vn/search?q=' . rawurlencode($strkey));
-                                    $gg_rp_dom = HtmlDomParser::str_get_html($gg_rp);
-                                    $key_description = '';
-                                    foreach ($gg_rp_dom->find('.srg .st') as $item) {
-                                        empty($key_description) ?
-                                            $key_description .= '<p><strong>' . strip_tags($item->outertext) . '</strong></p>' :
-                                            $key_description .= '<p>' . strip_tags($item->outertext) . '</p>';
+                                    $url_gg = 'https://www.google.com.vn/search?sclient=psy-ab&biw=1366&bih=212&espv=2&q=' . rawurlencode($strkey) . '&oq=' . rawurlencode($strkey);
+
+                                    $gg_rp = General::crawler($url_gg);
+
+
+                                    $gg_rp_dom = new Query($gg_rp);
+                                    $results = $gg_rp_dom->execute('.st');
+                                    if (count($results)) {
+                                        $key_description = '';
+                                        foreach ($results as $item) {
+                                            empty($key_description) ?
+                                                $key_description .= '<p><strong>' . strip_tags($item->textContent) . '</strong></p>' :
+                                                $key_description .= '<p>' . strip_tags($item->textContent) . '</p>';
+                                        }
+                                        $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
+                                        $id_key = $serviceKeyword->add([
+                                            'key_name' => $strkey,
+                                            'key_slug' => General::getSlug($strkey),
+                                            'is_crawler' => 0,
+                                            'created_date' => time(),
+                                            'key_description' => $key_description
+                                        ]);
+                                        if ($id_key) {
+                                            echo \My\General::getColoredString("Insert to tbl_keyword success key_name =  {$strkey} \n", 'green');
+                                        } else {
+                                            echo \My\General::getColoredString("Insert to tbl_keyword ERROR key_name =  {$strkey} \n", 'red');
+                                        }
+                                        unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id, $results);
+                                        $this->flush();
                                     }
-                                    $serviceKeyword = $this->serviceLocator->get('My\Models\Keyword');
-                                    $id_key = $serviceKeyword->add([
-                                        'key_name' => $strkey,
-                                        'key_slug' => General::getSlug($strkey),
-                                        'is_crawler' => 0,
-                                        'created_date' => time(),
-                                        'key_description' => $key_description
-                                    ]);
-                                    if ($id_key) {
-                                        echo \My\General::getColoredString("Insert to tbl_keyword success key_name =  {$strkey} \n", 'green');
-                                    } else {
-                                        echo \My\General::getColoredString("Insert to tbl_keyword ERROR key_name =  {$strkey} \n", 'red');
-                                    }
-                                    unset($serviceKeyword, $gg_rp, $gg_rp_dom, $key_description, $id);
-                                    $this->flush();
+
                                     //random sleep
                                     sleep(rand(4, 10));
                                 }
