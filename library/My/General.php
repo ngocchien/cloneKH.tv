@@ -63,7 +63,7 @@ class General
 
     static $face_traffic = [
         'levan_token' => 'EAAJTaWjIMUkBAFkTRJwvz2An4CMfLIpd2FX0YgdzHexZBIXH2C3ZCXEqvfLosMvRkJKtoCeliLfDDSaip9B7DeXMZBeZB9n6Kh1lNw9g40jMd1aUpFaDLupo6c9D3YZCPx2yCy004JQOnIpwhe71gYZC8XTQ4ZBorQZD',
-        'huyentrang_token' => 'EAACEdEose0cBACBIHZA0BuGVQfbVjQax5JH7453qeL94ShI7jBB8MXAHl9LDZCS1gYlUenGzPd4J12DZAPnvlsp6TiSr9ZCwvVw9npjjHQOCEZBFaF6vtkJ5i2jLbp5m7fB3XeoXmollmYYKS7zhRdSqUOvh0OPxwrcC0eom5XgZDZD'
+        'huyentrang_token' => 'EAACEdEose0cBACW4yPJn2C9YVMR1HqMXEs2QhmajkK9rVoBsBRi4uVgiZCqJYJv2yC3GubPbRY1GZBQqSQOIPrZABIwyZCboutpvb1SmP7kVZC41PeBIiebL67Bgm7oO7hNQqYhlFYwj8OlDHAZBOuuDSSqf0Hc5ZC5PnCel0p51wZDZD'
     ];
 
     static $google_config = [
