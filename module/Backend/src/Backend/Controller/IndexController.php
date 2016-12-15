@@ -77,7 +77,7 @@ class IndexController extends MyController
 
     public function indexAction()
     {
-        $this->test();
+        //$this->test();
         return;
         try {
             $hr = 'http://www.youtube.com/get_video_info?&video_id=kjOyslGKq0A&asv=3&el=detailpage&hl=en_US';
