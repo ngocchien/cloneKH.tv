@@ -24,13 +24,46 @@ class IndexController extends MyController
                     'app_id' => $config_fb['appId'],
                     'app_secret' => $config_fb['secret']
                 ]);
-                $fb->setDefaultAccessToken($arrParams['access_token']);
-                $rp = $fb->post('/me/feed', ['link' => 'https://web.facebook.com/khampha.tech/posts/' . $arrParams['post_id']]);
+                $fb->setDefaultAccessToken(General::$face_traffic['mannhi_token']);
+//                $fb->setDefaultAccessToken('EAACEdEose0cBAOty2Xj5AdUGjkKTC2B14ZBXNJYrc9lDF6UZBOQhovgQ5JzeF5LyNZBR2POiAL9N7sihK2xfi0B3lcFebGSOSYxsYrNTg7MvnseUsqcclouWgjscVC1YcKtXDMmjOjOivRPOWUEZAfRg2vxpn2DZAvnDljBU75wZDZD');
+
+                $arrGroupId = [
+                    '130509333676421'
+                ];
+
+                $rp = $fb->get('/me/friends');
+
+                echo '<pre>';
+                print_r($rp);
+                echo '</pre>';
+                die();
+
+
+                $rp = $fb->post('/519051534870162/feed', [
+                    'message' => 'Hello please join to Group'
+                ]);
+                echo '<pre>';
+                print_r($rp);
+                echo '</pre>';
+                die();
+
+                $rp = $fb->post('/me/feed', ['link' => 'https://www.facebook.com/khampha.tech/posts/216559732133912']);
+                echo '<pre>';
+                print_r($rp);
+                echo '</pre>';
+                die();
                 echo \My\General::getColoredString(json_decode($rp->getBody(), true), 'green');
                 echo \My\General::getColoredString('Share post id ' . $arrParams['post_id'] . ' to facebook ' . $arrParams['name'] . ' SUCCESS', 'green');
                 unset($data, $return, $arrParams, $rp, $config_fb);
                 return true;
             } catch (\Exception $exc) {
+                echo '<pre>';
+                print_r([
+                    $exc->getCode(),
+                    $exc->getMessage()
+                ]);
+                echo '</pre>';
+                die();
                 echo \My\General::getColoredString($exc->getMessage(), 'red');
                 echo \My\General::getColoredString('Share post id ' . $arrParams['post_id'] . ' to facebook ' . $arrParams['name'] . ' ERROR', 'red');
                 return true;
@@ -44,6 +77,7 @@ class IndexController extends MyController
 
     public function indexAction()
     {
+        $this->test();
         return;
         try {
             $hr = 'http://www.youtube.com/get_video_info?&video_id=kjOyslGKq0A&asv=3&el=detailpage&hl=en_US';
