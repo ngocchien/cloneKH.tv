@@ -64,7 +64,7 @@ class General
     static $face_traffic = [
         'levan_token' => 'EAAJTaWjIMUkBAFkTRJwvz2An4CMfLIpd2FX0YgdzHexZBIXH2C3ZCXEqvfLosMvRkJKtoCeliLfDDSaip9B7DeXMZBeZB9n6Kh1lNw9g40jMd1aUpFaDLupo6c9D3YZCPx2yCy004JQOnIpwhe71gYZC8XTQ4ZBorQZD',
         'huyentrang_token' => 'EAAJTaWjIMUkBANThbZBvfON7dFBZBKZBU46miwMUvdv7RYNYYuciY5tJ1CHZADNfOWVWPy9qZCmZBZANKoxo4ZCGiKD6eYfnYFeaTGabz2LZABqFdJYPLjCP3GMAwLzZAK1SZCwcyf6daX6UZAJgc4uSBk2nsZBB5Myc2C2qJZAPm4E8znCQZDZD',
-        'mannhi_token' => 'EAAJTaWjIMUkBAL6ZCyVLlZBMinMiB5ZCQmgKC7oh0eeM7fOdDUs47fGB4mhHHl8m6ZAeo7nEXSZBaexMINipYddc8RZCH0KZAskc2jwveGNSErfYqqXFanFiv3TymZBUIF4IGcBLMGrzag1aNfgKWNp1ibtSX13Q268ZD'
+        'mannhi_token' => 'EAAJTaWjIMUkBAMXS4jPADsu8Tfc8rzwpNmBFv7VZBuQkbom2X2Y5JvYZBGz821rUYlFHLn6xfE2mzf0XZBTna1pLDHRv4iP6ZADEf9D4LfLAyZAstbAZAzwfYjCkovdrD5pSB02A9AH2ZAzawbHRdko0yyqTAzMASoZD'
     ];
 
     static $google_config = [
