@@ -77,7 +77,16 @@ class IndexController extends MyController
 
     public function indexAction()
     {
+        return;
         //$this->test();
+        $config_fb = General::$config_fb;
+        $fb = new \Facebook\Facebook([
+            'app_id' => $config_fb['appId'],
+            'app_secret' => $config_fb['secret']
+        ]);
+        $fb->setDefaultAccessToken(General::$face_traffic['mannhi_token']);
+
+
         return;
         try {
             $hr = 'http://www.youtube.com/get_video_info?&video_id=kjOyslGKq0A&asv=3&el=detailpage&hl=en_US';

@@ -2180,7 +2180,7 @@ class ConsoleController extends MyController
                             $arr_data_content['cont_id'] = $id;
 
                             //giảm lượng chia sẻ lên facebook
-                            if ($id % 20 == 0) {
+                            if ($id % 5 == 0) {
                                 $this->postToFb($arr_data_content);
                             }
                             echo \My\General::getColoredString("Crawler success 1 post id = {$id} \n", 'green');
@@ -2410,6 +2410,12 @@ class ConsoleController extends MyController
                 case 'update-new-key':
                     //find last id
                     //$file = '/var/www/khampha/html/logs/updateKW.txt';
+                    $last_id = exec('tail -n 1 /var/www/khampha/html/logs/updateKW.txt');
+
+                    if (strstr($last_id, 'Cannot query; no document registered')) {
+                        shell_exec("sed -i '$ d' /var/www/khampha/html/logs/updateKW.txt");
+                    }
+
                     $last_id = exec('tail -n 1 /var/www/khampha/html/logs/updateKW.txt');
                     shell_exec('php ' . PUBLIC_PATH . '/index.php update-new-key --id=' . $last_id . ' --pid=' . current($current_PID));
                     break;
