@@ -2,6 +2,8 @@
 
 namespace Backend\Controller;
 
+use Facebook\Facebook;
+use Facebook\FacebookRequest;
 use My\Controller\MyController;
 use Sunra\PhpSimple\HtmlDomParser,
     Zend\View\Model\ViewModel,
@@ -77,6 +79,100 @@ class IndexController extends MyController
 
     public function indexAction()
     {
+        try {
+            return;
+
+            $config_fb = General::$config_fb;
+            $face_token = General::$face_traffic;
+
+            $appsecret_proof= hash_hmac('sha256', 'EAACEdEose0cBAAiZCgZBQ9mJT5XtBxFdIacMRaJurd3vOUVeD51UmFxwpUoCXZCpYU9dIHjsm2oZBYDK5unYAJYZC2NbCaeIKgan9MRDHcXSX8JPKMGATe6LuxCuIDCOellwGquZAiZAzMSiu5X5IkguPQBlyd3SPLlHT8EaqPxzwZDZD', $config_fb['secret']);
+
+            $fb = new \Facebook\Facebook([
+                'app_id' => $config_fb['appId'],
+                'app_secret' => $config_fb['secret'],
+//                'default_graph_version' => 'v2.3',
+//                'appsecret_proof' => $appsecret_proof,
+                'default_access_token' => 'EAAJTaWjIMUkBABm5MhcAaWVd4fOzECqtlenyDuZCP5iKYHjtSltoiymLqiALv54vJFZCZBlF9M9nj4DTKHZCrzvKLxZAfnzAT904MVFOL1wCAH0YreIOq6NEJGQyPsrOEFXF4p0UVOlBkkxzVT1OGweDZAnovE4WrMqUZA9NvIyFwZDZD'
+            ]);
+
+            $rp = $fb->get('/230301240759761/likes');
+
+            echo '<pre>';
+            print_r($rp);
+            echo '</pre>';
+            die();
+
+            //$appsecret_proof= hash_hmac('sha256', $app_access_token, $app_secret);
+
+//            $session = ($fb_access_token);
+//            $request = new FacebookRequest( $session, 'GET', '/me' );
+//            $response = $request->execute();
+            // get response
+//            $graphObject = $response->getGraphObject();
+
+//            echo '<pre>';
+//            print_r($appsecret_proof);
+//            echo '</pre>';
+//            die();
+//            $fb->ap
+//            $fb->
+//            $fb->setDefaultAccessToken('EAACEdEose0cBAAiZCgZBQ9mJT5XtBxFdIacMRaJurd3vOUVeD51UmFxwpUoCXZCpYU9dIHjsm2oZBYDK5unYAJYZC2NbCaeIKgan9MRDHcXSX8JPKMGATe6LuxCuIDCOellwGquZAiZAzMSiu5X5IkguPQBlyd3SPLlHT8EaqPxzwZDZD');
+//            /{user-id}/groups
+
+            $rp = $fb->get('/me/groups');
+
+            echo '<pre>';
+            print_r($rp);
+            echo '</pre>';
+            die();
+            $config_fb = General::$config_fb;
+            $fb = new \Facebook\Facebook([
+                'app_id' => $config_fb['appId'],
+                'app_secret' => $config_fb['secret'],
+                'default_graph_version' => 'v2.3',
+            ]);
+
+            $appsecret_proof= hash_hmac('sha256', 'EAACEdEose0cBAAacemBZBvboyIhozZBkocpupo9Uj1vgGzC4tT39ZBZAZAIZACPVxME7TqNZCzc0z81ZBUH7xauQHaVZCGNtEZCmHbgYJfMdh5f3nlHBJhkV1tjNo6iz7vBxaDcw6wXYOTHXjOCMunKvmDCBRoJ4Ssfkty9L6HGTIiqAZDZD', $config_fb['secret']);
+//            $fb->
+            $fb->setDefaultAccessToken('EAACEdEose0cBAAacemBZBvboyIhozZBkocpupo9Uj1vgGzC4tT39ZBZAZAIZACPVxME7TqNZCzc0z81ZBUH7xauQHaVZCGNtEZCmHbgYJfMdh5f3nlHBJhkV1tjNo6iz7vBxaDcw6wXYOTHXjOCMunKvmDCBRoJ4Ssfkty9L6HGTIiqAZDZD');
+            $rp = $fb->get('/me/groups');
+//        230106094112609
+            echo '<pre>';
+            print_r($rp);
+            echo '</pre>';
+            die();
+        } catch (\Exception $ex) {
+            echo '<pre>';
+            print_r($ex->getMessage());
+            echo '</pre>';
+            die();
+        }
+
+
+        try {
+            $config_fb = General::$config_fb;
+            $fb = new \Facebook\Facebook([
+                'app_id' => $config_fb['appId'],
+                'app_secret' => $config_fb['secret']
+            ]);
+            $face_token = General::$face_traffic;
+
+            $fb->setDefaultAccessToken('EAAJTaWjIMUkBAJIWO1vYfuSEz94BvdgvpKKZAAGDiBv4lBZClDV78vWbizfP5C9STQTATBqrFaoafFLkEQAEcuwqNWTTyyB7D0TIdmUy5CDvipNr2bfv5Nm8kBRZBtwOO6QhTUAaxFnPLlBDWEBgfZBcgqNx9X0ZD');
+//            /{user-id}/groups
+
+            $rp = $fb->get('/me/groups?fields=id,name');
+
+            echo '<pre>';
+            print_r($rp);
+            echo '</pre>';
+            die();
+        } catch (\Exception $ex) {
+            echo '<pre>';
+            print_r($ex->getMessage());
+            echo '</pre>';
+            die();
+        }
+
         return;
         //$this->test();
         $config_fb = General::$config_fb;

@@ -62,9 +62,9 @@ class General
     );
 
     static $face_traffic = [
-        'levan_token' => 'EAAJTaWjIMUkBAFkTRJwvz2An4CMfLIpd2FX0YgdzHexZBIXH2C3ZCXEqvfLosMvRkJKtoCeliLfDDSaip9B7DeXMZBeZB9n6Kh1lNw9g40jMd1aUpFaDLupo6c9D3YZCPx2yCy004JQOnIpwhe71gYZC8XTQ4ZBorQZD',
-        'huyentrang_token' => 'EAAJTaWjIMUkBACrRIxxawy8vcakKyZAitwDvvQQSuybcStckIgDJEQ9ZCJAZCcl19Ycoj1mES0JUjCQ2Cryxfq5h8xMocfafmRDgO3kswsJRlsiNrqGETFXUZCMivbm9pndcUfrZAg2aYErsG60SrxWA9Injvh9IZD',
-        'mannhi_token' => 'EAAJTaWjIMUkBAMXS4jPADsu8Tfc8rzwpNmBFv7VZBuQkbom2X2Y5JvYZBGz821rUYlFHLn6xfE2mzf0XZBTna1pLDHRv4iP6ZADEf9D4LfLAyZAstbAZAzwfYjCkovdrD5pSB02A9AH2ZAzawbHRdko0yyqTAzMASoZD'
+        'levan_token' => 'EAAJTaWjIMUkBAF0pnZCZBT1ZCSPNZC4LbNyjJkisF5ZA1Qrqe5yj51zntgbh0IbojZA84cen59nye6dK0OlFB9Tbw3OS2dZAEC7BnX4uoqgoyB0TYmZAbxHANYwB1HejzRz6n1UXYz8rChk2QCdrH6068XwNmGI63Dv7N3eEU0lbZAQZDZD',
+        'huyentrang_token' => 'EAAJTaWjIMUkBADbQMHt1IZCNkicPZABbkK5AVQN0hijjOHP6asBTxNM2utoaQk0x29ucZBNlNVZCngD4AeoqWnCkQOWOXEbLRVhTOP3S3taLsGw8F4V7iVZCYTy48oOjYiaHi69KRHRSfAVt3fL3HFjLowGA4c46Y9WA6vZBQg1gZDZD',
+//        'mannhi_token' => 'EAAJTaWjIMUkBAMXS4jPADsu8Tfc8rzwpNmBFv7VZBuQkbom2X2Y5JvYZBGz821rUYlFHLn6xfE2mzf0XZBTna1pLDHRv4iP6ZADEf9D4LfLAyZAstbAZAzwfYjCkovdrD5pSB02A9AH2ZAzawbHRdko0yyqTAzMASoZD'
     ];
 
     static $google_config = [
