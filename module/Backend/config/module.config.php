@@ -54,7 +54,7 @@ return array(
                     ),
                 ), 'worker' => array(
                     'options' => array(
-                        'route' => 'worker [--type=] [--stop=]',
+                        'route' => 'worker [--type=] [--stop=] [--background=]',
                         'defaults' => array(
                             '__NAMESPACE__' => 'Backend\Controller',
                             'controller' => 'console',
