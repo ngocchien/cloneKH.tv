@@ -62,8 +62,8 @@ class General
     );
 
     static $face_traffic = [
-        'levan_token' => 'EAACEdEose0cBAOFTojNBZCjayw563nmKUgpszUKV4ZBYB1ITzX3W1WwEz6JWMT28ZBa5xF0gsOUBpszDoZBLXraQWJHh5gJV9VDcwOVCYXJJqVWvQpz2MDEhdB0Qg0n0wmsn0TRVMLyumxZBhaadHBbstCzXOjZBp6WbnoOm5oLke80FoLEjMym7GmKwQduIUZD',
-        'huyentrang_token' => 'EAACEdEose0cBABPyu9Iz3ZCkvh1FXNYPnWPEOC8SNSjfZA76UZAsueMWEKZA6vhloTUprdCAt6gwZAHoM9CkLuYNZANjAg15okrk06qhXlxb2xWKXq8Wmb7rOpGOprPBZArCUDal2rBuodCJMKNB66kV08DvXGLM0GeOTblZB2PkL5EYEYcGsPQgXqk46wPRxp4ZD',
+        'levan_token' => 'EAAJTaWjIMUkBADCFmJraPP0p0pB4NKwOtCBfQm0oikemPhy3pZBklqStQrAft3qinB3Bd5EghISGZC6Q9yZACwgxano8CFZAxwl0sYuGFRsxb6rsPjxIfGgh1oY3RI42lJlPEpJZAGPeAuNMjteZBjmxsqXZCtMnfUZD',
+        'huyentrang_token' => 'EAAJTaWjIMUkBAIs3prHgPP3gG8bwNWTkGuHUdaUPzsjX93ENPnvDRy3mF6NYRMxYkZAfJchUlK62rEhOUldlXyOZAvmnLKd9OQoMLGkqWrG0mC07yLB8iNZBDobHxTx2ThZAXNg37pkI1FcuxwpDPBNM5KWnzJUZD',
 //        'mannhi_token' => 'EAAJTaWjIMUkBAMXS4jPADsu8Tfc8rzwpNmBFv7VZBuQkbom2X2Y5JvYZBGz821rUYlFHLn6xfE2mzf0XZBTna1pLDHRv4iP6ZADEf9D4LfLAyZAstbAZAzwfYjCkovdrD5pSB02A9AH2ZAzawbHRdko0yyqTAzMASoZD'
     ];
 
